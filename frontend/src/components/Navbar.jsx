@@ -4,7 +4,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 
 function Navbar() {
     return (
-        <chakra.header id="header" bg="brand.900">
+        <chakra.header id="header" bg="brand.600">
             <Flex
                 w="100%"
                 px="6"
@@ -18,11 +18,11 @@ function Navbar() {
             >
             Inventory Manager
             </Box>
-                <HStack as="nav" spacing="5" color="brand.200">
+                <HStack as="nav" spacing="4" color="brand.200">
                     <Button variant="nav">Inventory</Button>
                     <Button variant="nav">Locations</Button>
                     <Button variant="nav">Reports</Button>
-                        <Button bg="brand.200" color="white" >Get Started</Button>
+                    <Button bg="brand.200" color="white" >Get Started</Button>
                 </HStack>
                 
             </Flex>
