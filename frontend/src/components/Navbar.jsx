@@ -1,6 +1,6 @@
 import { HStack, Box, Flex, chakra,
          Button } from '@chakra-ui/react'
-import { SearchIcon } from "@chakra-ui/icons";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 function Navbar() {
     return (
@@ -12,19 +12,18 @@ function Navbar() {
                 align="center"
                 justify="space-between">
                 <Box
-                fontSize={["2xl", , "2xl"]}
+                fontSize={["2xl","2xl"]}
                 fontWeight="semibold"
                 color="brand.200"
             >
             Inventory Manager
             </Box>
                 <HStack as="nav" spacing="4" color="brand.200">
-                    <Button variant="nav">Inventory</Button>
-                    <Button variant="nav">Locations</Button>
-                    <Button variant="nav">Reports</Button>
-                    <Button bg="brand.200" color="white" >Get Started</Button>
+                    <Button variant="link" color="brand.200">Inventory</Button>
+                    <Button variant="link" color="brand.200">Locations</Button>
+                    <Button variant="link" color="brand.200">Reports</Button>
+                    <Button bg="brand.200" color="white" rightIcon={<ArrowForwardIcon />}>Get Started</Button>
                 </HStack>
-                
             </Flex>
         </chakra.header>
     );
