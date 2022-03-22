@@ -4,15 +4,15 @@ import { Code } from '@chakra-ui/react'
 
 function SearchWidget() {
     return (
-        <Box bg="brand.300" borderRadius="5px" p="2" maxHeight="500px" maxWidth="300px">
-            <Text mb='8px'>Search the database below:</Text>
+        <Box bg="brand.300" borderRadius="5px" p="4" maxHeight="500px" maxWidth="300px">
+            <Text mb='8px' py="1">Search the database below:</Text>
             <InputGroup>
                 <InputLeftElement 
                     pointerEvents='none'
                     children={<SearchIcon />}/>
-                <Input variant='filled' placeholder='Search' />
+                <Input variant='outline' bg="white" placeholder='Search' focusBorderColor="brand.200" />
             </InputGroup>
-            <Text>Possible searches include:</Text>
+            <Text py="1">Possible searches include:</Text>
             <Code colorScheme="blackAlpha">1000 Western Boulevard</Code><br />
             <Code colorScheme="blackAlpha">12/20/2020</Code><br />
             <Code colorScheme="blackAlpha">2300230</Code><br />

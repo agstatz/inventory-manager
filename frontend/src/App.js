@@ -1,12 +1,18 @@
 import './App.css';
-import { Navbar } from "./components/";
-import { Home } from "./pages/";
+
+import { Home, NoMatch } from "./pages/";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <>
-        <Navbar />
-        <Home />
+        <BrowserRouter>
+            <Routes>
+                <Route index path="/" element={<Home />} />
+                <Route path="*" element={<NoMatch />} />
+            </Routes>
+        </BrowserRouter>
+        
     </>
   );
 }
