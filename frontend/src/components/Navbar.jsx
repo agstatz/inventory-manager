@@ -6,21 +6,24 @@ import { Link } from "react-router-dom";
 function Navbar() {
     return (
         <chakra.header id="header" bg="brand.600">
-            <Flex
-                w="100%"
-                px="6"
-                py="3"
-                align="center"
-                justify="space-between"
-            >
-                <Text
-                    fontSize={["2xl","2xl"]}
-                    fontWeight="semibold"
-                    color="brand.200"
-                    class="Nav-Header"
+                <Flex
+                    w="100%"
+                    px="6"
+                    py="3"
+                    align="center"
+                    justify="space-between"
                 >
-                    Inventory Manager
-                </Text>
+                    <Link to="/">
+                        <Text
+                            fontSize={["2xl","2xl"]}
+                            fontWeight="semibold"
+                            color="brand.200"
+                            class="Nav-Header"
+                        >
+                            Inventory Manager
+                        </Text>
+                    </Link>
+            
                 <HStack as="nav" spacing="4" color="brand.200">
                     <Link to="/inventory"><Button variant="link" color="brand.200">Inventory</Button></Link>
                     <Link to="/locations"><Button variant="link" color="brand.200">Locations</Button></Link>
