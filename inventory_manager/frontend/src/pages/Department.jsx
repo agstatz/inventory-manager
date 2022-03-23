@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Center, Heading, Box, Stack, Button, Table,
-        Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, } from '@chakra-ui/react';
+        Thead, Tbody, Tfoot, Tr, Th, Td, } from '@chakra-ui/react';
 import { Navbar } from "../components";
 import { Link } from "react-router-dom";
 
@@ -47,7 +47,15 @@ export default class Department extends Component {
                                 </Thead>
                                 <Tbody>
                                     {this.state.departments ? this.state.departments.map((dept) => <Tr>
-                                                                                                        <Td>{dept.id}</Td><Td>{dept.department_id}</Td><Td>{dept.department_name}</Td></Tr>) : <div>no</div>}
+                                                                                                        <Td>{dept.id}</Td>
+                                                                                                        <Td>{dept.department_id}</Td>
+                                                                                                        <Td>{dept.department_name}</Td>
+                                                                                                    </Tr>) : 
+                                                                                                    <Tr>
+                                                                                                        <Td>Loading...</Td>
+                                                                                                        <Td></Td>
+                                                                                                        <Td></Td>
+                                                                                                    </Tr>}
                                 </Tbody>
                                 <Tfoot>
                                     <Tr>
