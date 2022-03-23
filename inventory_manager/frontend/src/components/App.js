@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home, NoMatch, Inventory } from "../pages/";
-//import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Home, NoMatch, Inventory, Department, CreateDepartment } from "../pages/";
 import { extendTheme, ChakraProvider } from '@chakra-ui/react'
 
 export default class App extends Component {
@@ -15,6 +14,8 @@ export default class App extends Component {
             <Routes>
                 <Route index path="/" element={<Home />} />
                 <Route exact path="/inventory" element={<Inventory />} />
+                <Route exact path="/department" element={<Department />} />
+                <Route exact path="/department/create" element={<CreateDepartment />} />
                 <Route path="*" element={<NoMatch />} />
             </Routes>
         </BrowserRouter>);
@@ -43,28 +44,3 @@ const appDiv = document.getElementById('app');
             <App />
         </React.StrictMode>
     </ChakraProvider>, appDiv);
-
-
-//import '../static/css/App.css';
-
-/*
-import { Home, NoMatch, Inventory } from "../pages/";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-function App() {
-  return (
-    <>
-        <BrowserRouter>
-            <Routes>
-                <Route index path="/" element={<Home />} />
-                <Route exact path="/inventory" element={<Inventory />} />
-                <Route path="*" element={<NoMatch />} />
-            </Routes>
-        </BrowserRouter>
-        
-    </>
-  );
-}
-
-export default App;
-*/

@@ -30,7 +30,7 @@ export default class Navbar extends Component {
                     <HStack as="nav" spacing="4" color="brand.200">
                         <Link to="/inventory"><Button variant="link" color="brand.200">Inventory</Button></Link>
                         <Link to="/locations"><Button variant="link" color="brand.200">Locations</Button></Link>
-                        <Link to="/reports"><Button variant="link" color="brand.200">Reports</Button></Link>
+                        <Link to="/department"><Button variant="link" color="brand.200">Departments</Button></Link>
                         <Link to="/login"><Button bg="brand.200" color="white" rightIcon={<ArrowForwardIcon />}>Get Started</Button></Link>
                     </HStack>
                 </Flex>

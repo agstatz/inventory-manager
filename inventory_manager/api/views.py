@@ -11,6 +11,23 @@ class DepartmentView(generics.CreateAPIView):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
 
+class GETDepartmentView(APIView):
+    print("hello")
+    serializer_class = DepartmentSerializer
+    lookup_url_kwarg = 'department_id'
+
+    def get(self, request, format=None):
+        dept_id = request.GET.get(self.lookup_url_kwarg)
+        if dept_id != None:
+            dept = Department.objects.filter(department_id = dept_id)
+            if len(dept) > 0:
+                data = DepartmentSerializer(dept[0]).data
+                return Response(data, status=status.HTTP_200_OK)
+            return Response({'Bad Request': 'Invalid Department ID.'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            dept = DepartmentSerializer(Department.objects.all(), many=True).data
+            return Response(dept, status=status.HTTP_200_OK) 
+
 class POSTDepartmentView(APIView):
     serializer_class = POSTDepartmentSerializer
 
