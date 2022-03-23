@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Text, Heading, Box, Center, Stack, Image,
          Grid, GridItem } from '@chakra-ui/react';
-import { Navbar } from "../components"; // SearchWidget } from "../components/";
+import { Navbar, SearchWidget } from "../components"; // SearchWidget } from "../components/";
 
 import HeaderImageReference from "../../static/images/headerimage.jpg";
 
@@ -34,7 +34,7 @@ export default class Home extends Component {
                                 </GridItem>
                                 <GridItem colSpan={2} mx="4">
                                     <Center>
-                                        {/*<SearchWidget />*/}
+                                        <SearchWidget />
                                     </Center>
                                 </GridItem>
                             </Grid>
