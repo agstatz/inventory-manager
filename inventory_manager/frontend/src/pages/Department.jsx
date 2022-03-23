@@ -30,7 +30,7 @@ export default class Department extends Component {
         return (
             <>
                 <Navbar />
-                <Box width="100%" bg="brand.300" color="brand.600" height="100vh">
+                <Box width="100%" bg="brand.300" color="brand.600" height="100%">
                     <Center>
                         <Box bg="brand.500" borderRadius="5px" maxWidth="1020px" m={[10, 10, 30, 40]} mt={[20, 20, 20, 20]} p={1}>
                             <Stack m={[10, 10, 10, 10]} align="center" spacing={3} >
@@ -40,26 +40,22 @@ export default class Department extends Component {
                             <Table size='lg'>
                                 <Thead>
                                     <Tr>
-                                    <Th>ID Number</Th>
                                     <Th>Department ID</Th>
                                     <Th>Department Name</Th>
                                     </Tr>
                                 </Thead>
                                 <Tbody>
                                     {this.state.departments ? this.state.departments.map((dept) => <Tr>
-                                                                                                        <Td>{dept.id}</Td>
                                                                                                         <Td>{dept.department_id}</Td>
                                                                                                         <Td>{dept.department_name}</Td>
                                                                                                     </Tr>) : 
                                                                                                     <Tr>
                                                                                                         <Td>Loading...</Td>
                                                                                                         <Td></Td>
-                                                                                                        <Td></Td>
                                                                                                     </Tr>}
                                 </Tbody>
                                 <Tfoot>
                                     <Tr>
-                                    <Th>ID Number</Th>
                                     <Th>Department ID</Th>
                                     <Th>Department Name</Th>
                                     </Tr>

@@ -93,7 +93,7 @@ export default class CreateDepartment extends Component {
         return (
             <Box>
                 <Navbar />
-                <Box width="100%" bg="brand.300" color="brand.600" height="100vh" minHeight="600px">
+                <Box width="100%" bg="brand.300" color="brand.600" height="100%" minHeight="100vh">
                     <Center>
                         <Box bg="brand.500" borderRadius="5px" maxWidth="1020px" m={[10, 10, 30, 40]} mt={[20, 20, 20, 20]} p={1}>
                             <Stack m={[10, 10, 10, 10]} align="center" spacing={3} >
