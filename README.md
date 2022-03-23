@@ -17,5 +17,5 @@ username is root and password is Batwing2020. Make sure to run
 python manage.py makemigrations then python manage.py migrate.
 
 
-In one terminal: cd to frontend, run npm run dev
-In another terminal: cd to inventory_manager, run python manage.py runserver
+In one terminal: cd to /inventory_manager/frontend, run "npm run dev"
+In another terminal: cd to /inventory_manager/, run "python manage.py runserver"
