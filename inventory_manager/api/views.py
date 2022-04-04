@@ -7,12 +7,15 @@ from rest_framework.response import Response
 
 # Create your views here.
 
+#
+# Begin DEPARTMENT Views
+#
+
 class DepartmentView(generics.CreateAPIView):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
 
 class GETDepartmentView(APIView):
-    print("hello")
     serializer_class = DepartmentSerializer
     lookup_url_kwarg = 'department_id'
 
@@ -48,4 +51,22 @@ class POSTDepartmentView(APIView):
                 dept.save()
             
             return Response(DepartmentSerializer(dept).data, status=status.HTTP_201_CREATED)
-        
+
+class DELETEDepartmentView(APIView):
+    serializer_class = DepartmentSerializer
+    lookup_url_kwarg = 'department_id'
+
+    def delete(self, request, format=None):
+        dept_id = request.GET.get(self.lookup_url_kwarg)
+        if dept_id != None:
+            dept = Department.objects.filter(department_id = dept_id)
+            if len(dept) > 0:
+                dept.delete()
+                return Response({"Department deleted"}, status=status.HTTP_204_NO_CONTENT)
+            return Response({'Bad Request': 'Invalid Department ID.'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'Bad Request': 'Invalid Department ID.'}, status=status.HTTP_404_NOT_FOUND)
+
+#
+# End DEPARTMENT Views
+#

@@ -12,7 +12,11 @@ export default class Department extends Component {
             departments: undefined,
         }
     }
-    
+
+    componentDidMount() {
+        this.getDepartmentList();
+    }
+
     getDepartmentList() {
         fetch('/api/get-department').then((response) => 
             response.json()).then((data) => {
@@ -20,10 +24,6 @@ export default class Department extends Component {
                     departments: data
                 })
             })
-    }
-
-    componentDidMount() {
-        this.getDepartmentList();
     }
 
     render() {
@@ -35,7 +35,7 @@ export default class Department extends Component {
                         <Box bg="brand.500" borderRadius="5px" maxWidth="1020px" m={[10, 10, 30, 40]} mt={[20, 20, 20, 20]} p={1}>
                             <Stack m={[10, 10, 10, 10]} align="center" spacing={3} >
                             <Heading>
-                                Departments
+                                Departments ASDF
                             </Heading>
                             <Table size='lg'>
                                 <Thead>
@@ -65,6 +65,11 @@ export default class Department extends Component {
                             <Link to="/department/create">
                                 <Button>
                                     Add a department
+                                </Button>
+                            </Link>
+                            <Link to="/department/edit">
+                                <Button>
+                                    Modify an existing department
                                 </Button>
                             </Link>
                             </Stack>
