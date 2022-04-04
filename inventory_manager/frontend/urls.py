@@ -11,5 +11,6 @@ urlpatterns = [
     # department related paths
     path('department/', index),
     path('department/create', index),
+    path('department/edit', index),
     
 ]
