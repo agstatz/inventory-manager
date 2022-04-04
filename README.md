@@ -12,6 +12,7 @@ An inventory manager application for CS 348 Information Systems
 - pip install mysqlclient
 - pip install wheel
 
+***CURRENTLY THIS IS ALL OUTDATED INFORMATION***
 The database is run locally on port 33060. Uses root user whose
 username is root and password is Batwing2020. Make sure to run
 python manage.py makemigrations then python manage.py migrate.
