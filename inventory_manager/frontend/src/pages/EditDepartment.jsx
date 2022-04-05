@@ -30,7 +30,7 @@ export default class EditDepartment extends Component {
             id_err: false,
             department_name: '',
             name_err: false,
-            success: false,
+            success: '',
             failure: '',
             departments: undefined,
         };
@@ -63,7 +63,7 @@ export default class EditDepartment extends Component {
                 new_dept_id: e.target.value,
                 disabled: true,
                 id_err: false,
-                success: false,
+                success: '',
                 failure: '',
             });
             return;
@@ -86,7 +86,7 @@ export default class EditDepartment extends Component {
             department_name: dept_name,
             disabled: false,
             id_err: false,
-            success: false,
+            success: '',
             failure: '',
         });
     }
@@ -95,7 +95,7 @@ export default class EditDepartment extends Component {
         this.setState({
             new_dept_id: e.target.value,
             id_err: false,
-            success: false,
+            success: '',
             failure: '',
         });
     }
@@ -104,7 +104,7 @@ export default class EditDepartment extends Component {
         this.setState({
             department_name: e.target.value,
             name_err: false,
-            success: false,
+            success: '',
             failure: '',
         });
     }
@@ -143,7 +143,7 @@ export default class EditDepartment extends Component {
             })
             .then((data) => {
                 this.setState({
-                    success: true,
+                    success: 'Department updated successfully.',
                 });
             });
     }
@@ -188,12 +188,12 @@ export default class EditDepartment extends Component {
                     new_dept_id: '',
                     department_name: '',
                     id_err: false,
-                    success: false,
+                    success: 'Department deleted successfully.',
                     failure: '',
                 });
                 new_dept_id.value = '';
                 department_name.value = '';
-                existing_dept_id = '';
+                existing_dept_id.value = '';
                 this.getDepartmentList();
             });
     }
@@ -241,6 +241,7 @@ export default class EditDepartment extends Component {
                                             this.state.departments.map(
                                                 (dept) => (
                                                     <option
+                                                        key={dept.department_id}
                                                         value={
                                                             dept.department_id
                                                         }
@@ -312,14 +313,14 @@ export default class EditDepartment extends Component {
                                         <Button type='cancel'>Cancel</Button>
                                     </Link>
                                 </HStack>
-                                {this.state.success ? (
+                                {this.state.success.length > 0 ? (
                                     <Alert
                                         status='success'
                                         borderRadius='5px'
                                         variant='subtle'
                                     >
                                         <AlertIcon />
-                                        Department updated successfully.
+                                        {this.state.success}
                                     </Alert>
                                 ) : (
                                     <></>

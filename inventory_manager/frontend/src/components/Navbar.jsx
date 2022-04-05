@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
-import { HStack, Text, Flex, chakra, Button } from '@chakra-ui/react';
-import { ArrowForwardIcon } from '@chakra-ui/icons';
+import {
+    HStack,
+    Text,
+    Flex,
+    chakra,
+    Button,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    background,
+} from '@chakra-ui/react';
+import { ArrowForwardIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
 
 export default class Navbar extends Component {
@@ -31,20 +42,53 @@ export default class Navbar extends Component {
                                 Inventory
                             </Button>
                         </Link>
-                        <Link to='/locations'>
-                            <Button variant='link' color='brand.200'>
-                                Locations
-                            </Button>
-                        </Link>
-                        <Link to='/department'>
-                            <Button variant='link' color='brand.200'>
-                                Departments
-                            </Button>
-                        </Link>
+                        <Menu>
+                            <MenuButton
+                                as={Button}
+                                rightIcon={<ChevronDownIcon />}
+                                bg='background.200'
+                                _hover={{ bg: 'brand.900' }}
+                                _expanded={{
+                                    bg: 'brand.200',
+                                    color: 'brand.900',
+                                }}
+                            >
+                                Data Categories
+                            </MenuButton>
+                            <MenuList
+                                bg='brand.600'
+                                color='brand.100'
+                                borderWidth='0px'
+                            >
+                                <MenuItem _hover={{ color: 'brand.900' }}>
+                                    Coupons
+                                </MenuItem>
+                                <MenuItem _hover={{ color: 'brand.900' }}>
+                                    Customers
+                                </MenuItem>
+                                <Link to='/department'>
+                                    <MenuItem _hover={{ color: 'brand.900' }}>
+                                        Departments
+                                    </MenuItem>
+                                </Link>
+                                <MenuItem _hover={{ color: 'brand.900' }}>
+                                    Employees
+                                </MenuItem>
+                                <MenuItem _hover={{ color: 'brand.900' }}>
+                                    Items
+                                </MenuItem>
+                                <MenuItem _hover={{ color: 'brand.900' }}>
+                                    Stores
+                                </MenuItem>
+                                <MenuItem _hover={{ color: 'brand.900' }}>
+                                    Transactions
+                                </MenuItem>
+                            </MenuList>
+                        </Menu>
                         <Link to='/login'>
                             <Button
                                 bg='brand.200'
-                                color='white'
+                                color='brand.900'
                                 rightIcon={<ArrowForwardIcon />}
                             >
                                 Get Started

@@ -38,6 +38,7 @@ const colors = {
   }
   
   const theme = extendTheme({ colors })
+ 
 
 const appDiv = document.getElementById('app');
     render(<ChakraProvider theme={theme}>
