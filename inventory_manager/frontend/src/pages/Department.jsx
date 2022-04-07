@@ -4,6 +4,7 @@ import {
     Heading,
     Box,
     Stack,
+    HStack,
     Button,
     Table,
     Thead,
@@ -47,7 +48,7 @@ export default class Department extends Component {
                     width='100%'
                     bg='brand.300'
                     color='brand.600'
-                    height='100%'
+                    height='100vh'
                 >
                     <Center>
                         <Box
@@ -104,14 +105,19 @@ export default class Department extends Component {
                                     </Tfoot>
                                 </Table>
                                 <Box></Box>
-                                <Link to='/department/create'>
-                                    <Button>Add a department</Button>
-                                </Link>
-                                <Link to='/department/edit'>
-                                    <Button>
-                                        Modify an existing department
-                                    </Button>
-                                </Link>
+                                <HStack spacing={2} mt={2}>
+                                    <Link to='/department/create'>
+                                        <Button>Add a department</Button>
+                                    </Link>
+                                    <Link to='/department/edit'>
+                                        <Button>
+                                            Modify an existing department
+                                        </Button>
+                                    </Link>
+                                    <Link to='/'>
+                                        <Button>Back to Home</Button>
+                                    </Link>
+                                </HStack>
                             </Stack>
                         </Box>
                     </Center>

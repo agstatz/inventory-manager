@@ -1,6 +1,17 @@
 from django.db import models
 
-# Create your models here.
+# model for table Customer
+class Customer(models.Model):
+    customer_id = models.IntegerField(unique=True)
+    first_name = models.CharField(max_length=40)
+    last_name = models.CharField(max_length=40)
+    email_address = models.CharField(max_length=50)
+    address = models.CharField(max_length=100)
+    phone = models.CharField(max_length=10)
+    member = models.BooleanField()
+
+
+# model for table Department
 class Department(models.Model):
     department_id = models.CharField(max_length=5, unique=True)
     department_name = models.CharField(max_length=40)
