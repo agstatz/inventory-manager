@@ -12,5 +12,7 @@ urlpatterns = [
     path('department/', index),
     path('department/create', index),
     path('department/edit', index),
+
+    path('coupon/',index)
     
 ]

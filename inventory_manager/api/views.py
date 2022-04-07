@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics, status
-from .serializers import DepartmentSerializer, POSTDepartmentSerializer
-from .models import Department
+from .serializers import DepartmentSerializer, POSTDepartmentSerializer, CouponSerializer
+from .models import Coupon, Department
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -98,8 +98,30 @@ class DELETEDepartmentView(APIView):
                 {"Bad Request": "Invalid Department ID."},
                 status=status.HTTP_404_NOT_FOUND,
             )
-
-
+    
 #
 # End DEPARTMENT Views
 #
+
+class CouponView(generics.CreateAPIView):
+    queryset = Coupon.objects.all()
+    serializer_class = CouponSerializer
+
+class GETCouponView(APIView):
+    serializer_class = CouponSerializer
+    lookup_url_kwarg = "coupon_id"
+
+    def get(self,request,format = None):
+        coupon_id = request.GET.get(self.lookup_url_kwarg)
+        if coupon_id != None:
+            coupon = Coupon.objects.filter(coupon_id=coupon_id)
+            if len(coupon) > 0:
+                data = CouponSerializer(coupon[0]).data
+                return Response(data,status=status.HTTP_200_OK)
+            return Response(
+                {"Bad Request": "Invalid Coupon ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        else:
+            dept = CouponSerializer(Coupon.objects.all(), many=True).data
+            return Response(dept, status=status.HTTP_200_OK)

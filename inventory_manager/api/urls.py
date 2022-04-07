@@ -4,6 +4,7 @@ from .views import (
     POSTDepartmentView,
     GETDepartmentView,
     DELETEDepartmentView,
+    GETCouponView
 )
 
 urlpatterns = [
@@ -11,4 +12,5 @@ urlpatterns = [
     path("post-department", POSTDepartmentView.as_view()),
     path("get-department", GETDepartmentView.as_view()),
     path("delete-department", DELETEDepartmentView.as_view()),
+    path("get-coupon",GETCouponView.as_view())
 ]

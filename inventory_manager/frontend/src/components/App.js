@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home, NoMatch, Inventory, Department, CreateDepartment, EditDepartment } from "../pages/";
+import { Home, NoMatch, Inventory, Department, CreateDepartment, EditDepartment, Coupon } from "../pages/";
 import { extendTheme, ChakraProvider } from '@chakra-ui/react'
 
 export default class App extends Component {
@@ -17,6 +17,7 @@ export default class App extends Component {
                 <Route exact path="/department" element={<Department />} />
                 <Route exact path="/department/create" element={<CreateDepartment />} />
                 <Route exact path="/department/edit" element={<EditDepartment />} />
+                <Route exact path="/coupon" element={<Coupon />} />
                 <Route path="*" element={<NoMatch />} />
             </Routes>
         </BrowserRouter>);
