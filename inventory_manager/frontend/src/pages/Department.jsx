@@ -48,7 +48,7 @@ export default class Department extends Component {
                     width='100%'
                     bg='brand.300'
                     color='brand.600'
-                    height='100%'
+                    height='100vh'
                 >
                     <Center>
                         <Box
