@@ -63,9 +63,11 @@ export default class Navbar extends Component {
                                 <MenuItem _hover={{ color: 'brand.900' }}>
                                     Coupons
                                 </MenuItem>
-                                <MenuItem _hover={{ color: 'brand.900' }}>
-                                    Customers
-                                </MenuItem>
+                                <Link to='/customer'>
+                                    <MenuItem _hover={{ color: 'brand.900' }}>
+                                        Customers
+                                    </MenuItem>
+                                </Link>
                                 <Link to='/department'>
                                     <MenuItem _hover={{ color: 'brand.900' }}>
                                         Departments

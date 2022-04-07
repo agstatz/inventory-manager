@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home, NoMatch, Inventory, Department, CreateDepartment, EditDepartment } from "../pages/";
+import { Home, NoMatch, Inventory, Department, DepartmentCreate,
+        DepartmentEdit, Customer, CustomerAll, CustomerSearch } from "../pages/";
 import { extendTheme, ChakraProvider } from '@chakra-ui/react'
 
 export default class App extends Component {
@@ -15,8 +16,11 @@ export default class App extends Component {
                 <Route index path="/" element={<Home />} />
                 <Route exact path="/inventory" element={<Inventory />} />
                 <Route exact path="/department" element={<Department />} />
-                <Route exact path="/department/create" element={<CreateDepartment />} />
-                <Route exact path="/department/edit" element={<EditDepartment />} />
+                <Route exact path="/department/create" element={<DepartmentCreate />} />
+                <Route exact path="/department/edit" element={<DepartmentEdit />} />
+                <Route exact path="/customer" element={<Customer />} />
+                <Route exact path="/customer/all" element={<CustomerAll />} />
+                <Route exact path="/customer/search" element={<CustomerSearch />} />
                 <Route path="*" element={<NoMatch />} />
             </Routes>
         </BrowserRouter>);

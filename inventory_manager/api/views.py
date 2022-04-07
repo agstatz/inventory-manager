@@ -1,13 +1,115 @@
 from django.shortcuts import render
 from rest_framework import generics, status
-from .serializers import DepartmentSerializer, POSTDepartmentSerializer
-from .models import Department
+from .serializers import (
+    DepartmentSerializer,
+    POSTDepartmentSerializer,
+    CustomerSerializer,
+    POSTCustomerSerializer,
+)
+from .models import Department, Customer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-import json
 
-# Create your views here.
+#
+# Begin CUSTOMER Views
+#
+
+
+class CustomerView(generics.CreateAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+
+
+class GETCustomerView(APIView):
+    serializer_class = CustomerSerializer
+    lookup_url_kwarg = "customer_id"
+
+    def get(self, request, format=None):
+        cust_id = request.GET.get(self.lookup_url_kwarg)
+        if cust_id != None:
+            cust = Customer.objects.filter(customer_id=cust_id)
+            if len(cust) > 0:
+                data = CustomerSerializer(cust[0]).data
+                return Response(data, status=status.HTTP_200_OK)
+            return Response(
+                {"Bad Request": "Invalid Customer ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        else:
+            cust = CustomerSerializer(Customer.objects.all(), many=True).data
+            return Response(cust, status=status.HTTP_200_OK)
+
+
+class POSTCustomerView(APIView):
+    serializer_class = POSTCustomerSerializer
+
+    def post(self, request, format=None):
+
+        cust_id = request.data["customer_id"]
+        cust = None
+        try:
+            cust = Customer.objects.get(customer_id=cust_id)
+        except:
+            cust = None
+
+        serializer = self.serializer_class(cust, data=request.data)
+        if serializer.is_valid():
+            new_customer_id = request.data["customer_id"]
+            new_first_name = request.data["first_name"]
+            new_last_name = request.data["last_name"]
+            new_email_address = request.data["email_address"]
+            new_address = request.data["address"]
+            new_phone = request.data["phone"]
+            new_member = request.data["member"]
+
+            queryset = Customer.objects.filter(customer_id=new_customer_id)
+
+            if queryset.exists():
+                cust = queryset[0]
+                cust.customer_id = new_customer_id
+                cust.first_name = new_first_name
+                cust.last_name = new_last_name
+                cust.email_address = new_email_address
+                cust.address = new_address
+                cust.phone = new_phone
+                cust.member = new_member
+                cust.save(
+                    update_fields=[
+                        "customer_id",
+                        "first_name",
+                        "last_name",
+                        "email_address",
+                        "address",
+                        "phone",
+                        "member",
+                    ]
+                )
+            else:
+                # create a new customer here
+                cust = Customer(
+                    customer_id=new_customer_id,
+                    first_name=new_first_name,
+                    last_name=new_last_name,
+                    email_address=new_email_address,
+                    address=new_address,
+                    phone=new_phone,
+                    member=new_member,
+                )
+                cust.save()
+
+            return Response(
+                POSTCustomerSerializer(cust).data, status=status.HTTP_201_CREATED
+            )
+
+        return Response(
+            {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+#
+# End CUSTOMER Views
+#
 
 #
 # Begin DEPARTMENT Views
