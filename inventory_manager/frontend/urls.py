@@ -12,12 +12,12 @@ urlpatterns = [
     path("customer/all", index),
     path("customer/search", index),
     # department related paths
-    path('department/', index),
-    path('department/create', index),
-    path('department/edit', index),
-    path('coupon/',index),
+    path("department/", index),
+    path("department/create", index),
+    path("department/edit", index),
+    path("coupon/", index),
     # itemcategory related paths
-    path('itemcategory/', index),
-    path('itemcategory/create', index),
-    path('itemcategory/search', index)
+    path("itemcategory/", index),
+    path("itemcategory/create", index),
+    path("itemcategory/search", index),
 ]

@@ -48,7 +48,8 @@ export default class Department extends Component {
                     width='100%'
                     bg='brand.300'
                     color='brand.600'
-                    height='100vh'
+                    height='100vh * 4'
+                    style={{ minHeight: '100vh' }}
                 >
                     <Center>
                         <Box
