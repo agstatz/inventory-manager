@@ -15,6 +15,9 @@ urlpatterns = [
     path('department/', index),
     path('department/create', index),
     path('department/edit', index),
-    path('coupon/',index)
-    
+    path('coupon/',index),
+    # itemcategory related paths
+    path('itemcategory/', index),
+    path('itemcategory/create', index),
+    path('itemcategory/search', index)
 ]

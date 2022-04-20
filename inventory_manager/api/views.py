@@ -5,9 +5,10 @@ from .serializers import (
     POSTDepartmentSerializer,
     CustomerSerializer,
     POSTCustomerSerializer,
-    CouponSerializer
+    CouponSerializer,
+    ItemCategorySerializer
 )
-from .models import Department, Customer,Coupon
+from .models import Department, Customer,Coupon, ItemCategory
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -228,3 +229,35 @@ class GETCouponView(APIView):
         else:
             dept = CouponSerializer(Coupon.objects.all(), many=True).data
             return Response(dept, status=status.HTTP_200_OK)
+
+#
+# End COUPON Views
+#
+
+#
+# Begin ITEMCATEGORY Views
+#
+
+class ItemCategoryView(generics.CreateAPIView):
+    queryset = ItemCategory.objects.all()
+    serializer_class = ItemCategorySerializer
+
+
+class GETItemCategoryView(APIView):
+    serializer_class = ItemCategorySerializer
+    lookup_url_kwarg = "category_id"
+
+    def get(self,request,format = None):
+        category_id = request.GET.get(self.lookup_url_kwarg)
+        if category_id != None:
+            itemcategory = ItemCategory.objects.filter(category_id=category_id)
+            if len(itemcategory) > 0:
+                data = ItemCategorySerializer(itemcategory[0]).data
+                return Response(data,status=status.HTTP_200_OK)
+            return Response(
+                {"Bad Request": "Invalid Category ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        else:
+            categ = ItemCategorySerializer(ItemCategory.objects.all(), many=True).data
+            return Response(categ, status=status.HTTP_200_OK)

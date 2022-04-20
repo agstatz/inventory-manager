@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Department, Customer,Coupon
+from .models import Department, Customer,Coupon, ItemCategory
 
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,3 +50,13 @@ class POSTCustomerSerializer(serializers.ModelSerializer):
             "phone",
             "member",
         )
+
+class ItemCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ItemCategory
+        fields = ("category_id","category_name")
+
+#class POSTItemCategorySerializer(serializers.ModelSerializer):
+#    class Meta:
+#        model = ItemCategory
+#        fields = ("category_id","category_name")

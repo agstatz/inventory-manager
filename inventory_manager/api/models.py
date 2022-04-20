@@ -21,3 +21,7 @@ class Coupon(models.Model):
     discount_rate = models.DecimalField(max_digits=4,decimal_places=2)
     valid_from = models.DateField()
     valid_end = models.DateField()
+
+class ItemCategory(models.Model):
+    category_id = models.IntegerField(unique=True)
+    category_name = models.CharField(max_length=40)
