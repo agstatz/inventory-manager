@@ -106,10 +106,10 @@ export default class ItemCategory extends Component {
                                 </Table>
                                 <Box></Box>
                                 <HStack spacing={2} mt={2}>
-                                    <Link to='/department/create'>
+                                    <Link to='/itemcategory/create'>
                                         <Button>Add a item category</Button>
                                     </Link>
-                                    <Link to='/department/edit'>
+                                    <Link to='/itemcategory/edit'>
                                         <Button>
                                             Modify an existing item category
                                         </Button>
