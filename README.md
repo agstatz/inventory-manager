@@ -13,7 +13,19 @@ An inventory manager application for CS 348 Information Systems
 -   pip install mysqlclient
 -   pip install wheel
 
-In one terminal: cd to /inventory_manager/. After this, make sure to
-run python manage.py makemigrations. You can then run python manage.py runserver.
-After this, you can go to /inventory_manager/frontend and run npm run dev.
-Access the web interface at localhost:8000
+To install the node modules necessary to run the application, make sure to cd to inventory_manager/frontend/,
+then run the command ```npm install```
+
+To run the development environment, follow the steps here:
+- In the first terminal run:
+``` cd /inventory_manager/
+    python manage.py makemigrations
+    python manage.py migrate
+    python manage.py runserver
+```
+In the second terminal run:
+```
+    cd /inventory_manager/frontend
+    npm run dev
+```
+Access the web interface at http://localhost:8000
