@@ -23,7 +23,7 @@ To run the development environment, follow the steps here:
     python manage.py migrate
     python manage.py runserver
 ```
-In the second terminal run:
+- In the second terminal run:
 ```
     cd /inventory_manager/frontend
     npm run dev
