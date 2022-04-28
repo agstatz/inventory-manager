@@ -11,6 +11,8 @@ export { default as CustomerAll } from "./CustomerAll.jsx";
 export { default as CustomerSearch } from "./CustomerSearch.jsx";
 
 export { default as Coupon} from "./Coupon.jsx";
+export { default as CouponCreate} from "./CouponCreate.jsx";
+export { default as CouponEdit} from "./CouponEdit.jsx";
 
 export { default as ItemCategory} from "./ItemCategory.jsx";
 export { default as ItemCategoryCreate} from "./ItemCategoryCreate.jsx";

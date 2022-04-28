@@ -104,10 +104,10 @@ export default class Coupon extends Component {
                                     </Tfoot>
                                 </Table>
                                 <Box></Box>
-                                <Link to='/department/create'>
+                                <Link to='/coupon/create'>
                                     <Button>Add a coupon</Button>
                                 </Link>
-                                <Link to='/department/edit'>
+                                <Link to='/coupon/edit'>
                                     <Button>
                                         Modify an existing coupon
                                     </Button>

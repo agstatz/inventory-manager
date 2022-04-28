@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, NoMatch, Inventory, Department, DepartmentCreate,
         DepartmentEdit, Customer, CustomerAll, CustomerSearch,Coupon,
+        CouponCreate, CouponEdit,
         ItemCategory, ItemCategoryCreate, ItemCategorySearch} from "../pages/";
 import { extendTheme, ChakraProvider } from '@chakra-ui/react'
 
@@ -23,6 +24,8 @@ export default class App extends Component {
                 <Route exact path="/customer/all" element={<CustomerAll />} />
                 <Route exact path="/customer/search" element={<CustomerSearch />} />
                 <Route exact path="/coupon" element={<Coupon />} />
+                <Route exact path="/coupon/create" element={<CouponCreate />} />
+                <Route exact path="/coupon/edit" element={<CouponEdit />} />
                 <Route exact path="/itemcategory" element={<ItemCategory />} />
                 <Route exact path="/itemcategory/create" element={<ItemCategoryCreate />} />
                 <Route exact path="/itemcategory/search" element={<ItemCategorySearch />} />
