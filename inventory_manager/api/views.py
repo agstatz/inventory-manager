@@ -9,7 +9,7 @@ from .serializers import (
 
     CouponSerializer,
     POSTCouponSerializer,
-    
+
     ItemCategorySerializer
 )
 from .models import Department, Customer,Coupon, ItemCategory
@@ -234,6 +234,58 @@ class GETCouponView(APIView):
         else:
             dept = CouponSerializer(Coupon.objects.all(), many=True).data
             return Response(dept, status=status.HTTP_200_OK)
+
+class POSTCouponView(APIView):
+    serialzer_class = POSTCouponSerializer
+
+    def post(self, request, format=None):
+
+        coupon_id = request.data["coupon_id"]
+        try:
+            coupon = Coupon.objects.get(coupon_id=coupon_id)
+        except:
+            coupon = None
+
+        serializer = self.serialzer_class(coupon, data=request.data)
+        if serializer.is_valid():
+            new_coupon_id = request.data["coupon_id"]
+            new_discount_rate = request.data["discount_rate"]
+            new_valid_from = request.data["valid_from"]
+            new_valid_end = request.data["valid_end"]
+
+            queryset = Coupon.objects.filter(coupon_id=new_coupon_id)
+
+            if queryset.exists():
+                coupon = queryset[0]
+                coupon.discount_rate = new_discount_rate
+                coupon.valid_from = new_valid_from
+                coupon.valid_end = new_valid_end
+                coupon.coupon_id = new_coupon_id
+                coupon.save(
+                    update_fields=[
+                        "discount_rate",
+                        "valid_from",
+                        "valid_end",
+                        "coupon_id",
+                    ]
+                )
+            else:
+                # create a new coupon here
+                coupon = Coupon(
+                    coupon_id=new_coupon_id,
+                    discount_rate=new_discount_rate,
+                    valid_from=new_valid_from,
+                    valid_end=new_valid_end,
+                )
+                coupon.save()
+            
+            return Response(
+                CouponSerializer(coupon).data, status=status.HTTP_201_CREATED
+            )
+
+        return Response(
+            {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
+        )
 
 #
 # End COUPON Views

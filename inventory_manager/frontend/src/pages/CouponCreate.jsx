@@ -129,9 +129,19 @@ export default class CouponCreate extends Component {
         fetch('/api/coupon', requestOptions)
             .then((response) => response.json())
             .then((data) => {
-                this.setState({
-                    success: true,
-                });
+                if (data.coupon_id[0].includes('already exists.')) {
+                    this.setState({
+                        failure: data.coupon_id[0],
+                    });
+                } else if (data.coupon_id[0].includes('error')) {
+                    this.setState({
+                        failure: data.coupon_id[0],
+                    });
+                } else {
+                    this.setState({
+                        success: true,
+                    });
+                }
             });
     }
 

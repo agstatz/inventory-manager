@@ -21,7 +21,7 @@ export default class Coupon extends Component {
         super(props);
 
         this.state = {
-            coupons: null,
+            coupons: undefined,
         };
     }
 
