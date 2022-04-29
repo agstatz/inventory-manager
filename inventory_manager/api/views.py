@@ -10,9 +10,13 @@ from .serializers import (
     CouponSerializer,
     POSTCouponSerializer,
 
+    ItemSerializer,
+    POSTItemSerializer,
+
     ItemCategorySerializer
+
 )
-from .models import Department, Customer,Coupon, ItemCategory
+from .models import Department, Customer,Coupon, ItemCategory, Item
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -290,6 +294,94 @@ class POSTCouponView(APIView):
 #
 # End COUPON Views
 #
+
+#
+# Start ITEM Views
+#
+
+class ItemView(generics.CreateAPIView):
+    queryset = Item.objects.order_by('item_id')
+    serializer_class = ItemSerializer
+
+class GETItemView(APIView):
+    serializer_class = ItemSerializer
+    lookup_url_kwarg = "item_id"
+
+
+    def get(self,request,format = None):
+        item_id = request.GET.get(self.lookup_url_kwarg)
+        if item_id != None:
+            item = Item.objects.filter(item_id=item_id)
+            if len(item) > 0:
+                data = ItemSerializer(item[0]).data
+                return Response(data,status=status.HTTP_200_OK)
+            return Response(
+                {"Bad Request": "Invalid Item ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        else:
+            dept = ItemSerializer(Item.objects.all(), many=True).data
+            return Response(dept, status=status.HTTP_200_OK)
+
+class POSTItemView(APIView):
+    serialzer_class = POSTItemSerializer
+
+    def post(self, request, format=None):
+
+        item_id = request.data["item_id"]
+        try:
+            item = Item.objects.get(item_id=item_id)
+        except:
+            item = None
+
+        serializer = self.serialzer_class(item, data=request.data)
+        if serializer.is_valid():
+            new_item_id = request.data["item_id"]
+            new_item_name = request.data["item_name"]
+            new_item_price = request.data["item_price"]
+            new_item_quantity = request.data["item_quantity"]
+            new_item_category = request.data["item_category"]
+
+
+            queryset = Item.objects.filter(item_id=new_item_id)
+
+            if queryset.exists():
+                item = queryset[0]
+                item.item_name = new_item_name
+                item.item_price = new_item_price
+                item.item_quantity = new_item_quantity
+                item.item_category = new_item_category
+                item.item_id = new_item_id
+                item.save(
+                    update_fields=[
+                        "item_name",
+                        "item_price",
+                        "item_quantity",
+                        "item_category",
+                        "item_id",
+                    ]
+                )
+
+            else:
+                # create a new item here
+                item = Item(
+                    item_id=new_item_id,
+                    item_name=new_item_name,
+                    item_price=new_item_price,
+                    item_quantity=new_item_quantity,
+                    item_category=new_item_category,
+                )
+                item.save()
+
+            return Response(
+                ItemSerializer(item).data, status=status.HTTP_201_CREATED
+            )
+        
+        return Response(
+            {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
 
 #
 # Begin ITEMCATEGORY Views

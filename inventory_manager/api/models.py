@@ -22,6 +22,13 @@ class Coupon(models.Model):
     valid_from = models.DateField()
     valid_end = models.DateField()
 
+class Item(models.Model):
+    item_id = models.CharField(unique=True, max_length=10)
+    item_name = models.CharField(max_length=40)
+    item_quantity = models.IntegerField()
+    item_price = models.DecimalField(max_digits=4,decimal_places=2)
+    item_category = models.CharField(max_length=40)
+
 class ItemCategory(models.Model):
     category_id = models.IntegerField(unique=True)
     category_name = models.CharField(max_length=40)

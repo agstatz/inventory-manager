@@ -12,6 +12,10 @@ from .views import (
     GETCustomerView,
     POSTCustomerView,
 
+    ItemView,
+    GETItemView,
+    POSTItemView,
+
     ItemCategoryView,
     GETItemCategoryView
 )
@@ -29,6 +33,10 @@ urlpatterns = [
     # coupon related url patterns for api
     path("get-coupon", GETCouponView.as_view()),
     path('post-coupon', POSTCouponView.as_view()),
+
+    path("get-item", GETItemView.as_view()),
+    path('post-item', POSTItemView.as_view()),
+
     # item-category related url patterns for api
     path("itemcategory", ItemCategoryView.as_view()),
     path("get-itemcategory", GETItemCategoryView.as_view()),
