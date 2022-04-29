@@ -17,29 +17,37 @@ import {
 import { Navbar } from '../components';
 import { Link } from 'react-router-dom';
 
-const MAX_ID_LENGTH = 5;
-const MAX_NAME_LENGTH = 40;
-
 export default class CouponEdit extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            existing_dept_id: '',
+            existing_coupon_id: '',
             disabled: true,
-            new_dept_id: '',
+
+            new_coupon_id: '',
             id_err: false,
-            department_name: '',
-            name_err: false,
+
+            discount_rate: 0.0,
+            discount_err: false,
+
+            valid_from: '',
+            valid_from_err: false,
+
+            valid_to: '',
+            valid_to_err: false,
+
             success: '',
             failure: '',
-            departments: undefined,
+
+            coupons: undefined,
         };
 
         this.handleIDExistingChange = this.handleIDExistingChange.bind(this);
         this.handleIDChange = this.handleIDChange.bind(this);
-        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleDiscountRateChange = this.handleDiscountRateChange.bind(this);
+        this.handleValidFromChange = this.handleValidFromChange.bind(this);
+        this.handleValidToChange = this.handleValidToChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
     }
 
     componentDidMount() {
@@ -47,11 +55,11 @@ export default class CouponEdit extends Component {
     }
 
     getDepartmentList() {
-        fetch('/api/get-department')
+        fetch('/api/get-coupon')
             .then((response) => response.json())
             .then((data) => {
                 this.setState({
-                    departments: data,
+                    coupons: data,
                 });
             });
     }
@@ -59,8 +67,8 @@ export default class CouponEdit extends Component {
     handleIDExistingChange(e) {
         if (e.target.value === '') {
             this.setState({
-                existing_dept_id: e.target.value,
-                new_dept_id: e.target.value,
+                existing_coupon_id: e.target.value,
+                new_coupon_id: e.target.value,
                 disabled: true,
                 id_err: false,
                 success: '',
@@ -69,21 +77,25 @@ export default class CouponEdit extends Component {
             return;
         }
 
-        var dept_name;
-        for (let i = 0; i < this.state.departments.length; i++) {
-            if (this.state.departments[i].department_id === e.target.value) {
-                dept_name = this.state.departments[i].department_name;
+        var discount_rate;
+        var valid_from;
+        var valid_to;
+        for (let i = 0; i < this.state.coupons.length; i++) {
+            if (this.state.coupons[i].coupon_id === e.target.value) {
+                discount_rate = this.state.coupons[i].discount_rate;
+                valid_from = this.state.coupons[i].valid_from;
+                valid_to = this.state.coupons[i].valid_to;
                 break;
             }
         }
 
-        new_dept_id.value = e.target.value;
-        department_name.value = dept_name;
 
         this.setState({
-            existing_dept_id: e.target.value,
-            new_dept_id: e.target.value,
-            department_name: dept_name,
+            existing_coupon_id: e.target.value,
+            new_coupon_id: e.target.value,
+            discount_rate: discount_rate,
+            valid_from: valid_from,
+            valid_to: valid_to,
             disabled: false,
             id_err: false,
             success: '',
@@ -93,34 +105,66 @@ export default class CouponEdit extends Component {
 
     handleIDChange(e) {
         this.setState({
-            new_dept_id: e.target.value,
+            new_coupon_id: e.target.value,
             id_err: false,
             success: '',
             failure: '',
         });
     }
 
-    handleNameChange(e) {
+    handleDiscountRateChange(e) {
         this.setState({
-            department_name: e.target.value,
-            name_err: false,
+            discount_rate: e.target.value,
+            discount_err: false,
             success: '',
+            failure: '',
+        });
+    }
+
+    handleValidFromChange(e) {
+        this.setState({
+            valid_from: e.target.value,
+            valid_from_err: false,
+            success: false,
+            failure: '',
+        });
+    }
+
+    handleValidToChange(e) {
+        this.setState({
+            valid_to: e.target.value,
+            valid_to_err: false,
+            success: false,
             failure: '',
         });
     }
 
     handleSubmit() {
         var isError = false;
-        if (this.state.new_dept_id.length == 0) {
+        if (this.state.new_coupon_id.length == 0) {
             this.setState({
                 id_err: true,
             });
             isError = true;
         }
 
-        if (this.state.department_name.length == 0) {
+        if (this.state.discount_rate <= 0 || this.state.discount_rate > 100) {
             this.setState({
-                name_err: true,
+                discount_err: true,
+            });
+            isError = true;
+        }
+
+        if (this.state.valid_from.length == 0 || this.state.valid_from >= this.state.valid_to || this.state.valid_from < Date.parse('01 Jan 1970 00:00:00 GMT')) {
+            this.setState({
+                valid_from_err: true,
+            });
+            isError = true;
+        }
+
+        if (this.state.valid_to.length == 0 ||this.state.valid_to <= this.state.valid_from || this.state.valid_to < Date.now()) {
+            this.setState({
+                valid_to_err: true,
             });
             isError = true;
         }
@@ -133,8 +177,10 @@ export default class CouponEdit extends Component {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                department_id: this.state.new_dept_id,
-                department_name: this.state.department_name,
+                coupon_id: this.state.new_coupon_id,
+                discount_rate: this.state.discount_rate,
+                valid_from: this.state.valid_from,
+                valid_to: this.state.valid_to,
             }),
         };
         fetch('/api/post-department', requestOptions)
@@ -143,60 +189,12 @@ export default class CouponEdit extends Component {
             })
             .then((data) => {
                 this.setState({
-                    success: 'Department updated successfully.',
+                    success: 'Coupon updated successfully.',
                 });
             });
     }
 
-    handleDelete() {
-        var isError = false;
-        if (this.state.new_dept_id.length == 0) {
-            this.setState({
-                id_err: true,
-            });
-            isError = true;
-        }
 
-        if (this.state.department_name.length == 0) {
-            this.setState({
-                name_err: true,
-            });
-            isError = true;
-        }
-
-        if (isError) {
-            return;
-        }
-
-        const requestOptions = {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                department_id: this.state.new_dept_id,
-                department_name: this.state.department_name,
-            }),
-        };
-        fetch('/api/delete-department', requestOptions)
-            .then((response) => {
-                response.json();
-            })
-            .then((data) => {
-                this.setState({
-                    success: true,
-                    disabled: true,
-                    existing_dept_id: '',
-                    new_dept_id: '',
-                    department_name: '',
-                    id_err: false,
-                    success: 'Department deleted successfully.',
-                    failure: '',
-                });
-                new_dept_id.value = '';
-                department_name.value = '';
-                existing_dept_id.value = '';
-                this.getDepartmentList();
-            });
-    }
 
     render() {
         return (
@@ -223,45 +221,45 @@ export default class CouponEdit extends Component {
                                 align='center'
                                 spacing={3}
                             >
-                                <Heading>Edit Department</Heading>
+                                <Heading>Edit Coupon</Heading>
                                 <FormControl isInvalid={this.state.id_err}>
-                                    <FormLabel htmlFor='existing_dept_id'>
-                                        Select a department
+                                    <FormLabel htmlFor='existing_coupon_id'>
+                                        Select a coupon
                                     </FormLabel>
                                     <Select
-                                        id='existing_dept_id'
-                                        placeholder='Select department'
+                                        id='existing_coupon_id'
+                                        placeholder='Select coupon'
                                         focusBorderColor='brand.200'
                                         variant='filled'
                                         my='auto'
                                         bg='white'
                                         onChange={this.handleIDExistingChange}
                                     >
-                                        {this.state.departments ? (
-                                            this.state.departments.map(
-                                                (dept) => (
+                                        {this.state.coupons ? (
+                                            this.state.coupons.map(
+                                                (coupon) => (
                                                     <option
-                                                        key={dept.department_id}
+                                                        key={coupon.coupon_id}
                                                         value={
-                                                            dept.department_id
+                                                            coupon.coupon_id
                                                         }
                                                     >
-                                                        {dept.department_id}
+                                                        {coupon.coupon_id}
                                                     </option>
                                                 )
                                             )
                                         ) : (
                                             <option value='empty'>
-                                                No departments to display
+                                                No coupons to display
                                             </option>
                                         )}
                                     </Select>
                                     <br />
-                                    <FormLabel htmlFor='new_dept_id'>
-                                        New Department ID
+                                    <FormLabel htmlFor='new_coupon_id'>
+                                        New Coupon ID
                                     </FormLabel>
                                     <Input
-                                        id='new_dept_id'
+                                        id='new_coupon_id'
                                         placeholder='MKTNG'
                                         variant='outline'
                                         bg='white'
@@ -270,29 +268,58 @@ export default class CouponEdit extends Component {
                                         isDisabled={this.state.disabled}
                                         focusBorderColor='brand.200'
                                         onChange={this.handleIDChange}
-                                        maxLength={MAX_ID_LENGTH}
                                     />
                                     <FormErrorMessage>
-                                        Department ID is required.
+                                        Coupon ID is required.
                                     </FormErrorMessage>
                                 </FormControl>
-                                <FormControl isInvalid={this.state.name_err}>
-                                    <FormLabel htmlFor='department_name'>
-                                        Department Name
+                                <FormControl isInvalid={this.state.discount_err}>
+                                    <FormLabel htmlFor='discount_rate'>
+                                        Discount Rate
                                     </FormLabel>
                                     <Input
-                                        id='department_name'
-                                        placeholder='Marketing'
+                                        id='discount_rate'
+                                        placeholder='10.0'
                                         variant='outline'
                                         bg='white'
                                         my='auto'
-                                        isDisabled={this.state.disabled}
                                         focusBorderColor='brand.200'
-                                        onChange={this.handleNameChange}
-                                        maxLength={MAX_NAME_LENGTH}
+                                        onChange={this.handleDiscountRateChange}
                                     />
                                     <FormErrorMessage>
-                                        Department Name is required.
+                                        Discount rate must be (0.0, 100.0) and is required.
+                                    </FormErrorMessage>
+                                </FormControl>
+                                <FormControl isInvalid={this.state.valid_from_err}>
+                                    <FormLabel htmlFor='valid_from'>
+                                        Valid From
+                                    </FormLabel>
+                                    <Input
+                                        id='valid_from'
+                                        type='date'
+                                        variant='outline'
+                                        bg='white'
+                                        focusBorderColor='brand.200'
+                                        onChange={this.handleValidFromChange}
+                                    />
+                                    <FormErrorMessage>
+                                        Invalid starting date.
+                                    </FormErrorMessage>
+                                </FormControl>
+                                <FormControl isInvalid={this.state.valid_to_err}>
+                                    <FormLabel htmlFor='valid_from'>
+                                        Valid To
+                                    </FormLabel>
+                                    <Input
+                                        id='valid_to'
+                                        type='date'
+                                        variant='outline'
+                                        bg='white'
+                                        focusBorderColor='brand.200'
+                                        onChange={this.handleValidToChange}
+                                    />
+                                    <FormErrorMessage>
+                                        Invalid ending date.
                                     </FormErrorMessage>
                                 </FormControl>
                                 <br />
@@ -303,15 +330,6 @@ export default class CouponEdit extends Component {
                                     >
                                         Submit Changes
                                     </Button>
-                                    <Button
-                                        type='submit'
-                                        onClick={this.handleDelete}
-                                    >
-                                        Delete Department
-                                    </Button>
-                                    <Link to='/department/'>
-                                        <Button type='cancel'>Cancel</Button>
-                                    </Link>
                                 </HStack>
                                 {this.state.success.length > 0 ? (
                                     <Alert
