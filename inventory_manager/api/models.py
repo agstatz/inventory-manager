@@ -25,3 +25,13 @@ class Coupon(models.Model):
 class ItemCategory(models.Model):
     category_id = models.IntegerField(unique=True)
     category_name = models.CharField(max_length=40)
+
+class Transaction(models.Model):
+    transaction_id = models.IntegerField(unique=True)
+    transaction_date = models.DateField()
+    total = models.IntegerField()
+    customer_id = models.ForeignKey(Customer, on_delete=models.SET_NULL,null=True)
+    coupon_id = models.ForeignKey(Coupon, on_delete=models.SET_NULL,null=True)
+    #store_id = models.ForeignKey()
+    #employee_id = models.ForeignKey()
+    #item_id = models.ManyToManyField(ItemCategory)

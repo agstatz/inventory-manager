@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Department, Customer,Coupon, ItemCategory
+from .models import Department, Customer,Coupon, ItemCategory,Transaction
 
 #DEPT
 class DepartmentSerializer(serializers.ModelSerializer):
@@ -63,3 +63,13 @@ class ItemCategorySerializer(serializers.ModelSerializer):
 #    class Meta:
 #        model = ItemCategory
 #        fields = ("category_id","category_name")
+
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = ("transaction_id","transaction_date","total","customer_id","coupon_id")
+
+class POSTTransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = ("transaction_id","transaction_date","total","customer_id","coupon_id")

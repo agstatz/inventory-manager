@@ -10,9 +10,12 @@ from .serializers import (
     CouponSerializer,
     POSTCouponSerializer,
     
-    ItemCategorySerializer
+    ItemCategorySerializer,
+    
+    TransactionSerializer,
+    POSTTransactionSerializer
 )
-from .models import Department, Customer,Coupon, ItemCategory
+from .models import Department, Customer,Coupon, ItemCategory, Transaction
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -266,3 +269,93 @@ class GETItemCategoryView(APIView):
         else:
             categ = ItemCategorySerializer(ItemCategory.objects.all(), many=True).data
             return Response(categ, status=status.HTTP_200_OK)
+
+#
+# Begin TRANSACTION Views
+#
+
+class TransactionView(generics.CreateAPIView):
+    queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer
+
+class GETTransactionView(APIView):
+    serializer_class = TransactionSerializer
+    lookup_url_kwarg = "transaction_id"
+
+    def get(self,request,format = None):
+        transaction_id = request.GET.get(self.lookup_url_kwarg)
+        if transaction_id != None:
+            transaction = Transaction.objects.filter(transaction_id=transaction_id)
+            if len(transaction) > 0:
+                data = TransactionSerializer(transaction[0]).data
+                return Response(data, status=status.HTTP_200_OK)
+            return Response(
+                {"Bad Request": "Invalid Transaction ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        else:
+            transaction = TransactionSerializer(Transaction.objects.all(), many=True).data
+            return Response(transaction, status=status.HTTP_200_OK)
+
+class POSTTransactionView(APIView):
+    serializer_class = POSTTransactionSerializer
+    
+
+    def post(self,request,format=None):
+        transaction_id = request.data["transaction_id"]
+        transaction = None
+        try:
+            transaction = Transaction.objects.get(transaction_id=transaction_id)
+        except:
+            transaction = None
+
+        serializer = self.serializer_class(transaction,transaction=request.data)
+        if serializer.is_valid():
+            new_transaction_id = request.data["transaction_id"]
+            new_transaction_date = request.data["transaction_date"]
+            new_total = request.data["total"]
+
+            # Ensures that customers exists
+            new_customer_id = request.data["customer_id"]
+            customer = None
+            try:
+                customer = Customer.objects.get(customer_id=new_customer_id)
+            except:
+                return Response(
+                    {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
+                )
+            new_coupon_id =  request.data["coupon_id"]
+
+            if transaction:
+                transaction.transaction_id = new_transaction_id
+                transaction.transaction_date = new_transaction_date
+                transaction.data = new_total
+                transaction.customer_id = new_customer_id
+                transaction.coupon_id = new_coupon_id
+                transaction.save(
+                    update_fields=[
+                        "transaction_id","transaction_data","total","customer_id","coupon_id"
+                        ]
+                )
+            else:
+                transaction = Transaction(
+                    transaction_id = new_transaction_id,
+                    transaction_date = new_transaction_date,
+                    total = new_total,
+                    customer_id = new_customer_id,
+                    coupon_id = new_coupon_id
+                )
+                transaction.save()
+            
+            return Response(
+                POSTTransactionSerializer(transaction).data,status=status.HTTP_201_CREATED
+            )
+
+
+        return Response(
+            {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+#
+# End TRANSACTION Views
+#

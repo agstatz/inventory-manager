@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     DepartmentView,
+    
     POSTDepartmentView,
     GETDepartmentView,
     DELETEDepartmentView,
@@ -12,7 +13,12 @@ from .views import (
     POSTCustomerView,
 
     ItemCategoryView,
-    GETItemCategoryView
+    GETItemCategoryView,
+
+    TransactionView,
+    GETTransactionView,
+    POSTTransactionView
+
 )
 
 urlpatterns = [
@@ -31,5 +37,9 @@ urlpatterns = [
     path("itemcategory", ItemCategoryView.as_view()),
     path("get-itemcategory", GETItemCategoryView.as_view()),
     #path("post-category", ItemCategoryView.as_view()),
+    #transaction related
+    path("transaction",TransactionView.as_view()),
+    path("get-transaction",GETTransactionView.as_view()),
+    path("post-transaction",POSTTransactionView.as_view())
 
 ]
