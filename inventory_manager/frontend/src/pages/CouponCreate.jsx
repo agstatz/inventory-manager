@@ -16,13 +16,14 @@ import {
 import { Navbar } from '../components';
 import { Link } from 'react-router-dom';
 
-const MAX_ID_LENGTH = 5;
-const MAX_NAME_LENGTH = 40;
 
 export default class CouponCreate extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            coupon_id: '',
+            id_err: false,
+
             discount_rate: 0.0,
             discount_err: false,
 
@@ -35,11 +36,21 @@ export default class CouponCreate extends Component {
             success: false,
             failure: '',
         };
-
+        
+        this.handleIDChange = this.handleIDChange.bind(this);
         this.handleDiscountRateChange = this.handleDiscountRateChange.bind(this);
         this.handleValidFromChange = this.handleValidFromChange.bind(this);
         this.handleValidToChange = this.handleValidToChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleIDChange(e) {
+        this.setState({
+            coupon_id: e.target.value,
+            id_err: false,
+            success: false,
+            failure: '',
+        });
     }
 
     handleDiscountRateChange(e) {
@@ -71,6 +82,13 @@ export default class CouponCreate extends Component {
 
     handleSubmit() {
         var isError = false;
+        if (this.state.coupon_id.length === 0) {
+            this.setState({
+                id_err: true,
+            });
+            isError = true;
+        }
+
         if (this.state.discount_rate <= 0 || this.state.discount_rate > 100) {
             this.setState({
                 discount_err: true,
@@ -102,9 +120,10 @@ export default class CouponCreate extends Component {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
+                coupon_id: this.state.coupon_id,
                 discount_rate: this.state.discount_rate,
                 valid_from: this.state.valid_from,
-                valid_to: this.state.valid_to,
+                valid_end: this.state.valid_to,
             }),
         };
         fetch('/api/coupon', requestOptions)
@@ -142,6 +161,23 @@ export default class CouponCreate extends Component {
                                 spacing={3}
                             >
                                 <Heading>Create Coupon</Heading>
+                                <FormControl isInvalid={this.state.id_err}>
+                                    <FormLabel htmlFor='coupon_id'>
+                                        Coupoun ID
+                                    </FormLabel>
+                                    <Input
+                                        id='coupon_id'
+                                        placeholder='10OFF'
+                                        variant='outline'
+                                        bg='white'
+                                        my='auto'
+                                        focusBorderColor='brand.200'
+                                        onChange={this.handleIDChange}
+                                    />
+                                    <FormErrorMessage>
+                                        Coupon ID is required.
+                                    </FormErrorMessage>
+                                </FormControl>
                                 <FormControl isInvalid={this.state.discount_err}>
                                     <FormLabel htmlFor='discount_rate'>
                                         Discount Rate

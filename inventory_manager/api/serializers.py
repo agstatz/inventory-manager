@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Department, Customer,Coupon, ItemCategory
 
+#DEPT
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
@@ -12,6 +13,7 @@ class POSTDepartmentSerializer(serializers.ModelSerializer):
         model = Department
         fields = ("department_id", "department_name")
 
+#COUPON
 class CouponSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coupon
@@ -22,6 +24,7 @@ class POSTCouponSerializer(serializers.ModelSerializer):
         model = Coupon
         fields = ("coupon_id","discount_rate","valid_from","valid_end")
 
+#CUSTOMER
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
