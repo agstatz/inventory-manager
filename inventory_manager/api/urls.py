@@ -4,10 +4,13 @@ from .views import (
     POSTDepartmentView,
     GETDepartmentView,
     DELETEDepartmentView,
+
     GETCouponView,
+
     CustomerView,
     GETCustomerView,
     POSTCustomerView,
+
     ItemCategoryView,
     GETItemCategoryView
 )
@@ -22,6 +25,7 @@ urlpatterns = [
     path("post-department", POSTDepartmentView.as_view()),
     path("get-department", GETDepartmentView.as_view()),
     path("delete-department", DELETEDepartmentView.as_view()),
+    # coupon related url patterns for api
     path("get-coupon",GETCouponView.as_view()),
     # item-category related url patterns for api
     path("itemcategory", ItemCategoryView.as_view()),

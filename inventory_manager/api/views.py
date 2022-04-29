@@ -3,9 +3,13 @@ from rest_framework import generics, status
 from .serializers import (
     DepartmentSerializer,
     POSTDepartmentSerializer,
+
     CustomerSerializer,
     POSTCustomerSerializer,
+
     CouponSerializer,
+    POSTCouponSerializer,
+    
     ItemCategorySerializer
 )
 from .models import Department, Customer,Coupon, ItemCategory
@@ -214,6 +218,7 @@ class CouponView(generics.CreateAPIView):
 class GETCouponView(APIView):
     serializer_class = CouponSerializer
     lookup_url_kwarg = "coupon_id"
+
 
     def get(self,request,format = None):
         coupon_id = request.GET.get(self.lookup_url_kwarg)
