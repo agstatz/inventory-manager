@@ -376,14 +376,23 @@ class POSTTransactionView(APIView):
                 return Response(
                     {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
                 )
+
+            # Ensure that coupons exists
             new_coupon_id =  request.data["coupon_id"]
+            coupon = None
+            try:
+                coupon = Coupon.objects.get(coupon_id=new_coupon_id)
+            except:
+                return Response(
+                    {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
+                )
 
             if transaction:
                 transaction.transaction_id = new_transaction_id
                 transaction.transaction_date = new_transaction_date
                 transaction.data = new_total
-                transaction.customer_id = new_customer_id
-                transaction.coupon_id = new_coupon_id
+                transaction.customer_id = customer
+                transaction.coupon_id = coupon
                 transaction.save(
                     update_fields=[
                         "transaction_id","transaction_data","total","customer_id","coupon_id"
