@@ -126,7 +126,7 @@ export default class CouponCreate extends Component {
                 valid_end: this.state.valid_to,
             }),
         };
-        fetch('/api/coupon', requestOptions)
+        fetch('/api/post-coupon', requestOptions)
             .then((response) => response.json())
             .then((data) => {
                 if (data.coupon_id[0].includes('already exists.')) {
