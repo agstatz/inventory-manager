@@ -42,3 +42,8 @@ class Transaction(models.Model):
     store_id = models.CharField(null=True,max_length=10)
     employee_id = models.IntegerField(null=True)
     items_id = models.CharField(null=False,max_length=80)
+
+
+class Store(models.Model):
+    store_id = models.IntegerField(unique=True)
+    store_name = models.CharField(max_length=40)
