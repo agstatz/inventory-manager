@@ -49,9 +49,9 @@ export default class ItemCategorySearch extends Component {
                                 <Link to='/itemcategory/search'>
                                     <Button>Search Item Categories</Button>
                                 </Link>
-                                {/* <Link to='/itemcategory/all'>
+                                <Link to='/itemcategory/all'>
                                     <Button>View All Categories</Button>
-                                </Link> */}
+                                </Link>
                             </Stack>
                         </Box>
                     </Center>

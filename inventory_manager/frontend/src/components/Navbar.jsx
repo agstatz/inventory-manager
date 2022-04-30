@@ -88,9 +88,11 @@ export default class Navbar extends Component {
                                         Item Categories
                                     </MenuItem>
                                 </Link>
-                                <MenuItem _hover={{ color: 'brand.900' }}>
-                                    Stores
-                                </MenuItem>
+                                <Link to="/store">
+                                    <MenuItem _hover={{ color: 'brand.900' }}>
+                                        Stores
+                                    </MenuItem>
+                                </Link>
                                 <Link to="/transaction">
                                 <MenuItem _hover={{ color: 'brand.900' }}>
                                     Transactions

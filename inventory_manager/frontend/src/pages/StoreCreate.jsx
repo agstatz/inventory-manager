@@ -19,13 +19,13 @@ import { Link } from 'react-router-dom';
 const MAX_ID_LENGTH = 5;
 const MAX_NAME_LENGTH = 40;
 
-export default class ItemCategory extends Component {
+export default class StoreCreate extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            category_id: '',
+            store_id: '',
             id_err: false,
-            category_name: '',
+            store_name: '',
             name_err: false,
             success: false,
             failure: '',
@@ -38,7 +38,7 @@ export default class ItemCategory extends Component {
 
     handleIDChange(e) {
         this.setState({
-            category_id: e.target.value,
+            store_id: e.target.value,
             id_err: false,
             success: false,
             failure: '',
@@ -47,7 +47,7 @@ export default class ItemCategory extends Component {
 
     handleNameChange(e) {
         this.setState({
-            category_name: e.target.value,
+            store_name: e.target.value,
             name_err: false,
             success: false,
             failure: '',
@@ -56,14 +56,14 @@ export default class ItemCategory extends Component {
 
     handleSubmit() {
         var isError = false;
-        if (this.state.category_id.length == 0) {
+        if (this.state.store_id.length == 0) {
             this.setState({
                 id_err: true,
             });
             isError = true;
         }
 
-        if (this.state.category_name.length == 0) {
+        if (this.state.store_name.length == 0) {
             this.setState({
                 name_err: true,
             });
@@ -78,20 +78,20 @@ export default class ItemCategory extends Component {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                category_id: this.state.category_id,
-                category_name: this.state.category_name,
+                store_id: this.state.store_id,
+                store_name: this.state.store_name,
             }),
         };
-        fetch('/api/itemcategory', requestOptions)
+        fetch('/api/store', requestOptions)
             .then((response) => response.json())
             .then((data) => {
-                if (data.category_id[0].includes('already exists.')) {
+                if (data.store_id[0].includes('already exists.')) {
                     this.setState({
-                        failure: data.category_id[0],
+                        failure: data.store_id[0],
                     });
-                } else if (data.category_id[0].includes('error')) {
+                } else if (data.store_id[0].includes('error')) {
                     this.setState({
-                        failure: data.category_id[0],
+                        failure: data.store_id[0],
                     });
                 } else {
                     this.setState({
@@ -126,14 +126,14 @@ export default class ItemCategory extends Component {
                                 align='center'
                                 spacing={3}
                             >
-                                <Heading>Create Item Category</Heading>
+                                <Heading>Create Store</Heading>
                                 <FormControl isInvalid={this.state.id_err}>
-                                    <FormLabel htmlFor='category_id'>
-                                        Item Category ID
+                                    <FormLabel htmlFor='store_id'>
+                                        Store ID
                                     </FormLabel>
                                     <Input
-                                        id='category_id'
-                                        placeholder='MKTNG'
+                                        id='store_id'
+                                        placeholder='AMZN'
                                         variant='outline'
                                         bg='white'
                                         my='auto'
@@ -142,16 +142,16 @@ export default class ItemCategory extends Component {
                                         maxLength={MAX_ID_LENGTH}
                                     />
                                     <FormErrorMessage>
-                                        Category ID is required.
+                                        Store ID is required.
                                     </FormErrorMessage>
                                 </FormControl>
                                 <FormControl isInvalid={this.state.name_err}>
-                                    <FormLabel htmlFor='category_id'>
-                                        Item Category Name
+                                    <FormLabel htmlFor='store_id'>
+                                        Store Name
                                     </FormLabel>
                                     <Input
-                                        id='category_id'
-                                        placeholder='Dairy'
+                                        id='store_id'
+                                        placeholder='Amazon'
                                         variant='outline'
                                         bg='white'
                                         focusBorderColor='brand.200'
@@ -159,7 +159,7 @@ export default class ItemCategory extends Component {
                                         maxLength={MAX_NAME_LENGTH}
                                     />
                                     <FormErrorMessage>
-                                        Item Category Name is required.
+                                        Store Name is required.
                                     </FormErrorMessage>
                                 </FormControl>
                                 <HStack spacing={2} mt={2}>
@@ -169,7 +169,7 @@ export default class ItemCategory extends Component {
                                     >
                                         Submit
                                     </Button>
-                                    <Link to='/itemcategory/'>
+                                    <Link to='/store/'>
                                         <Button type='cancel'>Cancel</Button>
                                     </Link>
                                 </HStack>
@@ -180,7 +180,7 @@ export default class ItemCategory extends Component {
                                         variant='subtle'
                                     >
                                         <AlertIcon />
-                                        Item Category created successfully.
+                                        Store created successfully.
                                     </Alert>
                                 ) : (
                                     <></>
