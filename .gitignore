@@ -25,4 +25,5 @@ yarn-error.log*
 
 **/__pycache__/
 
+**/db.sqlite3
 inventory_manager/db.sqlite3
