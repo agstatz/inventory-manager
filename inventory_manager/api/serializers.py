@@ -79,9 +79,9 @@ class ItemCategorySerializer(serializers.ModelSerializer):
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
-        fields = ("transaction_id","transaction_date","total","customer_id","coupon_id")
+        fields = ("transaction_id","transaction_date","total","customer_id","coupon_id","store_id","employee_id","items_id")
 
 class POSTTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
-        fields = ("transaction_id","transaction_date","total","customer_id","coupon_id")
+        fields = ("transaction_id","transaction_date","total","customer_id","coupon_id","store_id","employee_id","items_id")

@@ -21,8 +21,9 @@ from .views import (
     GETItemCategoryView,
 
     TransactionView,
-    GETTransactionView,
-    POSTTransactionView
+    PATCHTransactionView,
+    POSTTransactionView,
+    CALCTransactionView
 
 )
 
@@ -49,7 +50,7 @@ urlpatterns = [
     #path("post-category", ItemCategoryView.as_view()),
     #transaction related
     path("transaction",TransactionView.as_view()),
-    path("get-transaction",GETTransactionView.as_view()),
-    path("post-transaction",POSTTransactionView.as_view())
-
+    path("patch-transaction",PATCHTransactionView.as_view()),
+    path("post-transaction",POSTTransactionView.as_view()),
+    path("get-calc",CALCTransactionView.as_view())
 ]

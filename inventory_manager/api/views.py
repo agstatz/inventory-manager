@@ -422,11 +422,11 @@ class TransactionView(generics.CreateAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
 
-class GETTransactionView(APIView):
+class PATCHTransactionView(APIView):
     serializer_class = TransactionSerializer
     lookup_url_kwarg = "transaction_id"
 
-    def get(self,request,format = None):
+    def patch(self,request,format = None):
         transaction_id = request.GET.get(self.lookup_url_kwarg)
         if transaction_id != None:
             transaction = Transaction.objects.filter(transaction_id=transaction_id)
@@ -439,11 +439,22 @@ class GETTransactionView(APIView):
             )
         else:
             transaction = TransactionSerializer(Transaction.objects.all(), many=True).data
-            return Response(transaction, status=status.HTTP_200_OK)
+            sortBy = request.data["sortBy"]
+            if (sortBy == "Transaction Date"):
+                transaction.sort(key=lambda x:x["transaction_date"])
+            elif (sortBy == "Employee ID"):
+                transaction.sort(key=lambda x:x["employee_id"] or float("inf"))
+            elif (sortBy == "No. of Item"):
+                transaction.sort(key=lambda x:len(x["items_id"].split(",")) or 0)
+            elif (sortBy == "Coupon ID"):
+                transaction.sort(key=lambda x:x["coupon_id"] or "9"*20)
+            elif (sortBy == "Transaction ID"):
+                transaction.sort(key=lambda x:x["transaction_id"] or float("inf"))
+            limit = int(request.data["restriction"])
+            return Response(transaction[:limit], status=status.HTTP_200_OK)
 
 class POSTTransactionView(APIView):
     serializer_class = POSTTransactionSerializer
-    
 
     def post(self,request,format=None):
         transaction_id = request.data["transaction_id"]
@@ -452,7 +463,6 @@ class POSTTransactionView(APIView):
             transaction = Transaction.objects.get(transaction_id=transaction_id)
         except:
             transaction = None
-
         
         serializer = self.serializer_class(transaction,data=request.data)
         if serializer.is_valid():
@@ -461,16 +471,29 @@ class POSTTransactionView(APIView):
             new_total = request.data["total"]
             new_customer_id = request.data["customer_id"]
             new_coupon_id = request.data["coupon_id"]
+            new_store_id = request.data["store_id"]
+            new_employee_id = request.data["employee_id"]
+            new_items_id = request.data["items_id"]
 
+            existing_item_ids = list(map(lambda x:x["item_id"],ItemSerializer(Item.objects.all(),many=True).data))
+            for item in new_items_id.split(", "):
+                if item not in existing_item_ids:
+                    return Response({"message":"Invalid"},status=status.HTTP_404_NOT_FOUND)
+                
             if transaction:
                 transaction.transaction_id = new_transaction_id
                 transaction.transaction_date = new_transaction_date
                 transaction.total = new_total
                 transaction.customer_id = new_customer_id
                 transaction.coupon_id = new_coupon_id
+                transaction.store_id = new_store_id
+                transaction.employee_id = new_employee_id
+                transaction.items_id = new_items_id
                 transaction.save(
                     update_fields=[
-                        "transaction_id","transaction_data","total","customer_id","coupon_id"
+                        "transaction_id","transaction_date","total",
+                        "customer_id","coupon_id","store_id","employee_id",
+                        "items_id"
                         ]
                 )
             else:
@@ -479,17 +502,41 @@ class POSTTransactionView(APIView):
                     transaction_date = new_transaction_date,
                     total = new_total,
                     customer_id = new_customer_id,
-                    coupon_id = new_coupon_id
+                    coupon_id = new_coupon_id,
+                    store_id = new_store_id,
+                    employee_id = new_employee_id,
+                    items_id = new_items_id
                 )
                 transaction.save()
                 
             return Response(
                 POSTTransactionSerializer(transaction).data,status=status.HTTP_201_CREATED
             )
-
         return Response(
             {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
         )
+
+class CALCTransactionView(APIView):
+    serializer_class = TransactionSerializer
+
+    def get(self,request,format=None):
+        queryset = Transaction.objects.all()
+        amount = 0
+        for query in queryset:
+            entry = TransactionSerializer(query).data
+            if(entry["coupon_id"]):
+                coupon = None
+                try:
+                    coupon = Coupon.objects.get(coupon_id=entry["coupon_id"])
+                    discount_rate = float((CouponSerializer(coupon).data)["discount_rate"])
+                    amount += (100-discount_rate)/100*float(entry["total"])
+                except:
+                    continue
+            else:
+                amount += float(entry["total"])
+            
+        amount = round(amount,2)
+        return Response({"amount":amount},status=status.HTTP_200_OK)
 
 #
 # End TRANSACTION Views

@@ -48,7 +48,10 @@ export default class TransactionCreate extends Component {
 
             employees: null,
             employee_err:false,
-            selected_employee_id:null
+            selected_employee_id:null,
+
+            items_id:"",
+            items_err:false,
         };
 
         this.handleIDChange = this.handleIDChange.bind(this);
@@ -58,6 +61,7 @@ export default class TransactionCreate extends Component {
         this.handleStoreChange = this.handleStoreChange.bind(this)
         this.handleEmployeeChange = this.handleEmployeeChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleItemsChange = this.handleItemsChange.bind(this)
     }
 
     componentDidMount() {
@@ -69,7 +73,7 @@ export default class TransactionCreate extends Component {
             .then((response) => response.json())
             .then((data) => {
                 const null_coupon = {coupon_id:"No Coupon Used"}
-                data.push(null_coupon)
+                data.unshift(null_coupon)
                 this.setState({
                     coupons:data,
                 })
@@ -198,7 +202,17 @@ export default class TransactionCreate extends Component {
 
     handleTotalChange(e){
         this.setState({
-            total: e.target.value
+            total: e.target.value,
+            total_err: false,
+            success:false
+        })
+    }
+
+    handleItemsChange(e){
+        this.setState({
+            items_id: e.target.value,
+            items_err: false,
+            success:false
         })
     }
 
@@ -240,6 +254,13 @@ export default class TransactionCreate extends Component {
         }
         */
 
+        if(this.state.items_id.length == 0){
+            this.setState({
+                items_err:true
+            })
+            isError = true
+        }
+
         if (isNaN(this.state.total) || Number(this.state.total) <= 0){
             this.setState({
                 total_err: true,
@@ -258,7 +279,7 @@ export default class TransactionCreate extends Component {
             return;
         }
 
-        const selected_coup = this.state.selected_coupon_id === "No Coupon Used"? "No Coupon Used": this.state.selected_coupon_id
+        const selected_coup = this.state.selected_coupon_id === "No Coupon Used"? null: this.state.selected_coupon_id
 
         const requestOptions = {
             method: 'POST',
@@ -270,18 +291,24 @@ export default class TransactionCreate extends Component {
                 customer_id: this.state.selected_customer_id,
                 coupon_id: selected_coup,
                 store_id: this.state.selected_store_id,
-                employee_id: this.state.selected_employee_id
+                employee_id: this.state.selected_employee_id,
+                items_id: this.state.items_id
             }),
         };
         fetch('/api/post-transaction', requestOptions)
-            .then((response) => {
-                response.json();
-            })
-            .then((data) => {
+        .then(response=>response.json())
+        .then(data=>{
+            if(data.message == "Invalid"){
+                this.setState({
+                    items_err: true
+                })
+            } else{
                 this.setState({
                     success: 'Transaction added successfully.',
                 });
-            });
+            }
+            
+        })
     }
 
     render() {
@@ -328,11 +355,11 @@ export default class TransactionCreate extends Component {
                                 </FormControl>
                                 <FormControl isInvalid={this.state.coupon_err}>
                                     <FormLabel htmlFor='selected_coupon_id'>
-                                        Select coupon (if used)
+                                        Select coupon
                                     </FormLabel>
                                     <Select
                                         id='selected_coupon_id'
-                                        placeholder='Select coupon'
+                                        placeholder=""
                                         focusBorderColor='brand.200'
                                         variant='filled'
                                         my='auto'
@@ -358,7 +385,6 @@ export default class TransactionCreate extends Component {
                                             </option>
                                         )}
                                     </Select>
-                                    <br />
                                 </FormControl>
                                 <FormControl isInvalid={this.state.customer_err}>
                                     <FormLabel htmlFor='selected_customer_id'>
@@ -392,11 +418,10 @@ export default class TransactionCreate extends Component {
                                             </option>
                                         )}
                                     </Select>
-                                    <br />
                                 </FormControl>
                                 <FormControl isInvalid={this.state.total_err}>
                                     <FormLabel htmlFor='total_err'>
-                                        Transaction amount
+                                        Transacted amount (before coupons)
                                     </FormLabel>
                                     <Input
                                         id='total_err'
@@ -433,7 +458,7 @@ export default class TransactionCreate extends Component {
                                     </FormLabel>
                                     <Select
                                         id='selected_coupon_id'
-                                        placeholder='Select coupon'
+                                        placeholder='Select store'
                                         focusBorderColor='brand.200'
                                         variant='filled'
                                         my='auto'
@@ -459,7 +484,6 @@ export default class TransactionCreate extends Component {
                                             </option>
                                         )}
                                     </Select>
-                                    <br />
                                 </FormControl>
                                 <FormControl isInvalid={this.state.employee_err}>
                                     <FormLabel htmlFor='selected_coupon_id'>
@@ -467,7 +491,7 @@ export default class TransactionCreate extends Component {
                                     </FormLabel>
                                     <Select
                                         id='selected_coupon_id'
-                                        placeholder='Select coupon'
+                                        placeholder='Select employee'
                                         focusBorderColor='brand.200'
                                         variant='filled'
                                         my='auto'
@@ -493,6 +517,23 @@ export default class TransactionCreate extends Component {
                                             </option>
                                         )}
                                     </Select>
+                                    <FormControl isInvalid={this.state.items_err}>
+                                    <FormLabel htmlFor='items_err'>
+                                        Transacted items
+                                    </FormLabel>
+                                    <Input
+                                        id='items_err'
+                                        placeholder=""
+                                        variant='outline'
+                                        bg='white'
+                                        my='auto'
+                                        focusBorderColor='brand.200'
+                                        onChange={this.handleItemsChange}
+                                    />
+                                    <FormErrorMessage>
+                                        Invalid items selected
+                                    </FormErrorMessage>
+                                </FormControl>
                                     <br />
                                 </FormControl>
                                 <br />
