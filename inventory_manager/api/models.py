@@ -34,11 +34,11 @@ class ItemCategory(models.Model):
     category_name = models.CharField(max_length=40)
 
 class Transaction(models.Model):
-    transaction_id = models.IntegerField(unique=True)
+    transaction_id = models.IntegerField(unique=True,null=True)
     transaction_date = models.DateField()
-    total = models.IntegerField()
-    customer_id = models.ForeignKey(Customer, on_delete=models.SET_NULL,null=True)
-    coupon_id = models.ForeignKey(Coupon, on_delete=models.SET_NULL,null=True)
-    #store_id = models.ForeignKey()
-    #employee_id = models.ForeignKey()
+    total = models.DecimalField(max_digits=10,decimal_places=2)
+    customer_id = models.IntegerField(unique=True,null=True)
+    coupon_id = models.CharField(unique=True,null=True,max_length=10)
+    store_id = models.CharField(unique=True,null=True,max_length=10)
+    employee_id = models.IntegerField(unique=True,null=True)
     #item_id = models.ManyToManyField(ItemCategory)

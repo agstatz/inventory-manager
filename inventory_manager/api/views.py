@@ -453,38 +453,21 @@ class POSTTransactionView(APIView):
         except:
             transaction = None
 
-        serializer = self.serializer_class(transaction,transaction=request.data)
+        
+        serializer = self.serializer_class(transaction,data=request.data)
         if serializer.is_valid():
             new_transaction_id = request.data["transaction_id"]
             new_transaction_date = request.data["transaction_date"]
             new_total = request.data["total"]
-
-            # Ensures that customers exists
             new_customer_id = request.data["customer_id"]
-            customer = None
-            try:
-                customer = Customer.objects.get(customer_id=new_customer_id)
-            except:
-                return Response(
-                    {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
-                )
-
-            # Ensure that coupons exists
-            new_coupon_id =  request.data["coupon_id"]
-            coupon = None
-            try:
-                coupon = Coupon.objects.get(coupon_id=new_coupon_id)
-            except:
-                return Response(
-                    {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
-                )
+            new_coupon_id = request.data["coupon_id"]
 
             if transaction:
                 transaction.transaction_id = new_transaction_id
                 transaction.transaction_date = new_transaction_date
-                transaction.data = new_total
-                transaction.customer_id = customer
-                transaction.coupon_id = coupon
+                transaction.total = new_total
+                transaction.customer_id = new_customer_id
+                transaction.coupon_id = new_coupon_id
                 transaction.save(
                     update_fields=[
                         "transaction_id","transaction_data","total","customer_id","coupon_id"
@@ -499,11 +482,10 @@ class POSTTransactionView(APIView):
                     coupon_id = new_coupon_id
                 )
                 transaction.save()
-            
+                
             return Response(
                 POSTTransactionSerializer(transaction).data,status=status.HTTP_201_CREATED
             )
-
 
         return Response(
             {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST

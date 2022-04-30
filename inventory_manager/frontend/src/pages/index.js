@@ -18,7 +18,9 @@ export { default as ItemCategory} from "./ItemCategory.jsx";
 export { default as ItemCategoryCreate} from "./ItemCategoryCreate.jsx";
 export { default as ItemCategorySearch} from "./ItemCategorySearch.jsx";
 
+export {default as TransactionCreate } from "./TransactionCreate.jsx";
 export { default as Transaction } from "./Transaction.jsx";
+
 export {default as Item } from "./Item.jsx";
 export {default as ItemCreate} from "./ItemCreate.jsx";
 

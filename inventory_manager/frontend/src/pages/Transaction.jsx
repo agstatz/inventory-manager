@@ -22,8 +22,17 @@ export default class Transaction extends Component {
         super(props);
 
         this.state = {
-            transactions: undefined,
+            transactions: null,
+            sortBy: null
         };
+
+        this.handleSortByChange = this.handleSortByChange.bind(this);
+    }
+
+    handleSortByChange(){
+        if (e.target.value === '') {
+            return;
+        }
     }
 
     componentDidMount() {
@@ -70,30 +79,47 @@ export default class Transaction extends Component {
                                     <Thead>
                                         <Tr>
                                             <Th>Transaction ID</Th>
-                                            <Th>Transaction Name</Th>
+                                            <Th>Transaction Date</Th>
+                                            <Th>Transaction Amount</Th>
+                                            <Th>Customer ID</Th>
+                                            <Th>Coupon ID</Th>
+                                            <Th>Store ID</Th>
+                                            <Th>Employee ID</Th>
                                         </Tr>
                                     </Thead>
                                     <Tbody>
                                         {this.state.transactions ? (
                                             this.state.transactions.map(
-                                                (dept) => (
+                                                (transaction) => (
                                                     <Tr
-                                                        key={dept.transactions_id}
+                                                        key={transaction.transaction_id}
                                                     >
                                                         <Td>
-                                                            {dept.transactions_id}
+                                                            {transaction.transaction_id}
                                                         </Td>
                                                         <Td>
-                                                            {
-                                                                dept.transactions_name
-                                                            }
+                                                            {transaction.transaction_date}
+                                                        </Td>
+                                                        <Td>
+                                                            {transaction.total}
+                                                        </Td>
+                                                        <Td>
+                                                            {transaction.customer_id}
+                                                        </Td>
+                                                        <Td>
+                                                            {transaction.coupon_id}
+                                                        </Td>
+                                                        <Td>
+                                                            {transaction.store_id}
+                                                        </Td>
+                                                        <Td>
+                                                            {transaction.employee_id}
                                                         </Td>
                                                     </Tr>
                                                 )
                                             )
                                         ) : (
                                             <Tr>
-                                                <Td>Loading...</Td>
                                                 <Td></Td>
                                             </Tr>
                                         )}
@@ -101,18 +127,23 @@ export default class Transaction extends Component {
                                     <Tfoot>
                                         <Tr>
                                             <Th>Transaction ID</Th>
-                                            <Th>Transaction Name</Th>
+                                            <Th>Transaction Date</Th>
+                                            <Th>Transaction Amount</Th>
+                                            <Th>Customer ID</Th>
+                                            <Th>Coupon ID</Th>
+                                            <Th>Store ID</Th>
+                                            <Th>Employee ID</Th>
                                         </Tr>
                                     </Tfoot>
                                 </Table>
                                 <Box></Box>
                                 <HStack spacing={2} mt={2}>
-                                    <Link to='/transactions/create'>
-                                        <Button>Add a transactions</Button>
+                                    <Link to='/transaction/create'>
+                                        <Button>Add a transaction</Button>
                                     </Link>
-                                    <Link to='/transactions/edit'>
+                                    <Link to='/transaction/edit'>
                                         <Button>
-                                            Modify an existing transactions
+                                            Modify an existing transaction
                                         </Button>
                                     </Link>
                                     <Link to='/'>

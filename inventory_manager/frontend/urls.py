@@ -26,4 +26,7 @@ urlpatterns = [
     path("itemcategory/", index),
     path("itemcategory/create", index),
     path("itemcategory/search", index),
+
+    path("transaction/", index),
+    path("transaction/create",index)
 ]
