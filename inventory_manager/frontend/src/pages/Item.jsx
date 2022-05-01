@@ -4,7 +4,6 @@ import {
     Heading,
     Box,
     Stack,
-    HStack,
     Button,
     Table,
     Thead,
@@ -48,7 +47,7 @@ export default class Item extends Component {
                     width='100%'
                     bg='brand.300'
                     color='brand.600'
-                    height='100vh'
+                    height='100%'
                 >
                     <Center>
                         <Box
@@ -64,7 +63,7 @@ export default class Item extends Component {
                                 align='center'
                                 spacing={3}
                             >
-                                <Heading>Inventory Items</Heading>
+                                <Heading>Items</Heading>
                                 <Table size='lg'>
                                     <Thead>
                                         <Tr>
@@ -77,19 +76,29 @@ export default class Item extends Component {
                                     </Thead>
                                     <Tbody>
                                         {this.state.items ? (
-                                            this.state.items.map((item) => (
-                                                <Tr key={item.item_id}>
-                                                    <Td>{item.item_id}</Td>
-                                                    <Td>{item.item_name}</Td>
-                                                    <Td>{item.item_price}</Td>
-                                                    <Td>
-                                                        {item.item_quantity}
-                                                    </Td>
-                                                    <Td>
-                                                        {item.item_category}
-                                                    </Td>
-                                                </Tr>
-                                            ))
+                                            this.state.items.map(
+                                                (item) => (
+                                                    <Tr
+                                                        key={item.item_id}
+                                                    >
+                                                        <Td>
+                                                            {item.item_id}
+                                                        </Td>
+                                                        <Td>
+                                                            {item.item_name}
+                                                        </Td>
+                                                        <Td>
+                                                            {item.item_price}
+                                                        </Td>
+                                                        <Td>
+                                                            {item.item_quantity}
+                                                        </Td>
+                                                        <Td>
+                                                            {item.item_category}
+                                                        </Td>
+                                                    </Tr>
+                                                )
+                                            )
                                         ) : (
                                             <Tr>
                                                 <Td>Loading...</Td>
@@ -98,20 +107,16 @@ export default class Item extends Component {
                                         )}
                                     </Tbody>
                                 </Table>
+                                <Box></Box>
+                                <Link to='/item/create'>
+                                    <Button>Add an item</Button>
+                                </Link>
+                                <Link to='/item/edit'>
+                                    <Button>
+                                        Modify an existing item
+                                    </Button>
+                                </Link>
                             </Stack>
-                            <Center>
-                                <HStack p={10}>
-                                    <Link to='/item/create'>
-                                        <Button>Add an item</Button>
-                                    </Link>
-                                    <Link to='/item/edit'>
-                                        <Button>Modify an existing item</Button>
-                                    </Link>
-                                    <Link to='/'>
-                                        <Button>Back to Home</Button>
-                                    </Link>
-                                </HStack>
-                            </Center>
                         </Box>
                     </Center>
                 </Box>
