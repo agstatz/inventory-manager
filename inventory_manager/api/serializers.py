@@ -98,9 +98,9 @@ class POSTTransactionSerializer(serializers.ModelSerializer):
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
-        fields = ("store_id","store_name")
+        fields = ("store_id","store_address", "store_city", "store_country")
 
 class POSTStoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
-        fields = ("store_id","store_name")
+        fields = ("store_id","store_address", "store_city", "store_country")

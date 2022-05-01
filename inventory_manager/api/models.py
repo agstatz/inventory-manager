@@ -10,6 +10,11 @@ class Customer(models.Model):
     phone = models.CharField(max_length=10)
     member = models.BooleanField()
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['first_name']),
+        ]
+
 
 # model for table Department
 class Department(models.Model):
@@ -45,4 +50,6 @@ class Transaction(models.Model):
 
 class Store(models.Model):
     store_id = models.CharField(unique=True, max_length=10)
-    store_name = models.CharField(max_length=40)
+    store_address = models.CharField(max_length=40)
+    store_city = models.CharField(null=True, max_length=40)
+    store_country = models.CharField(null=True, max_length=40)

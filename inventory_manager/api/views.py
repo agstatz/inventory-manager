@@ -667,19 +667,27 @@ class POSTStoreView(APIView):
         serializer = self.serializer_class(stor, data=request.data)
         if serializer.is_valid():
             new_store_id = request.data["store_id"]
-            new_store_name = request.data["store_name"]
+            new_store_addr = request.data["store_address"]
+            new_store_city = request.data["store_city"]
+            new_store_country = request.data["store_country"]
 
             queryset = Store.objects.filter(store_id=new_store_id)
 
             if queryset.exists():
                 stor = queryset[0]
-                stor.store_name = new_store_name
+                stor.store_address = new_store_addr
                 stor.store_id = new_store_id
-                stor.save(update_fields=["store_name", "store_id"])
+                stor.store_city = new_store_city
+                stor.store_country = new_store_country
+
+                stor.save(update_fields=["store_address", "store_id", "store_city", "store_country"])
             else:
                 # create a new store here
                 stor = Store(
-                    store_id=new_store_id, store_name=new_store_name
+                    store_id=new_store_id, 
+                    store_address=new_store_addr,
+                    store_city=new_store_city,
+                    store_contry=new_store_country,
                 )
                 stor.save()
 

@@ -37,7 +37,7 @@ export default class Navbar extends Component {
                     </Link>
 
                     <HStack as='nav' spacing='4' color='brand.200'>
-                        <Link to='/inventory'>
+                        <Link to='/item'>
                             <Button variant='link' color='brand.200'>
                                 Inventory
                             </Button>
@@ -78,27 +78,26 @@ export default class Navbar extends Component {
                                 <MenuItem _hover={{ color: 'brand.900' }}>
                                     Employees
                                 </MenuItem>
-                                <Link to ='/item'>
+                                <Link to='/item'>
                                     <MenuItem _hover={{ color: 'brand.900' }}>
                                         Items
                                     </MenuItem>
                                 </Link>
-                                <Link to="/itemcategory">
+                                <Link to='/itemcategory'>
                                     <MenuItem _hover={{ color: 'brand.900' }}>
                                         Item Categories
                                     </MenuItem>
                                 </Link>
-                                <Link to="/store">
+                                <Link to='/store'>
                                     <MenuItem _hover={{ color: 'brand.900' }}>
                                         Stores
                                     </MenuItem>
                                 </Link>
-                                <Link to="/transaction">
-                                <MenuItem _hover={{ color: 'brand.900' }}>
-                                    Transactions
-                                </MenuItem>
+                                <Link to='/transaction'>
+                                    <MenuItem _hover={{ color: 'brand.900' }}>
+                                        Transactions
+                                    </MenuItem>
                                 </Link>
-                                
                             </MenuList>
                         </Menu>
                         <Link to='/login'>

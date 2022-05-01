@@ -25,14 +25,20 @@ export default class StoreCreate extends Component {
         this.state = {
             store_id: '',
             id_err: false,
-            store_name: '',
-            name_err: false,
+            store_address: '',
+            address_err: false,
+            store_city: '',
+            city_err: false,
+            store_country: '',
+            country_err: false,
             success: false,
             failure: '',
         };
 
         this.handleIDChange = this.handleIDChange.bind(this);
-        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleAddressChange = this.handleAddressChange.bind(this);
+        this.handleCityChange = this.handleCityChange.bind(this);
+        this.handleCountryChange = this.handleCountryChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -45,10 +51,28 @@ export default class StoreCreate extends Component {
         });
     }
 
-    handleNameChange(e) {
+    handleAddressChange(e) {
         this.setState({
-            store_name: e.target.value,
-            name_err: false,
+            store_address: e.target.value,
+            address_err: false,
+            success: false,
+            failure: '',
+        });
+    }
+
+    handleCityChange(e) {
+        this.setState({
+            store_city: e.target.value,
+            city_err: false,
+            success: false,
+            failure: '',
+        });
+    }
+
+    handleCountryChange(e) {
+        this.setState({
+            store_country: e.target.value,
+            country_err: false,
             success: false,
             failure: '',
         });
@@ -63,9 +87,23 @@ export default class StoreCreate extends Component {
             isError = true;
         }
 
-        if (this.state.store_name.length == 0) {
+        if (this.state.store_address.length == 0) {
             this.setState({
-                name_err: true,
+                address_err: true,
+            });
+            isError = true;
+        }
+
+        if (this.state.store_city.length == 0) {
+            this.setState({
+                city_err: true,
+            });
+            isError = true;
+        }
+
+        if (this.state.store_country.length == 0) {
+            this.setState({
+                country_err: true,
             });
             isError = true;
         }
@@ -79,7 +117,9 @@ export default class StoreCreate extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 store_id: this.state.store_id,
-                store_name: this.state.store_name,
+                store_address: this.state.store_address,
+                store_city: this.state.store_city,
+                store_country: this.state.store_country,
             }),
         };
         fetch('/api/store', requestOptions)
@@ -133,7 +173,7 @@ export default class StoreCreate extends Component {
                                     </FormLabel>
                                     <Input
                                         id='store_id'
-                                        placeholder='AMZN'
+                                        placeholder='01024'
                                         variant='outline'
                                         bg='white'
                                         my='auto'
@@ -145,21 +185,55 @@ export default class StoreCreate extends Component {
                                         Store ID is required.
                                     </FormErrorMessage>
                                 </FormControl>
-                                <FormControl isInvalid={this.state.name_err}>
+                                <FormControl isInvalid={this.state.address_err}>
                                     <FormLabel htmlFor='store_id'>
-                                        Store Name
+                                        Store Address
                                     </FormLabel>
                                     <Input
                                         id='store_id'
-                                        placeholder='Amazon'
+                                        placeholder='150 Stadium Ave'
                                         variant='outline'
                                         bg='white'
                                         focusBorderColor='brand.200'
-                                        onChange={this.handleNameChange}
+                                        onChange={this.handleAddressChange}
                                         maxLength={MAX_NAME_LENGTH}
                                     />
                                     <FormErrorMessage>
-                                        Store Name is required.
+                                        Store Address is required.
+                                    </FormErrorMessage>
+                                </FormControl>
+                                <FormControl isInvalid={this.state.city_err}>
+                                    <FormLabel htmlFor='store_id'>
+                                        Store City
+                                    </FormLabel>
+                                    <Input
+                                        id='store_id'
+                                        placeholder='West Lafayette'
+                                        variant='outline'
+                                        bg='white'
+                                        focusBorderColor='brand.200'
+                                        onChange={this.handleCityChange}
+                                        maxLength={MAX_NAME_LENGTH}
+                                    />
+                                    <FormErrorMessage>
+                                        Store City is required.
+                                    </FormErrorMessage>
+                                </FormControl>
+                                <FormControl isInvalid={this.state.country_err}>
+                                    <FormLabel htmlFor='store_id'>
+                                        Store Country
+                                    </FormLabel>
+                                    <Input
+                                        id='store_id'
+                                        placeholder='United States of America'
+                                        variant='outline'
+                                        bg='white'
+                                        focusBorderColor='brand.200'
+                                        onChange={this.handleCountryChange}
+                                        maxLength={MAX_NAME_LENGTH}
+                                    />
+                                    <FormErrorMessage>
+                                        Store Country is required.
                                     </FormErrorMessage>
                                 </FormControl>
                                 <HStack spacing={2} mt={2}>

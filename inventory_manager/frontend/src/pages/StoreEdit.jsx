@@ -28,8 +28,12 @@ export default class StoreEdit extends Component {
             disabled: true,
             new_stor_id: '',
             id_err: false,
-            store_name: '',
-            name_err: false,
+            store_address: '',
+            address_err: false,
+            store_city: '',
+            city_err: false,
+            store_country: '',
+            country_err: false,
             success: '',
             failure: '',
             stores: undefined,
@@ -37,7 +41,9 @@ export default class StoreEdit extends Component {
 
         this.handleIDExistingChange = this.handleIDExistingChange.bind(this);
         this.handleIDChange = this.handleIDChange.bind(this);
-        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleAddressChange = this.handleAddressChange.bind(this);
+        this.handleCityChange = this.handleCityChange.bind(this);
+        this.handleCountryChange = this.handleCountryChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
     }
@@ -69,21 +75,29 @@ export default class StoreEdit extends Component {
             return;
         }
 
-        var stor_name;
+        var stor_address;
+        var stor_city;
+        var stor_country;
         for (let i = 0; i < this.state.stores.length; i++) {
             if (this.state.stores[i].store_id === e.target.value) {
-                stor_name = this.state.stores[i].store_name;
+                stor_address = this.state.stores[i].store_address;
+                stor_city = this.state.stores[i].store_city;
+                stor_country = this.state.stores[i].store_country;
                 break;
             }
         }
 
         new_stor_id.value = e.target.value;
-        store_name.value = stor_name;
+        store_address.value = stor_address;
+        store_city.value = stor_city;
+        store_country.value = stor_country;
 
-        this.setState({
+        store_city.value = this.setState({
             existing_stor_id: e.target.value,
             new_stor_id: e.target.value,
-            store_name: stor_name,
+            store_address: stor_address,
+            store_city: stor_city,
+            store_country: stor_country,
             disabled: false,
             id_err: false,
             success: '',
@@ -100,11 +114,29 @@ export default class StoreEdit extends Component {
         });
     }
 
-    handleNameChange(e) {
+    handleAddressChange(e) {
         this.setState({
-            store_name: e.target.value,
-            name_err: false,
-            success: '',
+            store_address: e.target.value,
+            address_err: false,
+            success: false,
+            failure: '',
+        });
+    }
+
+    handleCityChange(e) {
+        this.setState({
+            store_city: e.target.value,
+            city_err: false,
+            success: false,
+            failure: '',
+        });
+    }
+
+    handleCountryChange(e) {
+        this.setState({
+            store_country: e.target.value,
+            country_err: false,
+            success: false,
             failure: '',
         });
     }
@@ -118,9 +150,23 @@ export default class StoreEdit extends Component {
             isError = true;
         }
 
-        if (this.state.store_name.length == 0) {
+        if (this.state.store_address.length == 0) {
             this.setState({
-                name_err: true,
+                address_err: true,
+            });
+            isError = true;
+        }
+
+        if (this.state.store_city.length == 0) {
+            this.setState({
+                city_err: true,
+            });
+            isError = true;
+        }
+
+        if (this.state.store_country.length == 0) {
+            this.setState({
+                country_err: true,
             });
             isError = true;
         }
@@ -134,7 +180,9 @@ export default class StoreEdit extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 store_id: this.state.new_stor_id,
-                store_name: this.state.store_name,
+                store_address: this.state.store_address,
+                store_city: this.state.store_city,
+                store_country: this.state.store_country,
             }),
         };
         fetch('/api/post-store', requestOptions)
@@ -157,9 +205,23 @@ export default class StoreEdit extends Component {
             isError = true;
         }
 
-        if (this.state.store_name.length == 0) {
+        if (this.state.store_address.length == 0) {
             this.setState({
-                name_err: true,
+                address_err: true,
+            });
+            isError = true;
+        }
+
+        if (this.state.store_city.length == 0) {
+            this.setState({
+                city_err: true,
+            });
+            isError = true;
+        }
+
+        if (this.state.store_country.length == 0) {
+            this.setState({
+                country_err: true,
             });
             isError = true;
         }
@@ -173,7 +235,9 @@ export default class StoreEdit extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 store_id: this.state.new_stor_id,
-                store_name: this.state.store_name,
+                store_address: this.state.store_address,
+                store_city: this.state.store_city,
+                store_country: this.state.store_country,
             }),
         };
         fetch('/api/delete-store', requestOptions)
@@ -186,13 +250,13 @@ export default class StoreEdit extends Component {
                     disabled: true,
                     existing_stor_id: '',
                     new_stor_id: '',
-                    store_name: '',
+                    store_address: '',
                     id_err: false,
                     success: 'Store deleted successfully.',
                     failure: '',
                 });
                 new_stor_id.value = '';
-                store_name.value = '';
+                store_address.value = '';
                 existing_stor_id.value = '';
                 this.getStoreList();
             });
@@ -238,18 +302,14 @@ export default class StoreEdit extends Component {
                                         onChange={this.handleIDExistingChange}
                                     >
                                         {this.state.stores ? (
-                                            this.state.stores.map(
-                                                (stor) => (
-                                                    <option
-                                                        key={stor.store_id}
-                                                        value={
-                                                            stor.store_id
-                                                        }
-                                                    >
-                                                        {stor.store_id}
-                                                    </option>
-                                                )
-                                            )
+                                            this.state.stores.map((stor) => (
+                                                <option
+                                                    key={stor.store_id}
+                                                    value={stor.store_id}
+                                                >
+                                                    {stor.store_id}
+                                                </option>
+                                            ))
                                         ) : (
                                             <option value='empty'>
                                                 No stores to display
@@ -262,7 +322,7 @@ export default class StoreEdit extends Component {
                                     </FormLabel>
                                     <Input
                                         id='new_stor_id'
-                                        placeholder='AMZN'
+                                        placeholder='00002'
                                         variant='outline'
                                         bg='white'
                                         my='auto'
@@ -276,23 +336,58 @@ export default class StoreEdit extends Component {
                                         Store ID is required.
                                     </FormErrorMessage>
                                 </FormControl>
-                                <FormControl isInvalid={this.state.name_err}>
-                                    <FormLabel htmlFor='store_name'>
-                                        Store Name
+                                <FormControl isInvalid={this.state.address_err}>
+                                    <FormLabel htmlFor='store_id'>
+                                        Store Address
                                     </FormLabel>
                                     <Input
-                                        id='store_name'
-                                        placeholder='Amazon'
+                                        id='store_address'
+                                        placeholder='150 Stadium Ave'
                                         variant='outline'
-                                        bg='white'
-                                        my='auto'
                                         isDisabled={this.state.disabled}
+                                        bg='white'
                                         focusBorderColor='brand.200'
-                                        onChange={this.handleNameChange}
+                                        onChange={this.handleAddressChange}
                                         maxLength={MAX_NAME_LENGTH}
                                     />
                                     <FormErrorMessage>
-                                        Store Name is required.
+                                        Store Address is required.
+                                    </FormErrorMessage>
+                                </FormControl>
+                                <FormControl isInvalid={this.state.city_err}>
+                                    <FormLabel htmlFor='store_id'>
+                                        Store City
+                                    </FormLabel>
+                                    <Input
+                                        id='store_city'
+                                        placeholder='West Lafayette'
+                                        variant='outline'
+                                        isDisabled={this.state.disabled}
+                                        bg='white'
+                                        focusBorderColor='brand.200'
+                                        onChange={this.handleCityChange}
+                                        maxLength={MAX_NAME_LENGTH}
+                                    />
+                                    <FormErrorMessage>
+                                        Store City is required.
+                                    </FormErrorMessage>
+                                </FormControl>
+                                <FormControl isInvalid={this.state.country_err}>
+                                    <FormLabel htmlFor='store_id'>
+                                        Store Country
+                                    </FormLabel>
+                                    <Input
+                                        id='store_country'
+                                        placeholder='United States of America'
+                                        variant='outline'
+                                        isDisabled={this.state.disabled}
+                                        bg='white'
+                                        focusBorderColor='brand.200'
+                                        onChange={this.handleCountryChange}
+                                        maxLength={MAX_NAME_LENGTH}
+                                    />
+                                    <FormErrorMessage>
+                                        Store Country is required.
                                     </FormErrorMessage>
                                 </FormControl>
                                 <br />

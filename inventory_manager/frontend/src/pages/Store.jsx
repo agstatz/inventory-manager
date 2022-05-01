@@ -70,30 +70,30 @@ export default class Store extends Component {
                                     <Thead>
                                         <Tr>
                                             <Th>Store ID</Th>
-                                            <Th>Store Name</Th>
+                                            <Th>Address</Th>
+                                            <Th>City</Th>
+                                            <Th>Country</Th>
                                         </Tr>
                                     </Thead>
                                     <Tbody>
                                         {this.state.stores ? (
-                                            this.state.stores.map(
-                                                (store) => (
-                                                    <Tr
-                                                        key={store.store_id}
-                                                    >
-                                                        <Td>
-                                                            {store.store_id}
-                                                        </Td>
-                                                        <Td>
-                                                            {
-                                                                store.store_name
-                                                            }
-                                                        </Td>
-                                                    </Tr>
-                                                )
-                                            )
+                                            this.state.stores.map((store) => (
+                                                <Tr key={store.store_id}>
+                                                    <Td>{store.store_id}</Td>
+                                                    <Td>
+                                                        {store.store_address}
+                                                    </Td>
+                                                    <Td>{store.store_city}</Td>
+                                                    <Td>
+                                                        {store.store_country}
+                                                    </Td>
+                                                </Tr>
+                                            ))
                                         ) : (
                                             <Tr>
-                                                <Td>Loading...</Td>
+                                                <Td></Td>
+                                                <Td></Td>
+                                                <Td></Td>
                                                 <Td></Td>
                                             </Tr>
                                         )}
@@ -101,7 +101,9 @@ export default class Store extends Component {
                                     <Tfoot>
                                         <Tr>
                                             <Th>Store ID</Th>
-                                            <Th>Store Name</Th>
+                                            <Th>Address</Th>
+                                            <Th>City</Th>
+                                            <Th>Country</Th>
                                         </Tr>
                                     </Tfoot>
                                 </Table>

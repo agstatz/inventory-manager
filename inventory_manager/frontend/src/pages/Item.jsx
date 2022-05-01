@@ -63,7 +63,7 @@ export default class Item extends Component {
                                 align='center'
                                 spacing={3}
                             >
-                                <Heading>Items</Heading>
+                                <Heading>Inventory Items</Heading>
                                 <Table size='lg'>
                                     <Thead>
                                         <Tr>
