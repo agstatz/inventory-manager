@@ -727,3 +727,104 @@ class DELETEStoreView(APIView):
 #
 # End STORE Views
 #
+
+# 
+# Start EMPLOYEE Views
+#
+
+class EmployeeView(generics.CreateAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+
+class GETEmployeeView(APIView):
+    serializer_class = EmployeeSerializer
+    lookup_url_kwarg = "employee_id"
+
+    def get(self, request, format=None):
+        empl_id = request.GET.get(self.lookup_url_kwarg)
+        if empl_id != None:
+            empl = Employee.objects.filter(employee_id=empl_id)
+            if len(empl) > 0:
+                data = EmployeeSerializer(empl[0]).data
+                return Response(data, status=status.HTTP_200_OK)
+            return Response(
+                {"Bad Request": "Invalid Employee ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        else:
+            empl = EmployeeSerializer(Employee.objects.all(), many=True).data
+            return Response(empl, status=status.HTTP_200_OK)
+
+class POSTEmployeeView(APIView):
+    serializer_class = POSTEmployeeSerializer
+
+    def post(self, request, format=None):
+
+        empl_id = request.data["employee_id"]
+        empl = None
+        try:
+            empl = Employee.objects.get(employee_id=empl_id)
+        except:
+            empl = None
+
+        serializer = self.serializer_class(empl, data=request.data)
+        if serializer.is_valid():
+            new_employee_id = request.data["employee_id"]
+            new_first_name = request.data["first_name"]
+            new_last_name = request.data["last_name"]
+            new_email = request.data["email"]
+            new_address = request.data["address"]
+            new_phone = request.data["phone"]
+            new_job_title = request.data["job_title"]
+            new_salary = request.data["salary"]
+
+            queryset = Employee.objects.filter(employee_id=new_employee_id)
+
+            if queryset.exists():
+                empl = queryset[0]
+                empl.employee_id = new_employee_id
+                empl.first_name = new_first_name
+                empl.last_name = new_last_name
+                empl.email = new_email
+                empl.address = new_address
+                empl.phone = new_phone
+                empl.job_title = new_job_title
+                empl.salary = new_salary
+                empl.save(
+                    update_fields=[
+                        "employee_id",
+                        "first_name",
+                        "last_name",
+                        "email",
+                        "address",
+                        "phone",
+                        "job_title",
+                        "salary",
+                    ]
+                )
+            else:
+                # create a new customer here
+                empl = Employee(
+                    employee_id=new_employee_id,
+                    first_name=new_first_name,
+                    last_name=new_last_name,
+                    email=new_email,
+                    address=new_address,
+                    phone=new_phone,
+                    job_title=new_job_title,
+                    salary = new_salary,
+                )
+                empl.save()
+
+            return Response(
+                POSTEmployeeSerializer(empl).data, status=status.HTTP_201_CREATED
+            )
+
+        return Response(
+            {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+#
+# End EMPLOYEE Views
+#
