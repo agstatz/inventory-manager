@@ -32,3 +32,7 @@ export { default as StoreCreate} from "./StoreCreate.jsx";
 export { default as StoreEdit } from "./StoreEdit.jsx";
 export { default as StoreAll} from "./StoreAll.jsx";
 export { default as StoreSearch } from "./StoreSearch.jsx";
+
+export {default as Employee } from "./Employee.jsx";
+export {default as EmployeeAdd } from "./EmployeeAdd.jsx";
+export {default as EmployeeAll } from "./EmployeeAll.jsx";
