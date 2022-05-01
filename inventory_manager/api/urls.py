@@ -18,6 +18,10 @@ from .views import (
     GETItemView,
     POSTItemView,
 
+    EmployeeView,
+    GETEmployeeView,
+    POSTEmployeeView,
+
     ItemCategoryView,
     GETItemCategoryView,
     POSTItemCategoryView,

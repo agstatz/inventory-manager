@@ -21,11 +21,14 @@ from .serializers import (
     TransactionSerializer,
     POSTTransactionSerializer,
 
+    EmployeeSerializer,
+    POSTEmployeeSerializer,
+
     StoreSerializer,
     POSTStoreSerializer
 
 )
-from .models import Department, Customer,Coupon, ItemCategory, Item, Transaction, Store
+from .models import Department, Customer,Coupon, ItemCategory, Item, Transaction, Store, Employee
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
