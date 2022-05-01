@@ -30,7 +30,7 @@ class Item(models.Model):
     item_category = models.CharField(max_length=40)
 
 class ItemCategory(models.Model):
-    category_id = models.IntegerField(unique=True, max_length=10)
+    category_id = models.CharField(unique=True, max_length=10)
     category_name = models.CharField(max_length=40)
 
 class Transaction(models.Model):
@@ -44,5 +44,5 @@ class Transaction(models.Model):
     items_id = models.CharField(null=False,max_length=80)
 
 class Store(models.Model):
-    store_id = models.IntegerField(unique=True, max_length=10)
+    store_id = models.CharField(unique=True, max_length=10)
     store_name = models.CharField(max_length=40)
