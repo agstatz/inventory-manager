@@ -17,12 +17,12 @@ class POSTDepartmentSerializer(serializers.ModelSerializer):
 class CouponSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coupon
-        fields = ("coupon_id","discount_rate","valid_from","valid_end")
+        fields = ("coupon_id","discount_rate","valid_from","valid_end",)
 
 class POSTCouponSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coupon
-        fields = ("coupon_id","discount_rate","valid_from","valid_end")
+        fields = ("coupon_id","discount_rate","valid_from","valid_end",)
 
 #ITEM
 class ItemSerializer(serializers.ModelSerializer):

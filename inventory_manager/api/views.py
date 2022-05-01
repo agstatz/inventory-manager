@@ -252,10 +252,7 @@ class POSTCouponView(APIView):
     def post(self, request, format=None):
 
         coupon_id = request.data["coupon_id"]
-        try:
-            coupon = Coupon.objects.get(coupon_id=coupon_id)
-        except:
-            coupon = None
+        coupon = Coupon.objects.get(coupon_id=coupon_id)
 
         serializer = self.serialzer_class(coupon, data=request.data)
         if serializer.is_valid():
@@ -263,7 +260,6 @@ class POSTCouponView(APIView):
             new_discount_rate = request.data["discount_rate"]
             new_valid_from = request.data["valid_from"]
             new_valid_end = request.data["valid_end"]
-
             queryset = Coupon.objects.filter(coupon_id=new_coupon_id)
 
             if queryset.exists():

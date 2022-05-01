@@ -44,17 +44,18 @@ export default class CouponEdit extends Component {
 
         this.handleIDExistingChange = this.handleIDExistingChange.bind(this);
         this.handleIDChange = this.handleIDChange.bind(this);
-        this.handleDiscountRateChange = this.handleDiscountRateChange.bind(this);
+        this.handleDiscountRateChange =
+            this.handleDiscountRateChange.bind(this);
         this.handleValidFromChange = this.handleValidFromChange.bind(this);
         this.handleValidToChange = this.handleValidToChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
-        this.getDepartmentList();
+        this.getCouponList();
     }
 
-    getDepartmentList() {
+    getCouponList() {
         fetch('/api/get-coupon')
             .then((response) => response.json())
             .then((data) => {
@@ -89,6 +90,7 @@ export default class CouponEdit extends Component {
             }
         }
 
+        new_coupon_id.value = e.target.value;
 
         this.setState({
             existing_coupon_id: e.target.value,
@@ -155,14 +157,22 @@ export default class CouponEdit extends Component {
             isError = true;
         }
 
-        if (this.state.valid_from.length == 0 || this.state.valid_from >= this.state.valid_to || this.state.valid_from < Date.parse('01 Jan 1970 00:00:00 GMT')) {
+        if (
+            this.state.valid_from.length == 0 ||
+            this.state.valid_from >= this.state.valid_to ||
+            this.state.valid_from < Date.parse('01 Jan 1970 00:00:00 GMT')
+        ) {
             this.setState({
                 valid_from_err: true,
             });
             isError = true;
         }
 
-        if (this.state.valid_to.length == 0 ||this.state.valid_to <= this.state.valid_from || this.state.valid_to < Date.now()) {
+        if (
+            this.state.valid_to.length == 0 ||
+            this.state.valid_to <= this.state.valid_from ||
+            this.state.valid_to < Date.now()
+        ) {
             this.setState({
                 valid_to_err: true,
             });
@@ -180,10 +190,10 @@ export default class CouponEdit extends Component {
                 coupon_id: this.state.new_coupon_id,
                 discount_rate: this.state.discount_rate,
                 valid_from: this.state.valid_from,
-                valid_to: this.state.valid_to,
+                valid_end: this.state.valid_to,
             }),
         };
-        fetch('/api/post-department', requestOptions)
+        fetch('/api/post-coupon', requestOptions)
             .then((response) => {
                 response.json();
             })
@@ -193,8 +203,6 @@ export default class CouponEdit extends Component {
                 });
             });
     }
-
-
 
     render() {
         return (
@@ -236,18 +244,14 @@ export default class CouponEdit extends Component {
                                         onChange={this.handleIDExistingChange}
                                     >
                                         {this.state.coupons ? (
-                                            this.state.coupons.map(
-                                                (coupon) => (
-                                                    <option
-                                                        key={coupon.coupon_id}
-                                                        value={
-                                                            coupon.coupon_id
-                                                        }
-                                                    >
-                                                        {coupon.coupon_id}
-                                                    </option>
-                                                )
-                                            )
+                                            this.state.coupons.map((coupon) => (
+                                                <option
+                                                    key={coupon.coupon_id}
+                                                    value={coupon.coupon_id}
+                                                >
+                                                    {coupon.coupon_id}
+                                                </option>
+                                            ))
                                         ) : (
                                             <option value='empty'>
                                                 No coupons to display
@@ -260,7 +264,7 @@ export default class CouponEdit extends Component {
                                     </FormLabel>
                                     <Input
                                         id='new_coupon_id'
-                                        placeholder='MKTNG'
+                                        placeholder='25OFF'
                                         variant='outline'
                                         bg='white'
                                         my='auto'
@@ -273,13 +277,15 @@ export default class CouponEdit extends Component {
                                         Coupon ID is required.
                                     </FormErrorMessage>
                                 </FormControl>
-                                <FormControl isInvalid={this.state.discount_err}>
+                                <FormControl
+                                    isInvalid={this.state.discount_err}
+                                >
                                     <FormLabel htmlFor='discount_rate'>
                                         Discount Rate
                                     </FormLabel>
                                     <Input
                                         id='discount_rate'
-                                        placeholder='10.0'
+                                        placeholder='25.0'
                                         variant='outline'
                                         bg='white'
                                         my='auto'
@@ -287,10 +293,13 @@ export default class CouponEdit extends Component {
                                         onChange={this.handleDiscountRateChange}
                                     />
                                     <FormErrorMessage>
-                                        Discount rate must be (0.0, 100.0) and is required.
+                                        Discount rate must be (0.0, 100.0) and
+                                        is required.
                                     </FormErrorMessage>
                                 </FormControl>
-                                <FormControl isInvalid={this.state.valid_from_err}>
+                                <FormControl
+                                    isInvalid={this.state.valid_from_err}
+                                >
                                     <FormLabel htmlFor='valid_from'>
                                         Valid From
                                     </FormLabel>
@@ -306,7 +315,9 @@ export default class CouponEdit extends Component {
                                         Invalid starting date.
                                     </FormErrorMessage>
                                 </FormControl>
-                                <FormControl isInvalid={this.state.valid_to_err}>
+                                <FormControl
+                                    isInvalid={this.state.valid_to_err}
+                                >
                                     <FormLabel htmlFor='valid_from'>
                                         Valid To
                                     </FormLabel>
@@ -330,6 +341,9 @@ export default class CouponEdit extends Component {
                                     >
                                         Submit Changes
                                     </Button>
+                                    <Link to='/coupon/'>
+                                        <Button type='cancel'>Cancel</Button>
+                                    </Link>
                                 </HStack>
                                 {this.state.success.length > 0 ? (
                                     <Alert

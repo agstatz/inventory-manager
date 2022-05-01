@@ -52,6 +52,9 @@ export default class Customer extends Component {
                                 <Link to='/customer/all'>
                                     <Button>View All Customers</Button>
                                 </Link>
+                                <Link to='/'>
+                                    <Button>Back to Home</Button>
+                                </Link>
                             </Stack>
                         </Box>
                     </Center>

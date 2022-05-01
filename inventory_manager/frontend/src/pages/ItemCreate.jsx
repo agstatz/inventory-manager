@@ -34,7 +34,7 @@ export default class ItemCreate extends Component {
 
             success: false,
             failure: '',
-        }
+        };
 
         this.handleIDChange = this.handleIDChange.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -112,7 +112,7 @@ export default class ItemCreate extends Component {
             isError = true;
         }
 
-        if (this.state.item_price  <= 0) {
+        if (this.state.item_price <= 0) {
             this.setState({
                 price_err: true,
             });
@@ -143,19 +143,19 @@ export default class ItemCreate extends Component {
         };
 
         fetch('/api/post-item', requestOptions)
-            .then(response => {
-                console.log(requestOptions)
+            .then((response) => {
+                console.log(requestOptions);
                 if (!response.ok) {
                     throw new Error(response.statusText);
                 }
                 return response.json();
             })
-            .then(data => {
+            .then((data) => {
                 this.setState({
                     success: true,
                 });
             })
-            .catch(error => {
+            .catch((error) => {
                 this.setState({
                     failure: error.message,
                 });
@@ -194,7 +194,7 @@ export default class ItemCreate extends Component {
                                     </FormLabel>
                                     <Input
                                         id='item_id'
-                                        placeholder='10OFF'
+                                        placeholder='12345'
                                         variant='outline'
                                         bg='white'
                                         my='auto'
@@ -222,7 +222,9 @@ export default class ItemCreate extends Component {
                                         Name is required.
                                     </FormErrorMessage>
                                 </FormControl>
-                                <FormControl isInvalid={this.state.quantity_err}>
+                                <FormControl
+                                    isInvalid={this.state.quantity_err}
+                                >
                                     <FormLabel htmlFor='item_quantity'>
                                         Quantity
                                     </FormLabel>
@@ -257,7 +259,7 @@ export default class ItemCreate extends Component {
                                     </FormErrorMessage>
                                 </FormControl>
 
-                               <FormControl>
+                                <FormControl>
                                     <FormLabel htmlFor='item_category'>
                                         Category
                                     </FormLabel>
@@ -316,7 +318,5 @@ export default class ItemCreate extends Component {
                 </Box>
             </Box>
         );
-
-       
     }
 }

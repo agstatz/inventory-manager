@@ -47,7 +47,7 @@ export default class Coupon extends Component {
                     width='100%'
                     bg='brand.300'
                     color='brand.600'
-                    height='100%'
+                    height='100vh'
                 >
                     <Center>
                         <Box
@@ -73,22 +73,14 @@ export default class Coupon extends Component {
                                     </Thead>
                                     <Tbody>
                                         {this.state.coupons ? (
-                                            this.state.coupons.map(
-                                                (coupon) => (
-                                                    <Tr
-                                                        key={coupon.coupon_id}
-                                                    >
-                                                        <Td>
-                                                            {coupon.coupon_id}
-                                                        </Td>
-                                                        <Td>
-                                                            {
-                                                                coupon.discount_rate
-                                                            }
-                                                        </Td>
-                                                    </Tr>
-                                                )
-                                            )
+                                            this.state.coupons.map((coupon) => (
+                                                <Tr key={coupon.coupon_id}>
+                                                    <Td>{coupon.coupon_id}</Td>
+                                                    <Td>
+                                                        {coupon.discount_rate}
+                                                    </Td>
+                                                </Tr>
+                                            ))
                                         ) : (
                                             <Tr>
                                                 <Td>Loading...</Td>
@@ -108,9 +100,10 @@ export default class Coupon extends Component {
                                     <Button>Add a coupon</Button>
                                 </Link>
                                 <Link to='/coupon/edit'>
-                                    <Button>
-                                        Modify an existing coupon
-                                    </Button>
+                                    <Button>Modify an existing coupon</Button>
+                                </Link>
+                                <Link to='/'>
+                                    <Button>Back to Home</Button>
                                 </Link>
                             </Stack>
                         </Box>
