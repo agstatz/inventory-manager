@@ -7,7 +7,6 @@ import { Home, NoMatch, Inventory, Department, DepartmentCreate,
         ItemCategory, ItemCategoryCreate, ItemCategorySearch, ItemCategoryAll,
         Transaction, TransactionCreate, Store, StoreCreate, StoreEdit, StoreSearch, StoreAll } from "../pages/";
 import { extendTheme, ChakraProvider } from '@chakra-ui/react'
-import StoreCreate from "../pages/StoreCreate";
 
 export default class App extends Component {
     constructor(props) {
