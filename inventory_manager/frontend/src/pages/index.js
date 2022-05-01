@@ -18,6 +18,7 @@ export { default as CouponEdit} from "./CouponEdit.jsx";
 export { default as ItemCategory} from "./ItemCategory.jsx";
 export { default as ItemCategoryCreate} from "./ItemCategoryCreate.jsx";
 export { default as ItemCategorySearch} from "./ItemCategorySearch.jsx";
+export { default as ItemCategoryEdit} from "./ItemCategoryEdit.jsx";
 export { default as ItemCategoryAll} from "./ItemCategoryAll.jsx";
 
 export {default as TransactionCreate } from "./TransactionCreate.jsx";
