@@ -355,7 +355,7 @@ export default class CustomerCreate extends Component {
                                     variant='subtle'
                                 >
                                     <AlertIcon />
-                                    Department created successfully.
+                                    Customer created successfully.
                                 </Alert>
                             ) : (
                                 <></>
