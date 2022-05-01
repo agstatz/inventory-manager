@@ -458,6 +458,30 @@ class POSTItemCategoryView(APIView):
             {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
         )
 
+class DELETEItemCategoryView(APIView):
+    serializer_class = ItemCategorySerializer
+    lookup_url_kwarg = "category_id"
+
+    def delete(self, request, format=None):
+        categ_id = request.data["category_id"]
+        categ = ItemCategory.objects.get(category_id=categ_id)
+
+        if categ_id != None:
+            if ItemCategory.objects.filter(category_id=categ_id).exists():
+                categ.delete()
+                return Response(
+                    {"Item Category deleted"}, status=status.HTTP_204_NO_CONTENT
+                )
+            return Response(
+                {"Bad Request": "Invalid Item Category ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        else:
+            return Response(
+                {"Bad Request": "Invalid Item Category ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
 #
 # Begin TRANSACTION Views
 #

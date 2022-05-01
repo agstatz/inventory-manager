@@ -19,6 +19,8 @@ from .views import (
 
     ItemCategoryView,
     GETItemCategoryView,
+    POSTItemCategoryView,
+    DELETEItemCategoryView,
 
     TransactionView,
     PATCHTransactionView,
@@ -53,7 +55,9 @@ urlpatterns = [
     # item-category related url patterns for api
     path("itemcategory", ItemCategoryView.as_view()),
     path("get-itemcategory", GETItemCategoryView.as_view()),
-    path("post-category", ItemCategoryView.as_view()),
+    path("post-itemcategory", POSTItemCategoryView.as_view()),
+    path("delete-itemcategory", DELETEItemCategoryView.as_view()),
+
     
     #transaction related
     path("transaction",TransactionView.as_view()),

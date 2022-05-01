@@ -28,6 +28,7 @@ urlpatterns = [
     path("itemcategory/", index),
     path("itemcategory/create", index),
     path("itemcategory/search", index),
+    path("itemcategory/edit", index),
 
     # transaction related paths
     path("transaction/", index),

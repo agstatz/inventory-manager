@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, NoMatch, Inventory, Department, DepartmentCreate,
         DepartmentEdit, Customer, CustomerCreate, CustomerAll, CustomerSearch,Coupon,
         CouponCreate, CouponEdit, Item, ItemCreate,
-        ItemCategory, ItemCategoryCreate, ItemCategorySearch, ItemCategoryAll,
+        ItemCategory, ItemCategoryCreate, ItemCategorySearch, ItemCategoryEdit, ItemCategoryAll,
         Transaction, TransactionCreate, Store, StoreCreate, StoreEdit, StoreSearch, 
         StoreAll,  } from "../pages/";
 import { extendTheme, ChakraProvider } from '@chakra-ui/react'
@@ -34,8 +34,9 @@ export default class App extends Component {
                 <Route exact path="/itemcategory" element={<ItemCategory />} />
                 <Route exact path="/itemcategory/create" element={<ItemCategoryCreate />} />
                 <Route exact path="/itemcategory/search" element={<ItemCategorySearch />} />
+                <Route exact path="/itemcategory/edit" element={<ItemCategoryEdit />} />
                 <Route exact path="/itemcategory/all" element={<ItemCategoryAll />} />
-                <Route exact path= "/transaction" element={<Transaction />}/>
+                <Route exact path="/transaction" element={<Transaction />}/>
                 <Route exact path="/transaction/create" element={<TransactionCreate />} />
                 <Route exact path="/store" element={<Store />} />
                 <Route exact path="/store/create" element={<StoreCreate />} />
