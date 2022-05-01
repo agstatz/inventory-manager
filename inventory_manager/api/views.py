@@ -45,8 +45,8 @@ class GETCustomerView(APIView):
     print("hereeee")
 
     
-    for results in Customer.objects.raw("SELECT * FROM api_customer"):
-        print(results.first_name + ' ' + results.last_name)
+    #for results in Customer.objects.raw("SELECT * FROM api_customer"):
+    #    print(results.first_name + ' ' + results.last_name)
 
 
     def get(self, request, format=None):
