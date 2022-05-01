@@ -53,3 +53,15 @@ class Store(models.Model):
     store_address = models.CharField(max_length=40)
     store_city = models.CharField(null=True, max_length=40)
     store_country = models.CharField(null=True, max_length=40)
+    
+class Employee(models.Model):
+    employee_id = models.IntegerField(unique=True)
+    department_id = models.CharField(max_length=5) 
+    first_name = models.CharField(max_length=40)
+    last_name = models.CharField(max_length=40)
+    email = models.CharField(max_length=50)
+    address = models.CharField(max_length=100)
+    phone = models.CharField(max_length=10)
+    job_title = models.CharField(max_length=20)
+    salary = models.DecimalField(max_digits=11,decimal_places=2)  
+    
