@@ -22,11 +22,19 @@ urlpatterns = [
 
     path("item/", index),
     path("item/create", index),
+
     # itemcategory related paths
     path("itemcategory/", index),
     path("itemcategory/create", index),
     path("itemcategory/search", index),
 
+    # transaction related paths
     path("transaction/", index),
-    path("transaction/create",index)
+    path("transaction/create",index),
+
+    # store related paths
+    path("store/", index),
+    path("store/search", index),
+    path("store/create", index),
+    path("store/edit", index)
 ]
