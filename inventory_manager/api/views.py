@@ -824,7 +824,6 @@ class POSTEmployeeView(APIView):
             {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
         )
 
-
 #
 # End EMPLOYEE Views
 #

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Department, Customer,Coupon, ItemCategory,Item,Transaction, Store
+from .models import Department, Customer,Coupon, ItemCategory,Item,Transaction, Store, Employee
 
 #DEPT
 class DepartmentSerializer(serializers.ModelSerializer):
