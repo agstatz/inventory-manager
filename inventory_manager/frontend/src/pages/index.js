@@ -24,4 +24,6 @@ export { default as Transaction } from "./Transaction.jsx";
 export {default as Item } from "./Item.jsx";
 export {default as ItemCreate} from "./ItemCreate.jsx";
 
-
+export { default as Store } from "./Store.jsx";
+export { default as StoreCreate} from "./StoreCreate.jsx";
+export { default as StoreEdit } from "./StoreEdit.jsx";
