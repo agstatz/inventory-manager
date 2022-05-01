@@ -104,3 +104,41 @@ class POSTStoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
         fields = ("store_id","store_address", "store_city", "store_country")
+
+class EmployeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = (
+            "id",
+            "employee_id",
+	        "department_id", 
+	        "first_name", 
+            "last_name" ,
+	        "email" ,
+            "address",
+            "phone", 
+            "job_title", 
+            "salary" 
+        )
+
+class POSTEmployeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = (
+            "id",
+            "employee_id",
+	        "department_id", 
+	        "first_name", 
+            "last_name" ,
+	        "email" ,
+            "address",
+            "phone", 
+            "job_title", 
+            "salary" 
+        )
+        
+        
+        
+
+        
+        
