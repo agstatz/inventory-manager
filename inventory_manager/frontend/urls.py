@@ -9,6 +9,7 @@ urlpatterns = [
     path("login/", index),
     # customer related paths
     path("customer/", index),
+    path("customer/create", index),
     path("customer/all", index),
     path("customer/search", index),
     # department related paths

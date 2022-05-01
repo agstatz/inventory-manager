@@ -313,8 +313,8 @@ export default class CustomerAll extends Component {
                                     customers={this.state.filtered_customers}
                                     filter={this.state.filter}
                                 />
-                                <Link to='/'>
-                                    <Button>Back to Home</Button>
+                                <Link to='/customer/'>
+                                    <Button>Cancel</Button>
                                 </Link>
                             </Stack>
                         </Box>

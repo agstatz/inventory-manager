@@ -46,6 +46,9 @@ export default class Customer extends Component {
                                 spacing={3}
                             >
                                 <Heading>Customer</Heading>
+                                <Link to='/customer/create'>
+                                    <Button>Add Customers</Button>
+                                </Link>
                                 <Link to='/customer/search'>
                                     <Button>Search Customers</Button>
                                 </Link>

@@ -12,6 +12,8 @@ import {
     AlertIcon,
     HStack,
     Input,
+    InputGroup,
+    InputLeftElement,
 } from '@chakra-ui/react';
 import { Navbar } from '../components';
 import { Link } from 'react-router-dom';
@@ -245,15 +247,24 @@ export default class ItemCreate extends Component {
                                     <FormLabel htmlFor='item_price'>
                                         Price
                                     </FormLabel>
-                                    <Input
-                                        id='item_price'
-                                        placeholder='$10.00'
-                                        variant='outline'
-                                        bg='white'
-                                        my='auto'
-                                        focusBorderColor='brand.200'
-                                        onChange={this.handlePriceChange}
-                                    />
+                                    <InputGroup>
+                                        <InputLeftElement
+                                            pointerEvents='none'
+                                            color='gray.300'
+                                            fontSize='1.2em'
+                                            children='$'
+                                        />
+                                        <Input
+                                            id='item_price'
+                                            placeholder='10.00'
+                                            variant='outline'
+                                            bg='white'
+                                            my='auto'
+                                            focusBorderColor='brand.200'
+                                            onChange={this.handlePriceChange}
+                                        />
+                                    </InputGroup>
+
                                     <FormErrorMessage>
                                         Price is required.
                                     </FormErrorMessage>

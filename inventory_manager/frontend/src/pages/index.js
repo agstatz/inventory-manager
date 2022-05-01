@@ -9,6 +9,7 @@ export { default as DepartmentEdit } from "./DepartmentEdit.jsx";
 export { default as Customer } from "./Customer.jsx";
 export { default as CustomerAll } from "./CustomerAll.jsx";
 export { default as CustomerSearch } from "./CustomerSearch.jsx";
+export { default as CustomerCreate } from "./CustomerCreate.jsx";
 
 export { default as Coupon} from "./Coupon.jsx";
 export { default as CouponCreate} from "./CouponCreate.jsx";

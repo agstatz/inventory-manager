@@ -45,14 +45,11 @@ export default class CustomerSearch extends Component {
                                 align='center'
                                 spacing={3}
                             >
-                                <Heading>Customer</Heading>
-                                <Link to='/customer/search'>
-                                    <Button>Search Customers</Button>
-                                </Link>
-                                <Link to='/customer/all'>
-                                    <Button>View All Customers</Button>
-                                </Link>
+                                <Heading>Search Customers</Heading>
                             </Stack>
+                            <Link to='/customer/'>
+                                <Button type='cancel'>Cancel</Button>
+                            </Link>
                         </Box>
                     </Center>
                 </Box>

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.apps import apps 
 from rest_framework import generics, status
 from .serializers import (
     DepartmentSerializer,
@@ -41,6 +42,12 @@ class CustomerView(generics.CreateAPIView):
 class GETCustomerView(APIView):
     serializer_class = CustomerSerializer
     lookup_url_kwarg = "customer_id"
+    print("hereeee")
+
+    
+    for results in Customer.objects.raw("SELECT * FROM api_customer"):
+        print(results.first_name + ' ' + results.last_name)
+
 
     def get(self, request, format=None):
         cust_id = request.GET.get(self.lookup_url_kwarg)
@@ -71,6 +78,8 @@ class POSTCustomerView(APIView):
             cust = None
 
         serializer = self.serializer_class(cust, data=request.data)
+        print(serializer.is_valid())
+        print(serializer.errors)
         if serializer.is_valid():
             new_customer_id = request.data["customer_id"]
             new_first_name = request.data["first_name"]
