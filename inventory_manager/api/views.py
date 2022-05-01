@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.apps import apps 
+from django.core import serializers
 from rest_framework import generics, status
 from .serializers import (
     DepartmentSerializer,
@@ -38,11 +39,27 @@ class CustomerView(generics.CreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
+# Searches Customers using Prepared statements
+class GETSEARCHCustomerView(APIView):
+    serializer_class = CustomerSerializer
+    lookup_url_kwarg = "first_name"
+
+    def get(self, request, format=None):
+        cust_fname = request.GET.get(self.lookup_url_kwarg)
+
+        query = F"SELECT * FROM api_customer WHERE first_name LIKE '%{cust_fname}%'"
+        data = serializers.serialize('json', Customer.objects.raw(query))
+        if (data):
+            return Response(data, status=status.HTTP_200_OK)
+    
+        return Response(
+                    {"Bad Request": "Invalid Customer ID."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
 
 class GETCustomerView(APIView):
     serializer_class = CustomerSerializer
     lookup_url_kwarg = "customer_id"
-    print("hereeee")
 
     
     #for results in Customer.objects.raw("SELECT * FROM api_customer"):

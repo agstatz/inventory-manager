@@ -7,7 +7,7 @@ import { Home, NoMatch, Inventory, Department, DepartmentCreate,
         ItemCategory, ItemCategoryCreate, ItemCategorySearch, ItemCategoryEdit, ItemCategoryAll,
         Transaction, TransactionCreate, Store, StoreCreate, StoreEdit, StoreSearch, 
         StoreAll,  } from "../pages/";
-import { extendTheme, ChakraProvider } from '@chakra-ui/react'
+import { extendTheme, ChakraProvider, Box } from '@chakra-ui/react'
 
 export default class App extends Component {
     constructor(props) {
@@ -15,37 +15,42 @@ export default class App extends Component {
     }
 
     render() {
-        return(<BrowserRouter>
-            <Routes>
-                <Route index path="/" element={<Home />} />
-                <Route exact path="/inventory" element={<Inventory />} />
-                <Route exact path="/department" element={<Department />} />
-                <Route exact path="/department/create" element={<DepartmentCreate />} />
-                <Route exact path="/department/edit" element={<DepartmentEdit />} />
-                <Route exact path="/customer" element={<Customer />} />
-                <Route exact path="/customer/create" element={<CustomerCreate />} />
-                <Route exact path="/customer/all" element={<CustomerAll />} />
-                <Route exact path="/customer/search" element={<CustomerSearch />} />
-                <Route exact path="/coupon" element={<Coupon />} />
-                <Route exact path="/coupon/create" element={<CouponCreate />} />
-                <Route exact path="/coupon/edit" element={<CouponEdit />} />
-                <Route exact path="/item" element={<Item />} />
-                <Route exact path="/item/create" element={<ItemCreate />} />
-                <Route exact path="/itemcategory" element={<ItemCategory />} />
-                <Route exact path="/itemcategory/create" element={<ItemCategoryCreate />} />
-                <Route exact path="/itemcategory/search" element={<ItemCategorySearch />} />
-                <Route exact path="/itemcategory/edit" element={<ItemCategoryEdit />} />
-                <Route exact path="/itemcategory/all" element={<ItemCategoryAll />} />
-                <Route exact path="/transaction" element={<Transaction />}/>
-                <Route exact path="/transaction/create" element={<TransactionCreate />} />
-                <Route exact path="/store" element={<Store />} />
-                <Route exact path="/store/create" element={<StoreCreate />} />
-                <Route exact path="/store/edit" element={<StoreEdit />} />
-                <Route exact path="/store/search" element={<StoreSearch />} />
-                <Route exact path="/store/all" element={<StoreAll />} />
-                <Route path="*" element={<NoMatch />} />
-            </Routes>
-        </BrowserRouter>);
+        return(
+            <Box height='100%' width='100%' overflow="hidden">
+                <Box bg='brand.300' paddingBottom={'20%'} style={{overflow: 'hidden'}}>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route index path="/" element={<Home />} />
+                            <Route exact path="/inventory" element={<Inventory />} />
+                            <Route exact path="/department" element={<Department />} />
+                            <Route exact path="/department/create" element={<DepartmentCreate />} />
+                            <Route exact path="/department/edit" element={<DepartmentEdit />} />
+                            <Route exact path="/customer" element={<Customer />} />
+                            <Route exact path="/customer/create" element={<CustomerCreate />} />
+                            <Route exact path="/customer/all" element={<CustomerAll />} />
+                            <Route exact path="/customer/search" element={<CustomerSearch />} />
+                            <Route exact path="/coupon" element={<Coupon />} />
+                            <Route exact path="/coupon/create" element={<CouponCreate />} />
+                            <Route exact path="/coupon/edit" element={<CouponEdit />} />
+                            <Route exact path="/item" element={<Item />} />
+                            <Route exact path="/item/create" element={<ItemCreate />} />
+                            <Route exact path="/itemcategory" element={<ItemCategory />} />
+                            <Route exact path="/itemcategory/create" element={<ItemCategoryCreate />} />
+                            <Route exact path="/itemcategory/search" element={<ItemCategorySearch />} />
+                            <Route exact path="/itemcategory/edit" element={<ItemCategoryEdit />} />
+                            <Route exact path="/itemcategory/all" element={<ItemCategoryAll />} />
+                            <Route exact path="/transaction" element={<Transaction />}/>
+                            <Route exact path="/transaction/create" element={<TransactionCreate />} />
+                            <Route exact path="/store" element={<Store />} />
+                            <Route exact path="/store/create" element={<StoreCreate />} />
+                            <Route exact path="/store/edit" element={<StoreEdit />} />
+                            <Route exact path="/store/search" element={<StoreSearch />} />
+                            <Route exact path="/store/all" element={<StoreAll />} />
+                            <Route path="*" element={<NoMatch />} />
+                        </Routes>
+                    </BrowserRouter>
+                </Box>
+            </Box>);
     }
 }
 

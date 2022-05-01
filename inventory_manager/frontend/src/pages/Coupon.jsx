@@ -43,12 +43,7 @@ export default class Coupon extends Component {
         return (
             <>
                 <Navbar />
-                <Box
-                    width='100%'
-                    bg='brand.300'
-                    color='brand.600'
-                    height='100vh'
-                >
+                <Box width='100%' /*bg='brand.300'*/ color='brand.600'>
                     <Center>
                         <Box
                             bg='brand.500'

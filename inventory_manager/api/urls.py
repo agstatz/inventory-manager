@@ -11,6 +11,7 @@ from .views import (
 
     CustomerView,
     GETCustomerView,
+    GETSEARCHCustomerView,
     POSTCustomerView,
 
     ItemView,
@@ -38,6 +39,7 @@ urlpatterns = [
     # customer related url patterns for api
     path("customer", CustomerView.as_view()),
     path("get-customer", GETCustomerView.as_view()),
+    path("get-search-customer", GETSEARCHCustomerView.as_view()),
     path("post-customer", POSTCustomerView.as_view()),
     # department related url patterns for api
     path("department", DepartmentView.as_view()),
