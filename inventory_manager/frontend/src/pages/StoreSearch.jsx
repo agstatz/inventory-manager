@@ -46,10 +46,10 @@ export default class StoreSearch extends Component {
                                 spacing={3}
                             >
                                 <Heading>Store</Heading>
-                                <Link to='/customer/search'>
+                                <Link to='/store/search'>
                                     <Button>Search Stores</Button>
                                 </Link>
-                                <Link to='/customer/all'>
+                                <Link to='/store/all'>
                                     <Button>View All Stores</Button>
                                 </Link>
                             </Stack>

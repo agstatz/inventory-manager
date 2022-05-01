@@ -66,6 +66,9 @@ class POSTCustomerSerializer(serializers.ModelSerializer):
             "member",
         )
 
+
+
+#ITEMCATEGORY
 class ItemCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemCategory
@@ -76,6 +79,9 @@ class POSTItemCategorySerializer(serializers.ModelSerializer):
         model = ItemCategory
         fields = ("category_id","category_name")
 
+
+
+#TRANSACTION
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
@@ -86,6 +92,9 @@ class POSTTransactionSerializer(serializers.ModelSerializer):
         model = Transaction
         fields = ("transaction_id","transaction_date","total","customer_id","coupon_id","store_id","employee_id","items_id")
 
+
+
+#STORE
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store

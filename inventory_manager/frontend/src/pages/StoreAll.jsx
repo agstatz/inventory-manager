@@ -18,28 +18,28 @@ import { CheckIcon, SmallCloseIcon } from '@chakra-ui/icons';
 import { Navbar } from '../components';
 import { Link } from 'react-router-dom';
 
-class ItemCategoryTable extends Component {
+class StoreTable extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            itemCategories: undefined,
+            stores: undefined,
             filter: 'none',
         };
 
-        this.filterItemCategoryList = this.filterItemCategoryList.bind(this);
+        this.filterStoreList = this.filterStoreList.bind(this);
     }
 
     componentDidMount() {
         this.setState({
-            itemCategories: this.props.itemCategories,
+            stores: this.props.stores,
             filter: this.props.filter,
-            filtered_itemCategories: this.props.itemCategories,
+            filtered_stores: this.props.stores,
         });
     }
 
     // filters customer list on
-    filterItemCategoryList() {
+    filterStoreList() {
         //if (this.state.filter === 'none') {
         //     // change from no filter to only show members
         //     if (this.state.itemCategories === undefined) {
@@ -106,20 +106,20 @@ class ItemCategoryTable extends Component {
         //     memberTitle2.innerHTML = 'Member Status [non-members]';
         // } else {
         //     // change from only show non-members to show all
-        if (this.state.itemCategories === undefined) {
+        if (this.state.stores === undefined) {
             this.setState({
-                itemCategories: this.props.itemCategories,
+                stores: this.props.stores,
                 filter: this.props.filter,
             });
         }
 
         this.setState({
             filter: 'none',
-            filtered_itemCategories: this.state.itemCategories,
+            filtered_stores: this.state.stores,
         });
 
-        itemCategoryTitle1.innerHTML = 'Item Category [all]';
-        itemCategoryTitle2.innerHTML = 'Item Category [all]';
+        storeTitle1.innerHTML = 'Store [all]';
+        storeTitle2.innerHTML = 'Store [all]';
         return;
     }
 
@@ -129,12 +129,12 @@ class ItemCategoryTable extends Component {
                 <Thead>
                     <Tr>
                         <Th isNumeric>ID</Th>
-                        <Th>Item Category Name</Th>
+                        <Th>Store Name</Th>
                         <Th
-                            id='itemCategoryTitle1'
+                            id='storeTitle1'
                             isNumeric
                             cursor='pointer'
-                            onClick={this.filterItemCategoryList}
+                            onClick={this.filterStoreList}
                         >
                             {/* <Tooltip label='Filter on member status'>
                                 Member Status [all]
@@ -143,17 +143,17 @@ class ItemCategoryTable extends Component {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {this.state.filtered_itemCategories ? (
-                        this.state.filtered_itemCategories.map((categ) => (
-                            <Tr key={categ.category_id}>
+                    {this.state.filtered_stores ? (
+                        this.state.filtered_stores.map((stor) => (
+                            <Tr key={stor.store_id}>
                                 <Td isNumeric>
-                                    <Link to={`/itemCategory/${categ.category_id}`}>
-                                        {categ.category_id}
+                                    <Link to={`/store/${stor.store_id}`}>
+                                        {stor.store_id}
                                     </Link>
                                 </Td>
                                 <Td>
-                                    <Link to={`/itemCategory/${categ.category_id}`}>
-                                        {categ.category_name}
+                                    <Link to={`/store/${stor.store_id}`}>
+                                        {stor.store_name}
                                     </Link>
                                 </Td>
                                 {/* <Td isNumeric>
@@ -167,17 +167,17 @@ class ItemCategoryTable extends Component {
                                 </Td> */}
                             </Tr>
                         ))
-                    ) : this.props.itemCategories ? (
-                        this.props.itemCategories.map((categ) => (
-                            <Tr key={categ.category_id}>
+                    ) : this.props.stores ? (
+                        this.props.stores.map((stor) => (
+                            <Tr key={stor.store_id}>
                                 <Td isNumeric>
-                                    <Link to={`/itemCategory/${categ.category_id}`}>
-                                        {categ.category_id}
+                                    <Link to={`/store/${stor.store_id}`}>
+                                        {stor.store_id}
                                     </Link>
                                 </Td>
                                 <Td>
-                                    <Link to={`/itemCategory/${categ.category_id}`}>
-                                        {categ.category_name}
+                                    <Link to={`/store/${stor.store_id}`}>
+                                        {stor.store_name}
                                     </Link>
                                 </Td>
                                 {/* <Td isNumeric>
@@ -205,12 +205,12 @@ class ItemCategoryTable extends Component {
                 <Tfoot>
                     <Tr>
                         <Th isNumeric>ID</Th>
-                        <Th>Item Category</Th>
+                        <Th>Store Name</Th>
                         <Th
-                            id='itemCategoryTitle2'
+                            id='storeTitle2'
                             isNumeric
                             cursor='pointer'
-                            onClick={this.filterItemCategoryList}
+                            onClick={this.filterStoreList}
                         >
                             {/* <Tooltip label='Filter on member status'>
                                 Member Status [all]
@@ -223,28 +223,28 @@ class ItemCategoryTable extends Component {
     }
 }
 
-export default class ItemCategoryAll extends Component {
+export default class StoreAll extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            itemCategories: undefined,
-            filtered_itemCategories: undefined,
+            stores: undefined,
+            filtered_stores: undefined,
             filter: 'none',
         };
     }
 
     componentDidMount() {
-        this.getItemCategoryList();
+        this.getStoreList();
     }
 
-    getItemCategoryList() {
-        fetch('/api/get-itemCategory')
+    getStoreList() {
+        fetch('/api/get-store')
             .then((response) => response.json())
             .then((data) => {
                 this.setState({
-                    itemCategories: data,
-                    filtered_itemCategories: data,
+                    stores: data,
+                    filtered_stores: data,
                 });
             });
     }
@@ -273,9 +273,9 @@ export default class ItemCategoryAll extends Component {
                                 align='center'
                                 spacing={3}
                             >
-                                <Heading>All Item Categories</Heading>
-                                <ItemCategoryTable
-                                    itemCategories={this.state.filtered_itemCategories}
+                                <Heading>All Stores</Heading>
+                                <StoreTable
+                                    stores={this.state.filtered_stores}
                                     filter={this.state.filter}
                                 />
                                 <Link to='/'>

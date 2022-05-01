@@ -23,7 +23,12 @@ from .views import (
     TransactionView,
     PATCHTransactionView,
     POSTTransactionView,
-    CALCTransactionView
+    CALCTransactionView,
+
+    StoreView,
+    GETStoreView,
+    POSTStoreView,
+    DELETEStoreView
 
 )
 
@@ -47,10 +52,18 @@ urlpatterns = [
     # item-category related url patterns for api
     path("itemcategory", ItemCategoryView.as_view()),
     path("get-itemcategory", GETItemCategoryView.as_view()),
-    #path("post-category", ItemCategoryView.as_view()),
+    path("post-category", ItemCategoryView.as_view()),
+    
     #transaction related
     path("transaction",TransactionView.as_view()),
     path("patch-transaction",PATCHTransactionView.as_view()),
     path("post-transaction",POSTTransactionView.as_view()),
-    path("get-calc",CALCTransactionView.as_view())
+    path("get-calc",CALCTransactionView.as_view()),
+
+    # Store related url patterns for api
+    path("store", StoreView.as_view()),
+    path("get-store", GETStoreView.as_view()),
+    path("post-store", POSTStoreView.as_view()),
+    path("delete-store", DELETEStoreView.as_view())
+
 ]

@@ -14,12 +14,16 @@ from .serializers import (
     POSTItemSerializer,
 
     ItemCategorySerializer,
+    POSTItemCategorySerializer,
 
     TransactionSerializer,
-    POSTTransactionSerializer
+    POSTTransactionSerializer,
+
+    StoreSerializer,
+    POSTStoreSerializer
 
 )
-from .models import Department, Customer,Coupon, ItemCategory, Item, Transaction
+from .models import Department, Customer,Coupon, ItemCategory, Item, Transaction, Store
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -402,9 +406,9 @@ class GETItemCategoryView(APIView):
     def get(self,request,format = None):
         category_id = request.GET.get(self.lookup_url_kwarg)
         if category_id != None:
-            itemcategory = ItemCategory.objects.filter(category_id=category_id)
-            if len(itemcategory) > 0:
-                data = ItemCategorySerializer(itemcategory[0]).data
+            itemCategory = ItemCategory.objects.filter(category_id=category_id)
+            if len(itemCategory) > 0:
+                data = ItemCategorySerializer(itemCategory[0]).data
                 return Response(data,status=status.HTTP_200_OK)
             return Response(
                 {"Bad Request": "Invalid Category ID."},
@@ -413,6 +417,41 @@ class GETItemCategoryView(APIView):
         else:
             categ = ItemCategorySerializer(ItemCategory.objects.all(), many=True).data
             return Response(categ, status=status.HTTP_200_OK)
+
+class POSTItemCategoryView(APIView):
+    serializer_class = POSTItemCategorySerializer
+
+    def post(self, request, format=None):
+
+        categ_id = request.data["category_id"]
+        categ = ItemCategory.objects.get(category_id=categ_id)
+
+        serializer = self.serializer_class(categ, data=request.data)
+        if serializer.is_valid():
+            new_category_id = request.data["category_id"]
+            new_category_name = request.data["category_name"]
+
+            queryset = ItemCategory.objects.filter(category_id=new_category_id)
+
+            if queryset.exists():
+                categ = queryset[0]
+                categ.category_name = new_category_name
+                categ.category_id = new_category_id
+                categ.save(update_fields=["category_name", "category_id"])
+            else:
+                # create a new item category here
+                categ = ItemCategory(
+                    category_id=new_category_id, category_name=new_category_name
+                )
+                categ.save()
+
+            return Response(
+                POSTItemCategorySerializer(categ).data, status=status.HTTP_201_CREATED
+            )
+
+        return Response(
+            {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
+        )
 
 #
 # Begin TRANSACTION Views
@@ -540,4 +579,97 @@ class CALCTransactionView(APIView):
 
 #
 # End TRANSACTION Views
+#
+
+#
+# Begin STORE Views
+#
+
+class StoreView(generics.CreateAPIView):
+    queryset = Store.objects.all()
+    serializer_class = StoreSerializer
+
+
+class GETStoreView(APIView):
+    serializer_class = StoreSerializer
+    lookup_url_kwarg = "store_id"
+
+    def get(self, request, format=None):
+        stor_id = request.GET.get(self.lookup_url_kwarg)
+        if stor_id != None:
+            stor = Store.objects.filter(store_id=stor_id)
+            if len(stor) > 0:
+                data = StoreSerializer(stor[0]).data
+                return Response(data, status=status.HTTP_200_OK)
+            return Response(
+                {"Bad Request": "Invalid Store ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        else:
+            stor = StoreSerializer(Store.objects.all(), many=True).data
+            return Response(stor, status=status.HTTP_200_OK)
+
+
+class POSTStoreView(APIView):
+    serializer_class = POSTStoreSerializer
+
+    def post(self, request, format=None):
+
+        stor_id = request.data["store_id"]
+        stor = Store.objects.get(store_id=stor_id)
+
+        serializer = self.serializer_class(stor, data=request.data)
+        if serializer.is_valid():
+            new_store_id = request.data["store_id"]
+            new_store_name = request.data["store_name"]
+
+            queryset = Store.objects.filter(store_id=new_store_id)
+
+            if queryset.exists():
+                stor = queryset[0]
+                stor.store_name = new_store_name
+                stor.store_id = new_store_id
+                stor.save(update_fields=["store_name", "store_id"])
+            else:
+                # create a new store here
+                stor = Store(
+                    store_id=new_store_id, store_name=new_store_name
+                )
+                stor.save()
+
+            return Response(
+                POSTStoreSerializer(stor).data, status=status.HTTP_201_CREATED
+            )
+
+        return Response(
+            {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+class DELETEStoreView(APIView):
+    serializer_class = StoreSerializer
+    lookup_url_kwarg = "store_id"
+
+    def delete(self, request, format=None):
+        stor_id = request.data["store_id"]
+        stor = Store.objects.get(store_id=stor_id)
+
+        if stor_id != None:
+            if Store.objects.filter(store_id=stor_id).exists():
+                stor.delete()
+                return Response(
+                    {"Store deleted"}, status=status.HTTP_204_NO_CONTENT
+                )
+            return Response(
+                {"Bad Request": "Invalid Store ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        else:
+            return Response(
+                {"Bad Request": "Invalid Store ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+#
+# End STORE Views
 #

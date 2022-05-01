@@ -33,14 +33,14 @@ export default class App extends Component {
                 <Route exact path="/itemcategory" element={<ItemCategory />} />
                 <Route exact path="/itemcategory/create" element={<ItemCategoryCreate />} />
                 <Route exact path="/itemcategory/search" element={<ItemCategorySearch />} />
-                <Route exact path="/itemcategory/all" element={<ItemCategorySearch />} />
+                <Route exact path="/itemcategory/all" element={<ItemCategoryAll />} />
                 <Route exact path= "/transaction" element={<Transaction />}/>
                 <Route exact path="/transaction/create" element={<TransactionCreate />} />
                 <Route exact path="/store" element={<Store />} />
                 <Route exact path="/store/create" element={<StoreCreate />} />
                 <Route exact path="/store/edit" element={<StoreEdit />} />
                 <Route exact path="/store/search" element={<StoreSearch />} />
-                <Route exact path="/store/all" element={<ItemCategorySearch />} />
+                <Route exact path="/store/all" element={<StoreAll />} />
                 <Route path="*" element={<NoMatch />} />
             </Routes>
         </BrowserRouter>);
