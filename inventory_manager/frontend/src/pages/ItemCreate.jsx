@@ -15,6 +15,7 @@ import {
     Input,
     InputGroup,
     InputLeftElement,
+    Select
 } from '@chakra-ui/react';
 import { Navbar } from '../components';
 import { Link } from 'react-router-dom';
@@ -25,15 +26,20 @@ export default class ItemCreate extends Component {
         this.state = {
             item_id: '',
             id_err: false,
-            item_name: '',
+            name: '',
             name_err: false,
-            item_quantity: '',
+            quantity: '',
             quantity_err: false,
-            item_price: '',
+            price: '',
             price_err: false,
 
-            item_category: '',
+            categories: null,
+            category_id: '',
             category_err: false,
+
+            stores: null,
+            store_id: '',
+            store_err: false,
 
             success: false,
             failure: '',
@@ -44,6 +50,7 @@ export default class ItemCreate extends Component {
         this.handleQuantityChange = this.handleQuantityChange.bind(this);
         this.handlePriceChange = this.handlePriceChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
+        this.handleStoreChange = this.handleStoreChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.getItemCategoryLit = this.getItemCategoryList.bind(this);
     }
@@ -62,6 +69,31 @@ export default class ItemCreate extends Component {
             });
     }
 
+    componentDidMount() {
+        this.getLists();
+    }
+
+    getLists() {
+        fetch('/api/get-itemcategory')
+            .then((response) => response.json())
+            .then((data) => {
+                const null_category = {category_id: 'No item categories'}
+                data.unshift(null_category);
+                this.setState({
+                    categories: data,
+                });
+            });
+
+        fetch("/api/get-store")
+            .then((response)=>response.json())
+            .then((data)=>{
+                this.setState({
+                    stores:data
+                })
+            })
+
+    }
+
     handleIDChange(e) {
         this.setState({
             item_id: e.target.value,
@@ -73,7 +105,7 @@ export default class ItemCreate extends Component {
 
     handleNameChange(e) {
         this.setState({
-            item_name: e.target.value,
+            name: e.target.value,
             name_err: false,
             success: false,
             failure: '',
@@ -82,7 +114,7 @@ export default class ItemCreate extends Component {
 
     handleQuantityChange(e) {
         this.setState({
-            item_quantity: e.target.value,
+            quantity: e.target.value,
             quantity_err: false,
             success: false,
             failure: '',
@@ -91,7 +123,7 @@ export default class ItemCreate extends Component {
 
     handlePriceChange(e) {
         this.setState({
-            item_price: e.target.value,
+            price: e.target.value,
             price_err: false,
             success: false,
             failure: '',
@@ -101,7 +133,7 @@ export default class ItemCreate extends Component {
     handleCategoryChange(e) {
         if (e.target.value === '') {
             this.setState({
-                item_category: e.target.value,
+                category_id: e.target.value,
                 category_err: false,
                 success: '',
                 failure: '',
@@ -110,11 +142,30 @@ export default class ItemCreate extends Component {
         }
 
         this.setState({
-            item_category: e.target.value,
+            category_id: e.target.value,
             category_err: false,
-            success: false,
+            success: '',
             failure: '',
         });
+    }
+
+    handleStoreChange(e){
+        if (e.target.value === '') {
+            this.setState({
+                store_id: e.target.value,
+                store_err: false,
+                success: '',
+                failure: '',
+            });
+            return;
+        }
+
+        this.setState({
+            store_id: e.target.value,
+            store_err: false,
+            success: '',
+            failure: '',
+        })
     }
 
     handleSubmit() {
@@ -126,28 +177,28 @@ export default class ItemCreate extends Component {
             isError = true;
         }
 
-        if (this.state.item_name.length == 0) {
+        if (this.state.name.length == 0) {
             this.setState({
                 name_err: true,
             });
             isError = true;
         }
 
-        if (this.state.item_quantity <= 0) {
+        if (this.state.quantity <= 0) {
             this.setState({
                 quantity_err: true,
             });
             isError = true;
         }
 
-        if (this.state.item_price <= 0) {
+        if (this.state.price <= 0) {
             this.setState({
                 price_err: true,
             });
             isError = true;
         }
 
-        if (this.state.item_category.length == 0) {
+        if (this.state.category_id.length == 0) {
             this.setState({
                 category_err: true,
             });
@@ -163,10 +214,11 @@ export default class ItemCreate extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 item_id: this.state.item_id,
-                item_name: this.state.item_name,
-                item_quantity: this.state.item_quantity,
-                item_price: this.state.item_price,
-                item_category: this.state.item_category,
+                name: this.state.name,
+                quantity: this.state.quantity,
+                price: this.state.price,
+                category_id: this.state.category_id,
+                store_id: this.state.store_id,
             }),
         };
 
@@ -215,7 +267,7 @@ export default class ItemCreate extends Component {
                                 align='center'
                                 spacing={3}
                             >
-                                <Heading>Create Item</Heading>
+                                <Heading>Create Items</Heading>
                                 <FormControl isInvalid={this.state.id_err}>
                                     <FormLabel htmlFor='item_id'>
                                         Item ID
@@ -234,11 +286,11 @@ export default class ItemCreate extends Component {
                                     </FormErrorMessage>
                                 </FormControl>
                                 <FormControl isInvalid={this.state.name_err}>
-                                    <FormLabel htmlFor='item_name'>
+                                    <FormLabel htmlFor='name'>
                                         Item Name
                                     </FormLabel>
                                     <Input
-                                        id='item_name'
+                                        id='name'
                                         placeholder='Xbox 360'
                                         variant='outline'
                                         bg='white'
@@ -253,11 +305,11 @@ export default class ItemCreate extends Component {
                                 <FormControl
                                     isInvalid={this.state.quantity_err}
                                 >
-                                    <FormLabel htmlFor='item_quantity'>
+                                    <FormLabel htmlFor='quantity'>
                                         Quantity
                                     </FormLabel>
                                     <Input
-                                        id='item_quantity'
+                                        id='quantity'
                                         placeholder='10'
                                         variant='outline'
                                         bg='white'
@@ -270,7 +322,7 @@ export default class ItemCreate extends Component {
                                     </FormErrorMessage>
                                 </FormControl>
                                 <FormControl isInvalid={this.state.price_err}>
-                                    <FormLabel htmlFor='item_price'>
+                                    <FormLabel htmlFor='price'>
                                         Price
                                     </FormLabel>
                                     <InputGroup>
@@ -281,7 +333,7 @@ export default class ItemCreate extends Component {
                                             children='$'
                                         />
                                         <Input
-                                            id='item_price'
+                                            id='price'
                                             placeholder='10.00'
                                             variant='outline'
                                             bg='white'
@@ -295,28 +347,25 @@ export default class ItemCreate extends Component {
                                         Price is required.
                                     </FormErrorMessage>
                                 </FormControl>
-                                <FormControl
-                                    isInvalid={this.state.department_id_err}
-                                >
-                                    <FormLabel htmlFor='item_category'>
-                                        Category
+
+                                <FormControl isInvalid={this.state.category_err}>
+                                    <FormLabel htmlFor='category_id'>
+                                        Select item category
                                     </FormLabel>
                                     <Select
-                                        id='selected_item_category'
-                                        placeholder='Select Category'
+                                        id='category_id'
+                                        placeholder=""
                                         focusBorderColor='brand.200'
                                         variant='filled'
                                         my='auto'
                                         bg='white'
                                         onChange={this.handleCategoryChange}
                                     >
-                                        {this.state.itemcategories ? (
-                                            this.state.itemcategories.map(
+                                        {this.state.categories ? (
+                                            this.state.categories.map(
                                                 (category) => (
                                                     <option
-                                                        key={
-                                                            category.category_id
-                                                        }
+                                                        key={category.category_id}
                                                         value={
                                                             category.category_id
                                                         }
@@ -327,28 +376,44 @@ export default class ItemCreate extends Component {
                                             )
                                         ) : (
                                             <option value='empty'>
-                                                No Categories to display
+                                                No item categories to display
                                             </option>
                                         )}
                                     </Select>
                                 </FormControl>
-                                {/*<FormControl>
-                                    <FormLabel htmlFor='item_category'>
-                                        Category
+                                <FormControl isInvalid={this.state.store_err}>
+                                    <FormLabel htmlFor='store_id'>
+                                        Store
                                     </FormLabel>
-                                    <Input
-                                        id='item_category'
-                                        placeholder='Toys and Games'
-                                        variant='outline'
-                                        bg='white'
-                                        my='auto'
+                                    <Select
+                                        id='store_id'
+                                        placeholder='Select store'
                                         focusBorderColor='brand.200'
-                                        onChange={this.handleCategoryChange}
-                                    />
-                                    <FormErrorMessage>
-                                        Category is required.
-                                    </FormErrorMessage>
-                                        </FormControl>*/}
+                                        variant='filled'
+                                        my='auto'
+                                        bg='white'
+                                        onChange={this.handleStoreChange}
+                                    >
+                                        {this.state.stores ? (
+                                            this.state.stores.map(
+                                                (store) => (
+                                                    <option
+                                                        key={store.store_id}
+                                                        value={
+                                                            store.store_id
+                                                        }
+                                                    >
+                                                        {store.store_id}
+                                                    </option>
+                                                )
+                                            )
+                                        ) : (
+                                            <option value='empty'>
+                                                No stores available
+                                            </option>
+                                        )}
+                                    </Select>
+                                </FormControl>
 
                                 <HStack spacing={2} mt={2}>
                                     <Button

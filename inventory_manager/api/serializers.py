@@ -28,12 +28,12 @@ class POSTCouponSerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ("item_id","item_name", "item_quantity","item_price", "item_category",)
+        fields = ("item_id","name", "quantity","price", "category_id", "store_id")
 
 class POSTItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ("item_id","item_name", "item_quantity","item_price", "item_category",)
+        fields = ("item_id","name", "quantity","price", "category_id", "store_id")
 
 
 #CUSTOMER

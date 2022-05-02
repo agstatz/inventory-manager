@@ -68,27 +68,42 @@ export default class Item extends Component {
                                     <Thead>
                                         <Tr>
                                             <Th>Item ID</Th>
-                                            <Th>Item Name</Th>
-                                            <Th>Item Price</Th>
-                                            <Th>Item Quantity</Th>
-                                            <Th>Item Category</Th>
+                                            <Th>Name</Th>
+                                            <Th>Price</Th>
+                                            <Th>Quantity</Th>
+                                            <Th>Category</Th>
+                                            <Th>Store ID</Th>
                                         </Tr>
                                     </Thead>
                                     <Tbody>
                                         {this.state.items ? (
-                                            this.state.items.map((item) => (
-                                                <Tr key={item.item_id}>
-                                                    <Td>{item.item_id}</Td>
-                                                    <Td>{item.item_name}</Td>
-                                                    <Td>{item.item_price}</Td>
-                                                    <Td>
-                                                        {item.item_quantity}
-                                                    </Td>
-                                                    <Td>
-                                                        {item.item_category}
-                                                    </Td>
-                                                </Tr>
-                                            ))
+                                            this.state.items.map(
+                                                (item) => (
+                                                    <Tr
+                                                        key={item.item_id}
+                                                    >
+                                                        <Td>
+                                                            {item.item_id}
+                                                        </Td>
+                                                        <Td>
+                                                            {item.name}
+                                                        </Td>
+                                                        <Td>
+                                                            ${item.price}
+                                                        </Td>
+                                                        <Td>
+                                                            {item.quantity}
+                                                        </Td>
+                                                        <Td>
+                                                            {item.category_id}
+                                                        </Td>
+
+                                                        <Td>
+                                                            {item.store_id}
+                                                        </Td>
+                                                    </Tr>
+                                                )
+                                            )
                                         ) : (
                                             <Tr>
                                                 <Td>Loading...</Td>

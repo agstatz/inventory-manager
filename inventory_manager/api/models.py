@@ -30,10 +30,11 @@ class Coupon(models.Model):
 
 class Item(models.Model):
     item_id = models.CharField(unique=True, max_length=10)
-    item_name = models.CharField(max_length=40)
-    item_quantity = models.IntegerField()
-    item_price = models.DecimalField(max_digits=8,decimal_places=2)
-    item_category = models.CharField(max_length=40)
+    name = models.CharField(max_length=40)
+    quantity = models.IntegerField()
+    price = models.DecimalField(max_digits=8,decimal_places=2)
+    category_id = models.CharField(null=True,max_length=10)
+    store_id = models.CharField(null=True,max_length=10)
 
 class ItemCategory(models.Model):
     category_id = models.CharField(unique=True, max_length=10)

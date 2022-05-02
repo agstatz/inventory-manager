@@ -382,42 +382,41 @@ class POSTItemView(APIView):
         serializer = self.serialzer_class(item, data=request.data)
         if serializer.is_valid():
             new_item_id = request.data["item_id"]
-            new_item_name = request.data["item_name"]
-            new_item_price = request.data["item_price"]
-            new_item_quantity = request.data["item_quantity"]
-            new_item_category = request.data["item_category"]
-
+            new_item_name = request.data["name"]
+            new_item_price = request.data["price"]
+            new_item_quantity = request.data["quantity"]
+            new_item_category_id = request.data["category_id"]
+            new_item_store_id = request.data["store_id"]
 
             queryset = Item.objects.filter(item_id=new_item_id)
-
             if queryset.exists():
                 item = queryset[0]
-                item.item_name = new_item_name
-                item.item_price = new_item_price
-                item.item_quantity = new_item_quantity
-                item.item_category = new_item_category
-                item.item_id = new_item_id
+                item.name = new_item_name
+                item.price = new_item_price
+                item.quantity = new_item_quantity
+                item.category_id = new_item_category_id
+                item.store_id = new_item_store_id
                 item.save(
                     update_fields=[
-                        "item_name",
-                        "item_price",
-                        "item_quantity",
-                        "item_category",
-                        "item_id",
+                        "name",
+                        "price",
+                        "quantity",
+                        "category_id",
+                        "store_id",
                     ]
                 )
-
             else:
                 # create a new item here
                 item = Item(
                     item_id=new_item_id,
-                    item_name=new_item_name,
-                    item_price=new_item_price,
-                    item_quantity=new_item_quantity,
-                    item_category=new_item_category,
+                    name=new_item_name,
+                    price=new_item_price,
+                    quantity=new_item_quantity,
+                    category_id=new_item_category_id,
+                    store_id=new_item_store_id,
                 )
                 item.save()
-
+            
             return Response(
                 ItemSerializer(item).data, status=status.HTTP_201_CREATED
             )
@@ -425,6 +424,8 @@ class POSTItemView(APIView):
         return Response(
             {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
         )
+
+
 
 
 
