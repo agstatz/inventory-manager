@@ -69,6 +69,8 @@ export default class EmployeeEdit extends Component {
 
         this.getDepartmentList = this.getDepartmentList.bind(this);
         this.getEmployeeList = this.getEmployeeList.bind(this);
+
+        this.handleRemove = this.handleRemove.bind(this);
     }
 
     componentDidMount() {
@@ -83,6 +85,65 @@ export default class EmployeeEdit extends Component {
                 this.setState({
                     departments: data,
                 });
+            });
+    }
+
+    handleRemove() {
+        let isError = false;
+        if (this.state.employee_id.length == 0) {
+            this.setState({
+                id_err: true,
+            });
+            isError = true;
+        }
+
+        if (isError) {
+            return;
+        }
+
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+        };
+        fetch(
+            '/api/delete-employee?employee_id=' + this.state.employee_id,
+            requestOptions
+        )
+            .then((response) => response)
+            .then((data) => {
+                this.setState({
+                    employee_id: '',
+                    id_err: false,
+                    success: true,
+                    disabled: false,
+                    employee_department_id: '',
+                    department_id_err: false,
+                    employee_first_name: '',
+                    first_name_err: false,
+                    employee_last_name: '',
+                    last_name_err: false,
+                    employee_email: '',
+                    email_err: false,
+                    employee_address: '',
+                    address_err: false,
+                    employee_phone: '',
+                    phone_err: false,
+                    employee_job_title: '',
+                    job_title_err: false,
+                    employee_salary: '',
+                    salary_err: false,
+                    failure: '',
+                });
+
+                selected_employee_id.value = '';
+                department_id.value = '';
+                employee_first_name.value = '';
+                employee_last_name.value = '';
+                employee_email.value = '';
+                employee_address.value = '';
+                employee_phone.value = '';
+                employee_job_title.value = '';
+                employee_salary.value = '';
             });
     }
 
@@ -126,7 +187,6 @@ export default class EmployeeEdit extends Component {
 
         var currentEmployee;
         for (let i = 0; i < this.state.employees.length; i++) {
-            console.log(this.state.employees[i]);
             if (
                 this.state.employees[i].employee_id.toString() ===
                 e.target.value
@@ -170,8 +230,6 @@ export default class EmployeeEdit extends Component {
     }
 
     handleDepartmentIdChange(e) {
-        console.log(e);
-
         if (e.target.value === '') {
             this.setState({
                 employee_department_id: e.target.value,
@@ -225,7 +283,6 @@ export default class EmployeeEdit extends Component {
             failure: '',
         });
     }
-    employee_phone;
 
     handlePhoneChange(e) {
         this.setState({
@@ -253,6 +310,7 @@ export default class EmployeeEdit extends Component {
             failure: '',
         });
     }
+
     handleSubmit() {
         var isError = false;
         if (this.state.employee_id.length == 0) {
@@ -624,6 +682,12 @@ export default class EmployeeEdit extends Component {
                                         onClick={this.handleSubmit}
                                     >
                                         Submit
+                                    </Button>
+                                    <Button
+                                        type='submit'
+                                        onClick={this.handleRemove}
+                                    >
+                                        Remove
                                     </Button>
                                     <Link to='/employee/'>
                                         <Button type='cancel'>Cancel</Button>

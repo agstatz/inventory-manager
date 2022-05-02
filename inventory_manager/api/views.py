@@ -249,6 +249,10 @@ class DELETEDepartmentView(APIView):
 # End DEPARTMENT Views
 #
 
+#
+# Begin COUPON Views
+#
+
 class CouponView(generics.CreateAPIView):
     queryset = Coupon.objects.all()
     serializer_class = CouponSerializer
@@ -833,6 +837,30 @@ class POSTEmployeeView(APIView):
             {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
         )
 
+
+class DELETEEmployeeView(APIView):
+    serializer_class = EmployeeSerializer
+    lookup_url_kwarg = "employee_id"
+
+    def delete(self, request, format=None):
+        emp_id = request.GET.get(self.lookup_url_kwarg)
+        emp = Employee.objects.get(employee_id=emp_id)
+
+        if emp_id != None:
+            if Employee.objects.filter(employee_id=emp_id).exists():
+                emp.delete()
+                return Response(
+                    {"Employee deleted"}, status=status.HTTP_204_NO_CONTENT
+                )
+            return Response(
+                {"Bad Request": "Invalid Employee ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        else:
+            return Response(
+                {"Bad Request": "Invalid Employee ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
 #
 # End EMPLOYEE Views

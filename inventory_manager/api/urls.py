@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import (
+    DELETEEmployeeView,
     DepartmentView,
     
     POSTDepartmentView,
@@ -35,7 +36,8 @@ from .views import (
 
     EmployeeView,
     GETEmployeeView,
-    POSTEmployeeView
+    POSTEmployeeView,
+    DELETEEmployeeView,
 
 )
 
@@ -80,7 +82,8 @@ urlpatterns = [
     # Employee related url patterns for api
     path("employee",EmployeeView.as_view()),
     path("get-employee",GETEmployeeView.as_view()),
-    path("post-employee",POSTEmployeeView.as_view())
+    path("post-employee",POSTEmployeeView.as_view()),
+    path("delete-employee", DELETEEmployeeView.as_view())
     
 
 ]
