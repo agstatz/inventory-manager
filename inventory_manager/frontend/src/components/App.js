@@ -3,7 +3,7 @@ import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, NoMatch, Inventory, Department, DepartmentCreate,
         DepartmentEdit, Customer, CustomerCreate, CustomerAll, CustomerSearch,Coupon,
-        CouponCreate, CouponEdit, Item, ItemCreate,
+        CouponCreate, CouponEdit, Item, ItemCreate, ItemEdit,
         ItemCategory, ItemCategoryCreate, ItemCategorySearch, ItemCategoryEdit, ItemCategoryAll,
         Transaction, TransactionCreate, Store, StoreCreate, StoreEdit, StoreSearch, Employee,
         EmployeeAdd, EmployeeAll, EmployeeEdit,
@@ -35,6 +35,7 @@ export default class App extends Component {
                             <Route exact path="/coupon/edit" element={<CouponEdit />} />
                             <Route exact path="/item" element={<Item />} />
                             <Route exact path="/item/create" element={<ItemCreate />} />
+                            <Route exact path="/item/edit" element={<ItemEdit />} />
                             <Route exact path="/itemcategory" element={<ItemCategory />} />
                             <Route exact path="/itemcategory/create" element={<ItemCategoryCreate />} />
                             <Route exact path="/itemcategory/search" element={<ItemCategorySearch />} />

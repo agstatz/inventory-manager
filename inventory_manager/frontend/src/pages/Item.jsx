@@ -21,7 +21,7 @@ export default class Item extends Component {
         super(props);
 
         this.state = {
-            items: undefined,
+            items: [],
         };
     }
 
@@ -36,8 +36,11 @@ export default class Item extends Component {
                 this.setState({
                     items: data,
                 });
+
+                console.log(this.state)
             });
     }
+
 
     render() {
         return (
@@ -71,7 +74,25 @@ export default class Item extends Component {
                                             <Th>Name</Th>
                                             <Th>Price</Th>
                                             <Th>Quantity</Th>
-                                            <Th>Category</Th>
+                                            <Th
+                                            id='item_id_header'
+                                            cursor='pointer'
+                                            onClick={() => {
+                                                console.log('here')
+                                                this.setState({
+                                                    items: this.state.items.sort((a, b) => {
+                                                        if (a.category_id < b.category_id) {
+                                                            return -1;
+                                                        }
+                                                        if (a.category_id > b.category_id) {
+                                                            return 1;
+                                                        }
+                                                        return 0;
+                                                    }),
+                                                });
+                                                console.log(this.state.items)
+                                            }}
+                                            >Category</Th>
                                             <Th>Store ID</Th>
                                         </Tr>
                                     </Thead>

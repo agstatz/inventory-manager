@@ -60,6 +60,7 @@ urlpatterns = [
 
     path("get-item", GETItemView.as_view()),
     path('post-item', POSTItemView.as_view()),
+    path('edit-item', POSTItemView.as_view()),
 
     # item-category related url patterns for api
     path("itemcategory", ItemCategoryView.as_view()),
