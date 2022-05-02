@@ -68,10 +68,11 @@ export default class Item extends Component {
                                     <Thead>
                                         <Tr>
                                             <Th>Item ID</Th>
-                                            <Th>Item Name</Th>
-                                            <Th>Item Price</Th>
-                                            <Th>Item Quantity</Th>
-                                            <Th>Item Category</Th>
+                                            <Th>Name</Th>
+                                            <Th>Price</Th>
+                                            <Th>Quantity</Th>
+                                            <Th>Category</Th>
+                                            <Th>Store ID</Th>
                                         </Tr>
                                     </Thead>
                                     <Tbody>
@@ -85,16 +86,20 @@ export default class Item extends Component {
                                                             {item.item_id}
                                                         </Td>
                                                         <Td>
-                                                            {item.item_name}
+                                                            {item.name}
                                                         </Td>
                                                         <Td>
-                                                            {item.item_price}
+                                                            ${item.price}
                                                         </Td>
                                                         <Td>
-                                                            {item.item_quantity}
+                                                            {item.quantity}
                                                         </Td>
                                                         <Td>
-                                                            {item.item_category}
+                                                            {item.category_id}
+                                                        </Td>
+
+                                                        <Td>
+                                                            {item.store_id}
                                                         </Td>
                                                     </Tr>
                                                 )
