@@ -46,17 +46,20 @@ export default class Employee extends Component {
                                 spacing={3}
                             >
                                 <Heading>Employees</Heading>
-                                <Link to='/employee/add'>  
+                                <Link to='/employee/add'>
                                     <Button>Add Employee</Button>
                                 </Link>
-                                <Link to='/employee/all'>    
-                                    <Button>View All Employee</Button>
+                                <Link to='/employee/all'>
+                                    <Button>View All Employees</Button>
                                 </Link>
-                                <Link to='/employee/removeEmployee'> 
-                                    <Button>Remove Employee</Button>
+                                <Link to='/employee/search'>
+                                    <Button>Search Employees</Button>
                                 </Link>
-                                <Link to='/employee/removeEmployee'> 
-                                    <Button>Find Employee</Button>
+                                <Link to='/employee/edit'>
+                                    <Button>Edit Employee</Button>
+                                </Link>
+                                <Link to='/'>
+                                    <Button>Back to Home</Button>
                                 </Link>
                             </Stack>
                         </Box>

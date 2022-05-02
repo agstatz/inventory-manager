@@ -49,8 +49,14 @@ class GETSEARCHCustomerView(APIView):
 
     def get(self, request, format=None):
         cust_fname = request.GET.get(self.lookup_url_kwarg)
+        cust_lname = cust_fname
+        print(cust_fname)
+        if cust_fname.find(' ') != -1:
+            cust_lname = cust_fname[cust_fname.index(' ') + 1:]
+            cust_fname = cust_fname[0:cust_fname.index(' ')]
 
-        query = F"SELECT * FROM api_customer WHERE first_name LIKE '%{cust_fname}%'"
+
+        query = F"SELECT * FROM api_customer WHERE first_name LIKE '%{cust_fname}%' OR last_name LIKE '%{cust_lname}%'"
         data = serializers.serialize('json', Customer.objects.raw(query))
         if (data):
             return Response(data, status=status.HTTP_200_OK)
@@ -98,8 +104,6 @@ class POSTCustomerView(APIView):
             cust = None
 
         serializer = self.serializer_class(cust, data=request.data)
-        print(serializer.is_valid())
-        print(serializer.errors)
         if serializer.is_valid():
             new_customer_id = request.data["customer_id"]
             new_first_name = request.data["first_name"]
@@ -249,6 +253,10 @@ class DELETEDepartmentView(APIView):
     
 #
 # End DEPARTMENT Views
+#
+
+#
+# Begin COUPON Views
 #
 
 class CouponView(generics.CreateAPIView):
@@ -659,6 +667,24 @@ class GETStoreView(APIView):
             stor = StoreSerializer(Store.objects.all(), many=True).data
             return Response(stor, status=status.HTTP_200_OK)
 
+# Searches Store using Prepared statements
+class GETSEARCHStoreView(APIView):
+    serializer_class = StoreSerializer
+    lookup_url_kwarg = "store_address"
+
+    def get(self, request, format=None):
+        address = request.GET.get(self.lookup_url_kwarg)
+
+        query = F"SELECT * FROM api_store WHERE store_address LIKE '%{address}%'"
+        data = serializers.serialize('json', Store.objects.raw(query))
+        if (data):
+            return Response(data, status=status.HTTP_200_OK)
+    
+        return Response(
+                    {"Bad Request": "Invalid Query."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
 
 class POSTStoreView(APIView):
     serializer_class = POSTStoreSerializer
@@ -741,7 +767,6 @@ class EmployeeView(generics.CreateAPIView):
     serializer_class = EmployeeSerializer
 
 class GETEmployeeView(APIView):
-    print("hey there")
     serializer_class = EmployeeSerializer
     lookup_url_kwarg = "employee_id"
 
@@ -759,6 +784,30 @@ class GETEmployeeView(APIView):
         else:
             empl = EmployeeSerializer(Employee.objects.all(), many=True).data
             return Response(empl, status=status.HTTP_200_OK)
+
+# Searches Employees using Prepared statements
+class GETSEARCHEmployeeView(APIView):
+    serializer_class = EmployeeSerializer
+    lookup_url_kwarg = "first_name"
+
+    def get(self, request, format=None):
+        emp_fname = request.GET.get(self.lookup_url_kwarg)
+        emp_lname = emp_fname
+        print(emp_fname)
+        if emp_fname.find(' ') != -1:
+            emp_lname = emp_fname[emp_fname.index(' ') + 1:]
+            emp_fname = emp_fname[0:emp_fname.index(' ')]
+
+
+        query = F"SELECT * FROM api_employee WHERE first_name LIKE '%{emp_fname}%' OR last_name LIKE '%{emp_lname}%'"
+        data = serializers.serialize('json', Employee.objects.raw(query))
+        if (data):
+            return Response(data, status=status.HTTP_200_OK)
+    
+        return Response(
+                    {"Bad Request": "Bad Query"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
 
 class POSTEmployeeView(APIView):
     serializer_class = POSTEmployeeSerializer
@@ -820,6 +869,7 @@ class POSTEmployeeView(APIView):
                     employee_id=new_employee_id,
                     first_name=new_first_name,
                     last_name=new_last_name,
+                    department_id=new_department_id,
                     email=new_email,
                     address=new_address,
                     phone=new_phone,
@@ -836,6 +886,30 @@ class POSTEmployeeView(APIView):
             {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
         )
 
+
+class DELETEEmployeeView(APIView):
+    serializer_class = EmployeeSerializer
+    lookup_url_kwarg = "employee_id"
+
+    def delete(self, request, format=None):
+        emp_id = request.GET.get(self.lookup_url_kwarg)
+        emp = Employee.objects.get(employee_id=emp_id)
+
+        if emp_id != None:
+            if Employee.objects.filter(employee_id=emp_id).exists():
+                emp.delete()
+                return Response(
+                    {"Employee deleted"}, status=status.HTTP_204_NO_CONTENT
+                )
+            return Response(
+                {"Bad Request": "Invalid Employee ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        else:
+            return Response(
+                {"Bad Request": "Invalid Employee ID."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
 #
 # End EMPLOYEE Views

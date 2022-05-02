@@ -117,9 +117,10 @@ export default class Item extends Component {
                                     <Button>Add an item</Button>
                                 </Link>
                                 <Link to='/item/edit'>
-                                    <Button>
-                                        Modify an existing item
-                                    </Button>
+                                    <Button>Modify an existing item</Button>
+                                </Link>
+                                <Link to='/'>
+                                    <Button>Back to Home</Button>
                                 </Link>
                             </Stack>
                         </Box>

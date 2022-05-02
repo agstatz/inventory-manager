@@ -5,6 +5,7 @@ import {
     Box,
     Stack,
     Button,
+    Select,
     FormControl,
     FormLabel,
     FormErrorMessage,
@@ -47,7 +48,7 @@ export default class EmployeeAdd extends Component {
             job_title_err: false,
             employee_salary: '',
             salary_err: false,
-
+            departments: [],
             success: false,
             failure: '',
         };
@@ -65,6 +66,20 @@ export default class EmployeeAdd extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount() {
+        this.getDepartmentList();
+    }
+
+    getDepartmentList() {
+        fetch('/api/get-department')
+            .then((response) => response.json())
+            .then((data) => {
+                this.setState({
+                    departments: data,
+                });
+            });
+    }
+
     handleIDChange(e) {
         this.setState({
             employee_id: e.target.value,
@@ -75,6 +90,18 @@ export default class EmployeeAdd extends Component {
     }
 
     handleDepartmentIdChange(e) {
+        console.log(e);
+
+        if (e.target.value === '') {
+            this.setState({
+                employee_department_id: e.target.value,
+                department_id_err: false,
+                success: '',
+                failure: '',
+            });
+            return;
+        }
+
         this.setState({
             employee_department_id: e.target.value,
             department_id_err: false,
@@ -154,6 +181,7 @@ export default class EmployeeAdd extends Component {
             });
             isError = true;
         }
+        console.log(this.state);
         if (this.state.employee_department_id.length == 0) {
             this.setState({
                 department_id_err: true,
@@ -285,27 +313,47 @@ export default class EmployeeAdd extends Component {
                                             Employee ID is required.
                                         </FormErrorMessage>
                                     </FormControl>
+                                    {/* begin */}
                                     <FormControl
                                         isInvalid={this.state.department_id_err}
                                     >
-                                        <FormLabel htmlFor='employee_id'>
-                                            Employee department ID
+                                        <FormLabel htmlFor='selected_department_id'>
+                                            Department ID
                                         </FormLabel>
-                                        <Input
-                                            id='employee_id'
-                                            placeholder='MKTNG'
-                                            variant='outline'
-                                            bg='white'
-                                            my='auto'
+                                        <Select
+                                            id='selected_department_id'
+                                            placeholder='Select Department'
                                             focusBorderColor='brand.200'
+                                            variant='filled'
+                                            my='auto'
+                                            bg='white'
                                             onChange={
                                                 this.handleDepartmentIdChange
                                             }
-                                            maxLength={MAX_ID_LENGTH}
-                                        />
-                                        <FormErrorMessage>
-                                            Employee Dept ID is required.
-                                        </FormErrorMessage>
+                                        >
+                                            {this.state.departments ? (
+                                                this.state.departments.map(
+                                                    (department) => (
+                                                        <option
+                                                            key={
+                                                                department.department_id
+                                                            }
+                                                            value={
+                                                                department.department_id
+                                                            }
+                                                        >
+                                                            {
+                                                                department.department_id
+                                                            }
+                                                        </option>
+                                                    )
+                                                )
+                                            ) : (
+                                                <option value='empty'>
+                                                    No Departments to display
+                                                </option>
+                                            )}
+                                        </Select>
                                     </FormControl>
                                     <FormControl
                                         isInvalid={this.state.first_name_err}

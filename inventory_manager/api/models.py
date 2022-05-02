@@ -13,6 +13,7 @@ class Customer(models.Model):
     class Meta:
         indexes = [
             models.Index(fields=['first_name']),
+            models.Index(fields=['last_name']),
         ]
 
 
@@ -54,6 +55,11 @@ class Store(models.Model):
     store_address = models.CharField(max_length=40)
     store_city = models.CharField(null=True, max_length=40)
     store_country = models.CharField(null=True, max_length=40)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['store_address']),
+        ]
     
 class Employee(models.Model):
     employee_id = models.IntegerField(unique=True)
@@ -65,4 +71,11 @@ class Employee(models.Model):
     phone = models.CharField(max_length=10)
     job_title = models.CharField(max_length=20)
     salary = models.DecimalField(max_digits=11,decimal_places=2)  
+    store = models.CharField(max_length=10, null=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['first_name']),
+            models.Index(fields=['last_name']),
+        ]
     

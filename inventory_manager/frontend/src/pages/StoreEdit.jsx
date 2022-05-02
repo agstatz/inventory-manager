@@ -80,6 +80,7 @@ export default class StoreEdit extends Component {
         var stor_country;
         for (let i = 0; i < this.state.stores.length; i++) {
             if (this.state.stores[i].store_id === e.target.value) {
+                console.log(this.state.stores[i]);
                 stor_address = this.state.stores[i].store_address;
                 stor_city = this.state.stores[i].store_city;
                 stor_country = this.state.stores[i].store_country;
@@ -92,7 +93,7 @@ export default class StoreEdit extends Component {
         store_city.value = stor_city;
         store_country.value = stor_country;
 
-        store_city.value = this.setState({
+        this.setState({
             existing_stor_id: e.target.value,
             new_stor_id: e.target.value,
             store_address: stor_address,
