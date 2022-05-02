@@ -44,5 +44,6 @@ urlpatterns = [
     path("store/", index),
     path("store/search", index),
     path("store/create", index),
-    path("store/edit", index)
+    path("store/edit", index),
+    path("store/search", index),
 ]

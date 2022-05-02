@@ -117,6 +117,9 @@ export default class Store extends Component {
                                             Modify an existing store
                                         </Button>
                                     </Link>
+                                    <Link to='/store/search'>
+                                        <Button>Search Stores</Button>
+                                    </Link>
                                     <Link to='/'>
                                         <Button>Back to Home</Button>
                                     </Link>

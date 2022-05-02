@@ -49,8 +49,14 @@ class GETSEARCHCustomerView(APIView):
 
     def get(self, request, format=None):
         cust_fname = request.GET.get(self.lookup_url_kwarg)
+        cust_lname = cust_fname
+        print(cust_fname)
+        if cust_fname.find(' ') != -1:
+            cust_lname = cust_fname[cust_fname.index(' ') + 1:]
+            cust_fname = cust_fname[0:cust_fname.index(' ')]
 
-        query = F"SELECT * FROM api_customer WHERE first_name LIKE '%{cust_fname}%'"
+
+        query = F"SELECT * FROM api_customer WHERE first_name LIKE '%{cust_fname}%' OR last_name LIKE '%{cust_lname}%'"
         data = serializers.serialize('json', Customer.objects.raw(query))
         if (data):
             return Response(data, status=status.HTTP_200_OK)
@@ -659,6 +665,24 @@ class GETStoreView(APIView):
         else:
             stor = StoreSerializer(Store.objects.all(), many=True).data
             return Response(stor, status=status.HTTP_200_OK)
+
+# Searches Store using Prepared statements
+class GETSEARCHStoreView(APIView):
+    serializer_class = StoreSerializer
+    lookup_url_kwarg = "store_address"
+
+    def get(self, request, format=None):
+        address = request.GET.get(self.lookup_url_kwarg)
+
+        query = F"SELECT * FROM api_store WHERE store_address LIKE '%{address}%'"
+        data = serializers.serialize('json', Store.objects.raw(query))
+        if (data):
+            return Response(data, status=status.HTTP_200_OK)
+    
+        return Response(
+                    {"Bad Request": "Invalid Query."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
 
 
 class POSTStoreView(APIView):

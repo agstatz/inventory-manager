@@ -31,6 +31,7 @@ from .views import (
 
     StoreView,
     GETStoreView,
+    GETSEARCHStoreView,
     POSTStoreView,
     DELETEStoreView,
 
@@ -78,6 +79,7 @@ urlpatterns = [
     path("get-store", GETStoreView.as_view()),
     path("post-store", POSTStoreView.as_view()),
     path("delete-store", DELETEStoreView.as_view()),
+    path("get-search-store", GETSEARCHStoreView.as_view()),
     
     # Employee related url patterns for api
     path("employee",EmployeeView.as_view()),

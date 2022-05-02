@@ -63,34 +63,6 @@ export default class CustomerSearch extends Component {
             isError = true;
         }
 
-        /*if (this.state.customer_lname.length == 0) {
-            this.setState({
-                lname_err: true,
-            });
-            isError = true;
-        }
-
-        if (this.state.customer_email.length == 0) {
-            this.setState({
-                email_err: true,
-            });
-            isError = true;
-        }
-
-        if (this.state.customer_address.length == 0) {
-            this.setState({
-                address_err: true,
-            });
-            isError = true;
-        }
-
-        if (this.state.customer_phone.length == 0) {
-            this.setState({
-                phone_err: true,
-            });
-            isError = true;
-        }*/
-
         if (isError) {
             return;
         }
@@ -106,7 +78,20 @@ export default class CustomerSearch extends Component {
             .then((response) => response.json())
             .then((data) => {
                 data = JSON.parse(data);
+                if (!data[0]) {
+                    this.setState({
+                        customers: [],
+                    });
+                    return;
+                }
                 if (data[0].fields) {
+                    console.log(data);
+                    if (data.length === 0) {
+                        this.setState({
+                            customers: [],
+                        });
+                    }
+
                     let list = [];
                     for (let i = 0; i < data.length; i++) {
                         list.push(data[i].fields);
@@ -118,6 +103,7 @@ export default class CustomerSearch extends Component {
                     });
                 } else {
                     this.setState({
+                        customers: [],
                         failure: 'An error occurred.',
                     });
                 }
@@ -155,7 +141,7 @@ export default class CustomerSearch extends Component {
                                     >
                                         <Input
                                             id='customer_name'
-                                            placeholder='Search Customer First Name'
+                                            placeholder='Search Customer By Name'
                                             variant='outline'
                                             bg='white'
                                             focusBorderColor='brand.200'
@@ -163,7 +149,7 @@ export default class CustomerSearch extends Component {
                                             maxLength={MAX_NAME_LENGTH}
                                         />
                                         <FormErrorMessage>
-                                            Customer First Name is required.
+                                            Customer Name is required.
                                         </FormErrorMessage>
                                     </FormControl>
                                     <Button
