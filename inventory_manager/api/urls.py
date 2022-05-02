@@ -77,6 +77,7 @@ urlpatterns = [
     path("post-store", POSTStoreView.as_view()),
     path("delete-store", DELETEStoreView.as_view()),
     
+    # Employee related url patterns for api
     path("employee",EmployeeView.as_view()),
     path("get-employee",GETEmployeeView.as_view()),
     path("post-employee",POSTEmployeeView.as_view())

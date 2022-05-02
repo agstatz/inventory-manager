@@ -740,6 +740,7 @@ class EmployeeView(generics.CreateAPIView):
     serializer_class = EmployeeSerializer
 
 class GETEmployeeView(APIView):
+    print("hey there")
     serializer_class = EmployeeSerializer
     lookup_url_kwarg = "employee_id"
 
@@ -762,19 +763,24 @@ class POSTEmployeeView(APIView):
     serializer_class = POSTEmployeeSerializer
 
     def post(self, request, format=None):
-
+        
         empl_id = request.data["employee_id"]
         empl = None
+
+        print(request.data["department_id"])
+
         try:
             empl = Employee.objects.get(employee_id=empl_id)
         except:
             empl = None
 
         serializer = self.serializer_class(empl, data=request.data)
+
         if serializer.is_valid():
             new_employee_id = request.data["employee_id"]
             new_first_name = request.data["first_name"]
             new_last_name = request.data["last_name"]
+            new_department_id = request.data["department_id"]
             new_email = request.data["email"]
             new_address = request.data["address"]
             new_phone = request.data["phone"]
@@ -788,6 +794,7 @@ class POSTEmployeeView(APIView):
                 empl.employee_id = new_employee_id
                 empl.first_name = new_first_name
                 empl.last_name = new_last_name
+                empl.department_id = new_department_id
                 empl.email = new_email
                 empl.address = new_address
                 empl.phone = new_phone
@@ -796,6 +803,7 @@ class POSTEmployeeView(APIView):
                 empl.save(
                     update_fields=[
                         "employee_id",
+                        "department_id",
                         "first_name",
                         "last_name",
                         "email",

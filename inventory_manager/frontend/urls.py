@@ -34,6 +34,11 @@ urlpatterns = [
     path("transaction/", index),
     path("transaction/create",index),
 
+     # employee related paths
+    path("employee/", index),
+    path("employee/all", index),
+    path("employee/add", index),
+
     # store related paths
     path("store/", index),
     path("store/search", index),

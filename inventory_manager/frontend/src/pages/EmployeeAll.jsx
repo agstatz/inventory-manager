@@ -24,22 +24,22 @@ class EmployeeTable extends Component {
 
         this.state = {
             employee: undefined,
-    
         };
-    }    
-  
+
+        this.getEmployeeList = this.getEmployeeList.bind(this);
+    }
+
     componentDidMount() {
-        
         this.getEmployeeList();
-   
     }
 
     // filters customer list on
-   
+
     getEmployeeList() {
         fetch('/api/get-employee')
             .then((response) => response.json())
             .then((data) => {
+                console.log(data);
                 this.setState({
                     employee: data,
                 });
@@ -47,7 +47,7 @@ class EmployeeTable extends Component {
     }
     render() {
         return (
-            <Table size='md'>
+            <Table size='sm'>
                 <Thead>
                     <Tr>
                         <Th isNumeric>ID</Th>
@@ -109,7 +109,7 @@ class EmployeeTable extends Component {
                     ) : this.props.employee ? (
                         this.props.employee.map((empl) => (
                             <Tr key={empl.employee_id}>
-                                                               <Td isNumeric>
+                                <Td isNumeric>
                                     <Link to={`/employee/${empl.employee_id}`}>
                                         {empl.employee_id}
                                     </Link>
@@ -185,19 +185,15 @@ export default class EmployeeAll extends Component {
 
         this.state = {
             employee: undefined,
-
         };
     }
 
-
     componentDidMount() {
-        
         this.getEmployeeList();
-   
     }
 
     // filters customer list on
-   
+
     getEmployeeList() {
         fetch('/api/get-employee')
             .then((response) => response.json())
@@ -231,13 +227,10 @@ export default class EmployeeAll extends Component {
                                 align='center'
                                 spacing={3}
                             >
-                                <Heading>All Employee</Heading>
-                                <EmployeeTable
-                                    employee={this.state.employee}
-                                 
-                                />
-                                <Link to='/'>
-                                    <Button>Back to Home</Button>
+                                <Heading>All Employees</Heading>
+                                <EmployeeTable employee={this.state.employee} />
+                                <Link to='/employee'>
+                                    <Button>Cancel</Button>
                                 </Link>
                             </Stack>
                         </Box>
