@@ -784,6 +784,30 @@ class GETEmployeeView(APIView):
             empl = EmployeeSerializer(Employee.objects.all(), many=True).data
             return Response(empl, status=status.HTTP_200_OK)
 
+# Searches Employees using Prepared statements
+class GETSEARCHEmployeeView(APIView):
+    serializer_class = EmployeeSerializer
+    lookup_url_kwarg = "first_name"
+
+    def get(self, request, format=None):
+        emp_fname = request.GET.get(self.lookup_url_kwarg)
+        emp_lname = emp_fname
+        print(emp_fname)
+        if emp_fname.find(' ') != -1:
+            emp_lname = emp_fname[emp_fname.index(' ') + 1:]
+            emp_fname = emp_fname[0:emp_fname.index(' ')]
+
+
+        query = F"SELECT * FROM api_employee WHERE first_name LIKE '%{emp_fname}%' OR last_name LIKE '%{emp_lname}%'"
+        data = serializers.serialize('json', Employee.objects.raw(query))
+        if (data):
+            return Response(data, status=status.HTTP_200_OK)
+    
+        return Response(
+                    {"Bad Request": "Bad Query"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
 class POSTEmployeeView(APIView):
     serializer_class = POSTEmployeeSerializer
 

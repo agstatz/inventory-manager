@@ -37,3 +37,4 @@ export {default as Employee } from "./Employee.jsx";
 export {default as EmployeeAdd } from "./EmployeeAdd.jsx";
 export {default as EmployeeAll } from "./EmployeeAll.jsx";
 export {default as EmployeeEdit } from "./EmployeeEdit.jsx";
+export {default as EmployeeSearch } from "./EmployeeSearch.jsx";
