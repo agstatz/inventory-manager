@@ -63,7 +63,7 @@ class EmployeeTable extends Component {
                 <Tbody>
                     {this.state.employee ? (
                         this.state.employee.map((empl) => (
-                            <Tr key={empl.employee}>
+                            <Tr key={empl.employee_id}>
                                 <Td isNumeric>
                                     <Link to={`/employee/${empl.employee_id}`}>
                                         {empl.employee_id}
