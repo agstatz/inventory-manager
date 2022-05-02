@@ -15,7 +15,6 @@ import {
     Select,
 } from '@chakra-ui/react';
 import { Navbar } from '../components';
-import { Link } from 'react-router-dom';
 
 export default class TransactionCreate extends Component {
     constructor(props) {
@@ -58,6 +57,7 @@ export default class TransactionCreate extends Component {
         this.handleCouponChange = this.handleCouponChange.bind(this);
         this.handleTotalChange = this.handleTotalChange.bind(this);
         this.handleTransactionDateChange = this.handleTransactionDateChange.bind(this);
+        this.handleCustomerChange = this.handleCustomerChange.bind(this)
         this.handleStoreChange = this.handleStoreChange.bind(this)
         this.handleEmployeeChange = this.handleEmployeeChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -88,7 +88,7 @@ export default class TransactionCreate extends Component {
             })
         
         // Add when store implemented
-        /*
+        
         fetch("/api/get-store")
             .then((response)=>response.json())
             .then((data)=>{
@@ -96,9 +96,9 @@ export default class TransactionCreate extends Component {
                     stores:data
                 })
             })
-        */
+        
        // Add when get employees implemented
-        /*
+        
         fetch("/api/get-employee")
             .then((response)=>response.json())
             .then((data)=>{
@@ -106,7 +106,7 @@ export default class TransactionCreate extends Component {
                     employees:data
                 })
             })
-        */
+        
     }
 
     handleIDChange(e){
@@ -228,31 +228,31 @@ export default class TransactionCreate extends Component {
         }
 
         // To be added when customers are done
-        /*if (!this.state.selected_customer_id) {
+        if (!this.state.selected_customer_id) {
             this.setState({
                 customer_err: true,
             });
             isError = true;
-        }*/
+        }
 
         // To be added when store is done
-        /*
-        if(!this.state.selected_store_id){
-            this.setState({
-                store_err: true,
-            });
-            isError = true;
-        } */
-
-        // To be added when employee is done
-        /*
+        
         if(!this.state.selected_store_id){
             this.setState({
                 store_err: true,
             });
             isError = true;
         }
-        */
+
+        // To be added when employee is done
+        
+        if(!this.state.selected_employee_id){
+            this.setState({
+                employee_err: true,
+            });
+            isError = true;
+        }
+        
 
         if(this.state.items_id.length == 0){
             this.setState({
@@ -385,6 +385,9 @@ export default class TransactionCreate extends Component {
                                             </option>
                                         )}
                                     </Select>
+                                    <FormErrorMessage>
+                                        Invalid Coupon
+                                    </FormErrorMessage>
                                 </FormControl>
                                 <FormControl isInvalid={this.state.customer_err}>
                                     <FormLabel htmlFor='selected_customer_id'>
@@ -418,6 +421,9 @@ export default class TransactionCreate extends Component {
                                             </option>
                                         )}
                                     </Select>
+                                    <FormErrorMessage>
+                                        Invalid customer ID
+                                    </FormErrorMessage>
                                 </FormControl>
                                 <FormControl isInvalid={this.state.total_err}>
                                     <FormLabel htmlFor='total_err'>
