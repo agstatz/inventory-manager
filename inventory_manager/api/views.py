@@ -1,3 +1,4 @@
+from tempfile import TemporaryFile
 from django.shortcuts import render
 from django.apps import apps 
 from django.core import serializers
@@ -289,7 +290,11 @@ class POSTCouponView(APIView):
     def post(self, request, format=None):
 
         coupon_id = request.data["coupon_id"]
-        coupon = Coupon.objects.get(coupon_id=coupon_id)
+        coupon = None
+        try:
+            coupon = Coupon.objects.get(coupon_id=coupon_id)
+        except:
+            coupon = None
 
         serializer = self.serialzer_class(coupon, data=request.data)
         if serializer.is_valid():
