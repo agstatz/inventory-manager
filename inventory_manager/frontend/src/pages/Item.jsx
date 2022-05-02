@@ -76,29 +76,19 @@ export default class Item extends Component {
                                     </Thead>
                                     <Tbody>
                                         {this.state.items ? (
-                                            this.state.items.map(
-                                                (item) => (
-                                                    <Tr
-                                                        key={item.item_id}
-                                                    >
-                                                        <Td>
-                                                            {item.item_id}
-                                                        </Td>
-                                                        <Td>
-                                                            {item.item_name}
-                                                        </Td>
-                                                        <Td>
-                                                            {item.item_price}
-                                                        </Td>
-                                                        <Td>
-                                                            {item.item_quantity}
-                                                        </Td>
-                                                        <Td>
-                                                            {item.item_category}
-                                                        </Td>
-                                                    </Tr>
-                                                )
-                                            )
+                                            this.state.items.map((item) => (
+                                                <Tr key={item.item_id}>
+                                                    <Td>{item.item_id}</Td>
+                                                    <Td>{item.item_name}</Td>
+                                                    <Td>{item.item_price}</Td>
+                                                    <Td>
+                                                        {item.item_quantity}
+                                                    </Td>
+                                                    <Td>
+                                                        {item.item_category}
+                                                    </Td>
+                                                </Tr>
+                                            ))
                                         ) : (
                                             <Tr>
                                                 <Td>Loading...</Td>
@@ -112,9 +102,10 @@ export default class Item extends Component {
                                     <Button>Add an item</Button>
                                 </Link>
                                 <Link to='/item/edit'>
-                                    <Button>
-                                        Modify an existing item
-                                    </Button>
+                                    <Button>Modify an existing item</Button>
+                                </Link>
+                                <Link to='/'>
+                                    <Button>Back to Home</Button>
                                 </Link>
                             </Stack>
                         </Box>

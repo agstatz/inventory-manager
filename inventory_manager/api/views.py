@@ -98,8 +98,6 @@ class POSTCustomerView(APIView):
             cust = None
 
         serializer = self.serializer_class(cust, data=request.data)
-        print(serializer.is_valid())
-        print(serializer.errors)
         if serializer.is_valid():
             new_customer_id = request.data["customer_id"]
             new_first_name = request.data["first_name"]
@@ -740,7 +738,6 @@ class EmployeeView(generics.CreateAPIView):
     serializer_class = EmployeeSerializer
 
 class GETEmployeeView(APIView):
-    print("hey there")
     serializer_class = EmployeeSerializer
     lookup_url_kwarg = "employee_id"
 

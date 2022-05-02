@@ -7,6 +7,7 @@ import {
     Button,
     FormControl,
     FormLabel,
+    Select,
     FormErrorMessage,
     Alert,
     AlertIcon,
@@ -44,6 +45,21 @@ export default class ItemCreate extends Component {
         this.handlePriceChange = this.handlePriceChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.getItemCategoryLit = this.getItemCategoryList.bind(this);
+    }
+
+    componentDidMount() {
+        this.getItemCategoryList();
+    }
+
+    getItemCategoryList() {
+        fetch('/api/get-itemcategory')
+            .then((response) => response.json())
+            .then((data) => {
+                this.setState({
+                    itemcategories: data,
+                });
+            });
     }
 
     handleIDChange(e) {
@@ -83,6 +99,16 @@ export default class ItemCreate extends Component {
     }
 
     handleCategoryChange(e) {
+        if (e.target.value === '') {
+            this.setState({
+                item_category: e.target.value,
+                category_err: false,
+                success: '',
+                failure: '',
+            });
+            return;
+        }
+
         this.setState({
             item_category: e.target.value,
             category_err: false,
@@ -269,8 +295,44 @@ export default class ItemCreate extends Component {
                                         Price is required.
                                     </FormErrorMessage>
                                 </FormControl>
-
-                                <FormControl>
+                                <FormControl
+                                    isInvalid={this.state.department_id_err}
+                                >
+                                    <FormLabel htmlFor='item_category'>
+                                        Category
+                                    </FormLabel>
+                                    <Select
+                                        id='selected_item_category'
+                                        placeholder='Select Category'
+                                        focusBorderColor='brand.200'
+                                        variant='filled'
+                                        my='auto'
+                                        bg='white'
+                                        onChange={this.handleCategoryChange}
+                                    >
+                                        {this.state.itemcategories ? (
+                                            this.state.itemcategories.map(
+                                                (category) => (
+                                                    <option
+                                                        key={
+                                                            category.category_id
+                                                        }
+                                                        value={
+                                                            category.category_id
+                                                        }
+                                                    >
+                                                        {category.category_id}
+                                                    </option>
+                                                )
+                                            )
+                                        ) : (
+                                            <option value='empty'>
+                                                No Categories to display
+                                            </option>
+                                        )}
+                                    </Select>
+                                </FormControl>
+                                {/*<FormControl>
                                     <FormLabel htmlFor='item_category'>
                                         Category
                                     </FormLabel>
@@ -286,7 +348,7 @@ export default class ItemCreate extends Component {
                                     <FormErrorMessage>
                                         Category is required.
                                     </FormErrorMessage>
-                                </FormControl>
+                                        </FormControl>*/}
 
                                 <HStack spacing={2} mt={2}>
                                     <Button
