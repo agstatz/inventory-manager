@@ -98,36 +98,24 @@ export default class Item extends Component {
                                     </Thead>
                                     <Tbody>
                                         {this.state.items ? (
-                                            this.state.items.map(
-                                                (item) => (
-                                                    <Tr
-                                                        key={item.item_id}
-                                                    >
-                                                        <Td>
-                                                            {item.item_id}
-                                                        </Td>
-                                                        <Td>
-                                                            {item.name}
-                                                        </Td>
-                                                        <Td>
-                                                            ${item.price}
-                                                        </Td>
-                                                        <Td>
-                                                            {item.quantity}
-                                                        </Td>
-                                                        <Td>
-                                                            {item.category_id}
-                                                        </Td>
+                                            this.state.items.map((item) => (
+                                                <Tr key={item.item_id}>
+                                                    <Td>{item.item_id}</Td>
+                                                    <Td>{item.name}</Td>
+                                                    <Td>${item.price}</Td>
+                                                    <Td>{item.quantity}</Td>
+                                                    <Td>{item.category_id}</Td>
 
-                                                        <Td>
-                                                            {item.store_id}
-                                                        </Td>
-                                                    </Tr>
-                                                )
-                                            )
+                                                    <Td>{item.store_id}</Td>
+                                                </Tr>
+                                            ))
                                         ) : (
                                             <Tr>
-                                                <Td>Loading...</Td>
+                                                <Td></Td>
+                                                <Td></Td>
+                                                <Td></Td>
+                                                <Td></Td>
+                                                <Td></Td>
                                                 <Td></Td>
                                             </Tr>
                                         )}
