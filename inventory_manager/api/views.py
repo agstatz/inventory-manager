@@ -819,6 +819,7 @@ class POSTEmployeeView(APIView):
                     employee_id=new_employee_id,
                     first_name=new_first_name,
                     last_name=new_last_name,
+                    department_id=new_department_id,
                     email=new_email,
                     address=new_address,
                     phone=new_phone,
