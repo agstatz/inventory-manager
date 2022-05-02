@@ -51,7 +51,6 @@ export default class ItemCreate extends Component {
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.handleStoreChange = this.handleStoreChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.getItemCategoryLit = this.getItemCategoryList.bind(this);
     }
 
     componentDidMount() {

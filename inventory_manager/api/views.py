@@ -379,6 +379,24 @@ class POSTItemView(APIView):
         except:
             item = None
 
+        if item != None:
+            queryset = Item.objects.filter(item_id=item_id)
+            item = queryset[0]
+
+            item.quantity = request.data['quantity']
+
+            item.save(
+                update_fields=[
+                    "quantity",
+                ]
+                )
+            
+            return Response(
+                ItemSerializer(item).data, status=status.HTTP_201_CREATED
+            )
+
+
+
         serializer = self.serialzer_class(item, data=request.data)
         if serializer.is_valid():
             new_item_id = request.data["item_id"]
@@ -391,18 +409,12 @@ class POSTItemView(APIView):
             queryset = Item.objects.filter(item_id=new_item_id)
             if queryset.exists():
                 item = queryset[0]
-                item.name = new_item_name
-                item.price = new_item_price
+
                 item.quantity = new_item_quantity
-                item.category_id = new_item_category_id
-                item.store_id = new_item_store_id
+
                 item.save(
                     update_fields=[
-                        "name",
-                        "price",
                         "quantity",
-                        "category_id",
-                        "store_id",
                     ]
                 )
             else:
@@ -581,6 +593,10 @@ class POSTTransactionView(APIView):
             for item in new_items_id.split(", "):
                 if item not in existing_item_ids:
                     return Response({"message":"Invalid"},status=status.HTTP_404_NOT_FOUND)
+                else:
+                    item_entry = Item.objects.get(item_id=item)
+                    item_entry.quantity -= 1
+                    item_entry.save(update_fields=["quantity"])
                 
             if transaction:
                 transaction.transaction_id = new_transaction_id
