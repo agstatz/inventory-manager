@@ -23,6 +23,7 @@ urlpatterns = [
 
     path("item/", index),
     path("item/create", index),
+    path("item/edit", index),
 
     # itemcategory related paths
     path("itemcategory/", index),

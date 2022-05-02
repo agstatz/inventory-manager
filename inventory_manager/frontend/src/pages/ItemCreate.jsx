@@ -55,20 +55,6 @@ export default class ItemCreate extends Component {
     }
 
     componentDidMount() {
-        this.getItemCategoryList();
-    }
-
-    getItemCategoryList() {
-        fetch('/api/get-itemcategory')
-            .then((response) => response.json())
-            .then((data) => {
-                this.setState({
-                    itemcategories: data,
-                });
-            });
-    }
-
-    componentDidMount() {
         this.getLists();
     }
 
