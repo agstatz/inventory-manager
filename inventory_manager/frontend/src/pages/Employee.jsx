@@ -52,11 +52,8 @@ export default class Employee extends Component {
                                 <Link to='/employee/all'>
                                     <Button>View All Employees</Button>
                                 </Link>
-                                <Link to='/employee/removeEmployee'>
-                                    <Button>Remove Employee</Button>
-                                </Link>
-                                <Link to='/employee/removeEmployee'>
-                                    <Button>Find Employee</Button>
+                                <Link to='/employee/edit'>
+                                    <Button>Edit Employee</Button>
                                 </Link>
                                 <Link to='/'>
                                     <Button>Back to Home</Button>

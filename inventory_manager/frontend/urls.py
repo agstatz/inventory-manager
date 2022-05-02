@@ -38,6 +38,7 @@ urlpatterns = [
     path("employee/", index),
     path("employee/all", index),
     path("employee/add", index),
+    path("employee/edit", index),
 
     # store related paths
     path("store/", index),

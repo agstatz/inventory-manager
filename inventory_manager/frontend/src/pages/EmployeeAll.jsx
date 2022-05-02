@@ -101,7 +101,7 @@ class EmployeeTable extends Component {
                                 </Td>
                                 <Td isNumeric>
                                     <Link to={`/employee/${empl.employee_id}`}>
-                                        {empl.salary}
+                                        ${empl.salary}
                                     </Link>
                                 </Td>
                             </Tr>
